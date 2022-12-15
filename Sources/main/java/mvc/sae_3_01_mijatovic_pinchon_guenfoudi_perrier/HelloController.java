@@ -1,4 +1,4 @@
-package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
+package main.java.mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
