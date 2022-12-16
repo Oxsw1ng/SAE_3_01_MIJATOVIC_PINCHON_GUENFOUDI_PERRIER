@@ -6,7 +6,7 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Suj
 public class VueDiagramme implements Observateur {
 
     @Override
-    public void actualiser(Sujet s) {
+    public void actualiser() {
 
     }
 

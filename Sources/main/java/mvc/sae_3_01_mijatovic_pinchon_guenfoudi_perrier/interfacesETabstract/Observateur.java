@@ -5,5 +5,5 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract;
  *
  */
 public interface Observateur {
-	public void actualiser(Sujet s);
+	public void actualiser();
 }
