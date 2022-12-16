@@ -1,19 +1,28 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
-public class VueTopBarre extends GridPane implements Observateur {
+import java.util.ArrayList;
+
+public class VueTopBarre extends HBox implements Observateur {
+
+    private Sujet sujet;
+
+    public VueTopBarre(Sujet sujet) {
+        this.sujet = sujet;
+    }
 
     @Override
-    public void actualiser(Sujet s) {
+    public void actualiser() {
 
+        VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
 
         // menu fichier
@@ -47,28 +56,30 @@ public class VueTopBarre extends GridPane implements Observateur {
 
 
         mb.getMenus().add(menuAPropos);
-        this.add(mb,0,0);
-        GridPane.setMargin(mb, new Insets(-60,0,0,0));
+        vBoxGauche.getChildren().add(mb);
+
+        HBox boutonModifications = new HBox();
+
+        ArrayList<Button> listeBoutons = new ArrayList<>();
+        listeBoutons.add(new Button("C"));
+        listeBoutons.add(new Button("A"));
+        listeBoutons.add(new Button("M"));
+        listeBoutons.add(new Button("H"));
+
+        for (Button b : listeBoutons) {
+            boutonModifications.getChildren().add(b);
+        }
+
+        vBoxGauche.getChildren().add(boutonModifications);
+        vBoxGauche.setSpacing(8.0);
+        this.getChildren().add(vBoxGauche);
 
         Button boutonExporter = new Button("exporter");
         boutonExporter.setMinHeight(60.0);
         boutonExporter.setMinWidth(120.0);
-        this.add(boutonExporter,1,0);
-        GridPane.setMargin(boutonExporter, new Insets(20,0,0,1205));
-
-
-        Button boutonCacherConstructeur = new Button("cacher constructeur");
-        Button boutonCacherAttributs = new Button("cacher attributs");
-        Button boutonCacherMethodes = new Button("cacher méthodes");
-        Button boutonCacherHeritage = new Button("cacher héritage");
-
-        this.add(boutonCacherConstructeur,0,1);
-        this.add(boutonCacherAttributs,1,1);
-        GridPane.
-        this.add(boutonCacherMethodes,2,1);
-        GridPane.setMargin(boutonCacherMethodes, new Insets(0,0,0,-1205));
-        this.add(boutonCacherHeritage,3,1);
-        GridPane.setMargin(boutonCacherHeritage, new Insets(0,0,0,-1005));
+        HBox hBoxExporter = new HBox();
+        hBoxExporter.getChildren().add(boutonExporter);
+        this.getChildren().add(hBoxExporter);
 
     }
 

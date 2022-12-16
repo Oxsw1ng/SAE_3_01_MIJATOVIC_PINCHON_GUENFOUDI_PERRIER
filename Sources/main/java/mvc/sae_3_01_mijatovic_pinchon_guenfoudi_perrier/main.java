@@ -1,6 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueTopBarre;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class main extends Application {
@@ -21,9 +23,9 @@ public class main extends Application {
         BorderPane borderPane = new BorderPane();
 
         // menu en haut
-        VueTopBarre vueTopBarre = new VueTopBarre();
+        VueTopBarre vueTopBarre = new VueTopBarre(new Modele());
         borderPane.setTop(vueTopBarre);
-        vueTopBarre.actualiser(new Modele());
+        vueTopBarre.actualiser();
 
         // explorateur de fichier a gauche
         VBox vBoxLeft = new VBox();
