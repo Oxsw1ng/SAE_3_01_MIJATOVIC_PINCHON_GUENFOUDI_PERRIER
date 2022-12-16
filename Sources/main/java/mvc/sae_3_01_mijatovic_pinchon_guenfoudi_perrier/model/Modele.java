@@ -10,45 +10,68 @@ import java.util.ArrayList;
 public class Modele implements Sujet {
 
     //-----------Attributs-----------
-    private String nomFicheir;
+    private String nomFichier;
+
     private Theme theme;
     private Fabrique fabrique;
     private Classe classeCourante;
     private ArrayList<Classe> classes;
+
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
     private ArrayList<Boolean> etatsNav;
+    private ArrayList<String> affichageRepCourant;
 
     //-----------Constructeur-----------
     public Modele(){}
 
     //-----------Méthodes-----------
-    public String[] genererArborescence(){
-        return null;
+    public void genererArborescence(){
+
+        String finChemin = "";
+        String[] temp = cheminCourant.split("/");
+
+        for (int i = 0; i< temp.length; i++) {
+            finChemin = temp[i];
+        }
+        affichageRepCourant.add(finChemin);
+    }
+
+    public ArrayList<String> getAffichageRepCourant() {
+        return affichageRepCourant;
     }
 
     public void changerEtatNav(String nomBouton){}
 
-    public void changerNom(String n){}
+    public void changerNom(String n){
+        this.nomFichier = n;
+    }
 
-    public void changerClasseCourante(String nomClasse){}
+    public void changerClasseCourante(String nomClasse) {
+    }
 
     public void moveClasse(){}
 
     public void deleteClasse(){}
 
-    public void ajouterCLasse(String path){}
+    public void ajouterClasse(String path){}
 
     public void changerTheme(String nameT){}
 
-    public void changerRepCourant(String path){}
+    public void changerRepCourant(String path){
+        cheminCourant = path;
+        this.genererArborescence();
+        this.notifierObservateurs();
+    }
 
-    public void changerAffichageRepCourant(String nomRep){}
+    public void changerAffichageRepCourant(String nomRep) {
+
+    }
 
     //-----------Getter-----------
 
-    public String getNomFicheir() {
-        return nomFicheir;
+    public String getNomFichier() {
+        return nomFichier;
     }
 
     public String getCheminCourant() {
