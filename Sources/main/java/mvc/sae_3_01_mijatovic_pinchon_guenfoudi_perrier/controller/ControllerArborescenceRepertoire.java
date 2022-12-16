@@ -16,7 +16,9 @@ public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent
     @Override
     public void handle(MouseEvent mouseEvent) {
         if (mouseEvent.isPrimaryButtonDown()) {
-
+            if (mouseEvent.isDragDetect()) {
+                int afaire;
+            }
         }
     }
 }

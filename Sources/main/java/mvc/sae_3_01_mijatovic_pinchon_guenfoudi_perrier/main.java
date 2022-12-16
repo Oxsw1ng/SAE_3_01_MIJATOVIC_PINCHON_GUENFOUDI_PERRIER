@@ -29,11 +29,13 @@ public class main extends Application {
         VueTopBarre vueTopBarre = new VueTopBarre(modele);
         borderPane.setTop(vueTopBarre);
         vueTopBarre.actualiser();
+        modele.enregistrerObservateur(vueTopBarre);
 
         // explorateur de fichier a gauche
         VueRepCourant vueRepCourant = new VueRepCourant(modele);
         borderPane.setLeft(vueRepCourant);
         vueRepCourant.actualiser();
+        modele.enregistrerObservateur(vueRepCourant);
 
         // panneau central de l'application
         Pane paneCenter = new Pane();

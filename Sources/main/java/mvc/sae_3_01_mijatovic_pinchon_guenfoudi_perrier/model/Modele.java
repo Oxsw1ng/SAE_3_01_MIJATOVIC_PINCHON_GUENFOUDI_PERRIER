@@ -28,6 +28,8 @@ public class Modele implements Sujet {
 
     public Modele(String cheminCourant) {
         this.cheminCourant = cheminCourant;
+        this.observateurs = new ArrayList<Observateur>();
+        this.etatsNav = new ArrayList<Boolean>();
     }
 
 
