@@ -23,7 +23,7 @@ public class VueRepCourant extends VBox implements Observateur {
     }
 
     @Override
-    public void actualiser(Sujet s) {
+    public void actualiser() {
         TextField tf = new TextField(modele.getCheminCourant());
         TreeItem<File> affichageContenuRepertoire = modele.genererArborescence(new TreeItem<File>(new File(modele.getCheminCourant())));
         TreeView<File> tv = new TreeView<>(affichageContenuRepertoire);
