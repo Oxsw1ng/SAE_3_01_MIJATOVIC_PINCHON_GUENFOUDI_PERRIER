@@ -1,0 +1,16 @@
+Partie supérieur:
+
+ - Partie supérieur gauche  avec les trois bouttons: 
+	Le boutton fichier affichera un menu déroulant , qui permettera d'importer un projet 
+	Le bouton aide permettera de donner des descriptifs des actions possible de l'application
+	Le bouton a propos donnera les informations sur la création de l'application, ses créateurs et la date de création principalement
+
+ - En haut à droite , on y trouvera le bouton exporter qui sera aligné au milieu de la partie supérieur.
+
+ -En bas de la partie supérieur , nous y trouverons 4 bouttons , qui permettront de modifier l'affichage du diagramme
+
+Partie gauche:	
+-  un TextField pour y rentrer le chemin du répertoire courant sur le quel nous voudrions travailler
+- l'affichage du répertoire courant depuis le chemin.
+
+Au milieu de l'application , nous y trouverons le diagramme de classe 
