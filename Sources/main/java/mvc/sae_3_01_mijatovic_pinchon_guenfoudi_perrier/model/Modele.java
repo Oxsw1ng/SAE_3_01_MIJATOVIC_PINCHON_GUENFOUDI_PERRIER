@@ -110,6 +110,6 @@ public class Modele implements Sujet {
     public void supprimerObservateur(Observateur o) {if (o!=null){this.observateurs.remove(o);}}
 
     @Override
-    public void notifierObservateurs() {for (Observateur o:this.observateurs) {o.actualiser(this);}}
+    public void notifierObservateurs() {for (Observateur o:this.observateurs) {o.actualiser();}}
 }
 
