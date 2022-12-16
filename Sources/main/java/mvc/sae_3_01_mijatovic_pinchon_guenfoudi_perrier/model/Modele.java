@@ -58,7 +58,11 @@ public class Modele implements Sujet {
 
     public void changerTheme(String nameT){}
 
-    public void changerRepCourant(String path){}
+    public void changerRepCourant(String path){
+        cheminCourant = path;
+        this.genererArborescence();
+        this.notifierObservateurs();
+    }
 
     public void changerAffichageRepCourant(String nomRep) {
 
