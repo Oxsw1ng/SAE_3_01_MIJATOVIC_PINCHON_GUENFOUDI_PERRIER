@@ -1,0 +1,18 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+activate Vue
+Utilisateur -> ControllerRepCourant : ActionEvent MousePressed
+activate Utilisateur
+activate ControllerRepCourant
+ControllerRepCourant -> Modèle : modifierAffichageArbo(String repClické)
+activate Modèle
+Modèle -> Vue : notifierObservateurs()
+Modèle --> ControllerRepCourant
+deactivate Modèle
+deactivate ControllerRepCourant
+Vue --> Utilisateur : nouvelle affichage Arbo
+
+@enduml
