@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueTopBarre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -28,8 +29,9 @@ public class main extends Application {
         vueTopBarre.actualiser();
 
         // explorateur de fichier a gauche
-        VBox vBoxLeft = new VBox();
-        borderPane.setLeft(vBoxLeft);
+        VueRepCourant vueRepCourant = new VueRepCourant(new Modele());
+        borderPane.setLeft(vueRepCourant);
+        vueRepCourant.actualiser();
 
         // panneau central de l'application
         Pane paneCenter = new Pane();

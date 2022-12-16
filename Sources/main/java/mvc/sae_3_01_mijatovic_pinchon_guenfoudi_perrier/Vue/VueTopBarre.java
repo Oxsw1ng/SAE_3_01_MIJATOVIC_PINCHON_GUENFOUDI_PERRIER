@@ -1,5 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -21,7 +23,7 @@ public class VueTopBarre extends HBox implements Observateur {
 
     @Override
     public void actualiser() {
-
+        this.setPrefSize(1920,120);
         VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
 
@@ -69,15 +71,16 @@ public class VueTopBarre extends HBox implements Observateur {
         for (Button b : listeBoutons) {
             boutonModifications.getChildren().add(b);
         }
+        boutonModifications.setSpacing(8.0);
 
         vBoxGauche.getChildren().add(boutonModifications);
-        vBoxGauche.setSpacing(8.0);
         this.getChildren().add(vBoxGauche);
 
         Button boutonExporter = new Button("exporter");
         boutonExporter.setMinHeight(60.0);
         boutonExporter.setMinWidth(120.0);
         HBox hBoxExporter = new HBox();
+        hBoxExporter.setPadding(new Insets(8,0,0,1218));
         hBoxExporter.getChildren().add(boutonExporter);
         this.getChildren().add(hBoxExporter);
 
