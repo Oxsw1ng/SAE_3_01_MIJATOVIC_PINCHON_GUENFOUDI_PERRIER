@@ -7,34 +7,43 @@ public class Theme {
     //-----------Attributs-----------
 
     private String nom;
-    private Color colorRepCourant;
-    private Color colorDiag;
-    private Color colorNav;
+    private Color bordureEtBtnImportant; //4.1
+    private Color boutonClassiques; //4
+    private Color fondDiagEtTextField; //1
+    private Color fondClasse; //3
+    private Color topClasse; //3.1
+    private Color fondNavEtArbo; //2
 
     //-----------Constructeurs-----------
 
-    public Theme(String nom, Color colorRepCourant, Color colorDiag, Color colorNav) {
-        this.nom = nom;
-        this.colorRepCourant = colorRepCourant;
-        this.colorDiag = colorDiag;
-        this.colorNav = colorNav;
-    }
+
 
     //-----------Getters-----------
-
     public String getNom() {
         return nom;
     }
 
-    public Color getColorRepCourant() {
-        return colorRepCourant;
+    public Color getBordureEtBtnImportant() {
+        return bordureEtBtnImportant;
     }
 
-    public Color getColorDiag() {
-        return colorDiag;
+    public Color getBoutonClassiques() {
+        return boutonClassiques;
     }
 
-    public Color getColorNav() {
-        return colorNav;
+    public Color getFondDiagEtTextField() {
+        return fondDiagEtTextField;
+    }
+
+    public Color getFondClasse() {
+        return fondClasse;
+    }
+
+    public Color getTopClasse() {
+        return topClasse;
+    }
+
+    public Color getFondNavEtArbo() {
+        return fondNavEtArbo;
     }
 }
