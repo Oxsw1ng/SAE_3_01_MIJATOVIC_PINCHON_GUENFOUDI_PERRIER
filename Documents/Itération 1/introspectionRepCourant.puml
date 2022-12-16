@@ -1,0 +1,20 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+activate Vue
+Utilisateur -> Modèle : choisirRepertoire(rep)
+activate Utilisateur
+activate Modèle
+Modèle -> Modèle : genererArborescence()
+activate Modèle
+Modèle --> Modèle :
+deactivate RepCourant
+deactivate Modèle
+Modèle -> Vue : notifierObservateurs()
+Vue -> Modèle : getAffichageRepCourant()
+Modèle --> Vue : String[] contenuRep
+Vue --> Utilisateur : affichageContenuRepCourant
+
+@enduml
