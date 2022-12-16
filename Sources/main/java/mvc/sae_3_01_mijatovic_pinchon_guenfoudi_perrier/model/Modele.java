@@ -1,11 +1,14 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
+import javafx.scene.control.TreeItem;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Fabrique;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Modele implements Sujet {
 
@@ -20,25 +23,42 @@ public class Modele implements Sujet {
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
     private ArrayList<Boolean> etatsNav;
-    private ArrayList<String> affichageRepCourant;
 
     //-----------Constructeur-----------
     public Modele(){}
 
     //-----------Méthodes-----------
-    public void genererArborescence(){
 
-        String finChemin = "";
-        String[] temp = cheminCourant.split("/");
+    /**
+     * Permet de créer l'arborescence à l'aide d'appel récursif de cette méthode
+     * @return
+     */
+    public TreeItem<File> genererArborescence(TreeItem<File> chemin){
+        TreeItem<File> item = null;
+        TreeItem<File> temp = null; // Permet de gérer le fichier ou répertoire courant
 
-        for (int i = 0; i< temp.length; i++) {
-            finChemin = temp[i];
+        File f = new File(chemin.getValue().getPath());
+        if (f.isDirectory()) {
+            item = new TreeItem<File>(f);
+            String[] contenuRep = f.list();
+            File verification = null;
+            for (int i = 0; i < contenuRep.length; i++) {
+
+                verification = new File(contenuRep[i]);
+                temp = new TreeItem<>(verification);
+
+                // Récursivité si c'est un répertoire, sinon ajout direct à la racine
+                if (verification.isDirectory()) {
+                    item.getChildren().add(genererArborescence(temp));
+                } else {
+                    item.getChildren().add(temp);
+                }
+            }
+        } else {
+            System.out.println("Problème dans le code java");
         }
-        affichageRepCourant.add(finChemin);
-    }
 
-    public ArrayList<String> getAffichageRepCourant() {
-        return affichageRepCourant;
+        return item;
     }
 
     public void changerEtatNav(String nomBouton){}
@@ -60,12 +80,7 @@ public class Modele implements Sujet {
 
     public void changerRepCourant(String path){
         cheminCourant = path;
-        this.genererArborescence();
         this.notifierObservateurs();
-    }
-
-    public void changerAffichageRepCourant(String nomRep) {
-
     }
 
     //-----------Getter-----------
@@ -80,6 +95,10 @@ public class Modele implements Sujet {
 
     public ArrayList<Boolean> getEtatsNav() {
         return etatsNav;
+    }
+
+    public Classe getClasseCourante() {
+        return classeCourante;
     }
 
     //méthode du patron observateur
