@@ -107,6 +107,10 @@ public class Modele implements Sujet {
         return classeCourante;
     }
 
+    public ArrayList<Classe> getClasses() {
+        return classes;
+    }
+
     //méthode du patron observateur
 
     @Override
