@@ -10,6 +10,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueTopBarre;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class main extends Application {
 
@@ -19,38 +21,9 @@ public class main extends Application {
         BorderPane borderPane = new BorderPane();
 
         // menu en haut
-        GridPane gridPaneTop = new GridPane();
-        borderPane.setTop(gridPaneTop);
-
-        //menu fichier
-        Menu menuFichier = new Menu("Fichier");
-        MenuItem m1 = new MenuItem("menu item 1");
-        MenuItem m2 = new MenuItem("menu item 2");
-        MenuItem m3 = new MenuItem("menu item 3");
-        menuFichier.getItems().add(m1);
-        menuFichier.getItems().add(m2);
-        menuFichier.getItems().add(m3);
-        MenuBar mb = new MenuBar();
-        mb.getMenus().add(menuFichier);
-
-        Menu menuAide = new Menu("Aide");
-        MenuItem m4 = new MenuItem("menu item 1");
-        MenuItem m5 = new MenuItem("menu item 2");
-        MenuItem m6 = new MenuItem("menu item 3");
-        menuAide.getItems().add(m4);
-        menuAide.getItems().add(m5);
-        menuAide.getItems().add(m6);
-        mb.getMenus().add(menuAide);
-
-        Menu menuAPropos = new Menu("APropos");
-        MenuItem m7 = new MenuItem("menu item 1");
-        MenuItem m8 = new MenuItem("menu item 2");
-        MenuItem m9 = new MenuItem("menu item 3");
-        menuAPropos.getItems().add(m7);
-        menuAPropos.getItems().add(m8);
-        menuAPropos.getItems().add(m9);
-        mb.getMenus().add(menuAPropos);
-        gridPaneTop.add(mb,0,0);
+        VueTopBarre vueTopBarre = new VueTopBarre();
+        borderPane.setTop(vueTopBarre);
+        vueTopBarre.actualiser(new Modele());
 
         // explorateur de fichier a gauche
         VBox vBoxLeft = new VBox();
