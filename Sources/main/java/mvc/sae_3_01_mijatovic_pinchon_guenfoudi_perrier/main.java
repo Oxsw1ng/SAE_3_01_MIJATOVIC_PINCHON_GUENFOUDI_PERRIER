@@ -40,9 +40,12 @@ public class main extends Application {
         borderPane.setCenter(paneCenter);
 
 
-        Scene scene = new Scene(borderPane, 1000, 500);
+        Scene scene = new Scene(borderPane,1000,800);
         stage.setScene(scene);
         stage.setTitle("DiagMov'");
+        stage.setMinWidth(310);
+        stage.setMinHeight(400);
+        stage.setMaximized(true);
         stage.show();
     }
 

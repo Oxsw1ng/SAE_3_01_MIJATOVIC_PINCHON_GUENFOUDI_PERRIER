@@ -2,12 +2,11 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
@@ -17,13 +16,13 @@ public class VueTopBarre extends HBox implements Observateur {
 
     private Sujet sujet;
 
+
     public VueTopBarre(Sujet sujet) {
         this.sujet = sujet;
     }
 
     @Override
     public void actualiser() {
-        this.setPrefSize(1920,120);
         VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
 
@@ -56,8 +55,10 @@ public class VueTopBarre extends HBox implements Observateur {
         menuAPropos.getItems().add(m8);
         menuAPropos.getItems().add(m9);
 
-
         mb.getMenus().add(menuAPropos);
+
+        mb.setStyle("-fx-background-color: lightgray");
+
         vBoxGauche.getChildren().add(mb);
 
         HBox boutonModifications = new HBox();
@@ -79,10 +80,12 @@ public class VueTopBarre extends HBox implements Observateur {
         Button boutonExporter = new Button("exporter");
         boutonExporter.setMinHeight(60.0);
         boutonExporter.setMinWidth(120.0);
-        HBox hBoxExporter = new HBox();
-        hBoxExporter.setPadding(new Insets(8,0,0,1218));
-        hBoxExporter.getChildren().add(boutonExporter);
-        this.getChildren().add(hBoxExporter);
+
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        this.getChildren().add(spacer);
+        this.getChildren().add(boutonExporter);
 
     }
 
