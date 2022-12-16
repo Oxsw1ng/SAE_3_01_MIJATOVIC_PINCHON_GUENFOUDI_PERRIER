@@ -5,7 +5,7 @@ import javafx.scene.paint.Color;
 public class ThemeSombre extends Theme{
 
     public ThemeSombre() {
-        super("Sombre", new Color(repCourant), new Color(diag), new Color(nav));
+        super("Sombre", Color.web(), new Color(diag), new Color(nav));
     }
 
 }
