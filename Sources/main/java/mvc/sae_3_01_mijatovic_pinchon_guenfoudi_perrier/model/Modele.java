@@ -1,13 +1,20 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Fabrique;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
 import java.util.ArrayList;
 
-public class Modele {
+public class Modele implements Sujet {
 
     //-----------Attributs-----------
     private String nomFicheir;
+    private Theme theme;
+    private Fabrique fabrique;
+    private Classe classeCourante;
+    private ArrayList<Classe> classes;
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
     private ArrayList<Boolean> etatsNav;
@@ -48,12 +55,19 @@ public class Modele {
         return cheminCourant;
     }
 
-    public ArrayList<Observateur> getObservateurs() {
-        return observateurs;
-    }
-
     public ArrayList<Boolean> getEtatsNav() {
         return etatsNav;
     }
+
+    //méthode du patron observateur
+
+    @Override
+    public void enregistrerObservateur(Observateur o) {if (o!=null){this.observateurs.add(o);}}
+
+    @Override
+    public void supprimerObservateur(Observateur o) {if (o!=null){this.observateurs.remove(o);}}
+
+    @Override
+    public void notifierObservateurs() {for (Observateur o:this.observateurs) {o.actualiser(this);}}
 }
 
