@@ -5,7 +5,6 @@ import javafx.scene.paint.Color;
 public class ThemeClair extends Theme{
 
     public ThemeClair() {
-        super("Clair", new Color(repCourant), new Color(diag), new Color(nav));
+        super("Clair", Color.rgb(60,160,255), Color.rgb(142,200,255), Color.WHITE, Color.rgb(255,212,116), Color.rgb(255,212,120), Color.rgb(255,226,134), Color.BLACK, Color.WHITE);
     }
-
 }
