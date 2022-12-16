@@ -25,7 +25,11 @@ public class Modele implements Sujet {
     private ArrayList<Boolean> etatsNav;
 
     //-----------Constructeur-----------
-    public Modele(){}
+
+    public Modele(String cheminCourant) {
+        this.cheminCourant = cheminCourant;
+    }
+
 
     //-----------Méthodes-----------
 

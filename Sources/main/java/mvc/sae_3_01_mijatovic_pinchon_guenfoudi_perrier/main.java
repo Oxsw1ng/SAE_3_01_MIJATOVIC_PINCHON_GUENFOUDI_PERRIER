@@ -21,15 +21,17 @@ public class main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        Modele modele = new Modele("../SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER");
+
         BorderPane borderPane = new BorderPane();
 
         // menu en haut
-        VueTopBarre vueTopBarre = new VueTopBarre(new Modele());
+        VueTopBarre vueTopBarre = new VueTopBarre(modele);
         borderPane.setTop(vueTopBarre);
         vueTopBarre.actualiser();
 
         // explorateur de fichier a gauche
-        VueRepCourant vueRepCourant = new VueRepCourant(new Modele());
+        VueRepCourant vueRepCourant = new VueRepCourant(modele);
         borderPane.setLeft(vueRepCourant);
         vueRepCourant.actualiser();
 
@@ -38,7 +40,7 @@ public class main extends Application {
         borderPane.setCenter(paneCenter);
 
 
-        Scene scene = new Scene(borderPane, 1920, 1080);
+        Scene scene = new Scene(borderPane, 1000, 500);
         stage.setScene(scene);
         stage.setTitle("DiagMov'");
         stage.show();

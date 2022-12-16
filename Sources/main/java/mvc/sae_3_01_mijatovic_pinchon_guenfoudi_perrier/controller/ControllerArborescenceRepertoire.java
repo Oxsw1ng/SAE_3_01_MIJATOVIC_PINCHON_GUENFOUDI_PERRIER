@@ -2,9 +2,10 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
-public class ControllerArborescenceRepertoire implements EventHandler<ActionEvent> {
+public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent> {
 
     private Modele modele;
 
@@ -13,7 +14,9 @@ public class ControllerArborescenceRepertoire implements EventHandler<ActionEven
     }
 
     @Override
-    public void handle(ActionEvent actionEvent) {
+    public void handle(MouseEvent mouseEvent) {
+        if (mouseEvent.isPrimaryButtonDown()) {
 
+        }
     }
 }
