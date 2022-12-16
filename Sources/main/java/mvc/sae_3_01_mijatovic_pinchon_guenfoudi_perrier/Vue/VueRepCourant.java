@@ -27,6 +27,7 @@ public class VueRepCourant extends VBox implements Observateur {
         TextField tf = new TextField(modele.getCheminCourant());
         TreeItem<File> affichageContenuRepertoire = modele.genererArborescence(new TreeItem<File>(new File(modele.getCheminCourant())));
         TreeView<File> tv = new TreeView<>(affichageContenuRepertoire);
+        tv.setShowRoot(false);
         this.getChildren().addAll(tf, tv);
         this.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
     }
