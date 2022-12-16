@@ -7,7 +7,7 @@ activate Vue
 Utilisateur -> ControllerRepCourant : ActionEvent MousePressed
 activate Utilisateur
 activate ControllerRepCourant
-ControllerRepCourant -> Modèle : modifierAffichageArbo(String repClické)
+ControllerRepCourant -> Modèle : changerAffichageRepCourant(String nomRep)
 activate Modèle
 Modèle -> Vue : notifierObservateurs()
 Modèle --> ControllerRepCourant
