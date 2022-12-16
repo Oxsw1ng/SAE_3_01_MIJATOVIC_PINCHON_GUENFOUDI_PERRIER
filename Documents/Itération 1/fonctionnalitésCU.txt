@@ -1,2 +1,2 @@
 Application morte
-Introspection du répertoire courant (intestable pour l'instant car invisible)
+Introspection du répertoire courant
