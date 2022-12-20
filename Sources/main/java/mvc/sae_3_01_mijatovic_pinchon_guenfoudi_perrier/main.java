@@ -1,39 +1,38 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueTopBarre;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.TopBarre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
 
 public class main extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
-        Modele modele = new Modele("../SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER");
+        Modele modele = new Modele();
 
         BorderPane borderPane = new BorderPane();
 
         // menu en haut
-        VueTopBarre vueTopBarre = new VueTopBarre(modele);
+        TopBarre vueTopBarre = new TopBarre(modele);
         borderPane.setTop(vueTopBarre);
-        vueTopBarre.actualiser();
-        modele.enregistrerObservateur(vueTopBarre);
 
         // explorateur de fichier a gauche
         VueRepCourant vueRepCourant = new VueRepCourant(modele);
         borderPane.setLeft(vueRepCourant);
+        BorderPane.setMargin(vueRepCourant,new Insets(0,0,5,3));
         vueRepCourant.actualiser();
         modele.enregistrerObservateur(vueRepCourant);
 

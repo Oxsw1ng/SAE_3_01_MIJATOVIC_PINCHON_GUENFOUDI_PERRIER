@@ -18,7 +18,7 @@ public class Theme {
 
     //-----------Constructeurs-----------
 
-    public Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle) {
+    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle) {
         this.nom = nom;
         this.bordureEtBtnImportant = bordureEtBtnImportant;
         this.boutonClassiques = boutonClassiques;

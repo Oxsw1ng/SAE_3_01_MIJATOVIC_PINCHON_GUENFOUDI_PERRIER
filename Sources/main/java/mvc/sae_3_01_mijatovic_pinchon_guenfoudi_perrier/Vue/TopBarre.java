@@ -1,28 +1,24 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Scene;
+
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.util.ArrayList;
 
-public class VueTopBarre extends HBox implements Observateur {
+public class TopBarre extends HBox {
 
     private Sujet sujet;
 
-
-    public VueTopBarre(Sujet sujet) {
+    public TopBarre(Sujet sujet) {
         this.sujet = sujet;
-    }
-
-    @Override
-    public void actualiser() {
+        Theme t = ((Modele)sujet).getTheme();
         VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
 
@@ -54,39 +50,59 @@ public class VueTopBarre extends HBox implements Observateur {
         menuAPropos.getItems().add(m7);
         menuAPropos.getItems().add(m8);
         menuAPropos.getItems().add(m9);
-
         mb.getMenus().add(menuAPropos);
 
-        mb.setStyle("-fx-background-color: lightgray");
+        // paramétrage de l'affichage de la menuBar
+        mb.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),null,null)));
+        mb.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 2, 2, 0))));
 
         vBoxGauche.getChildren().add(mb);
 
         HBox boutonModifications = new HBox();
 
+        //création des différents boutons
         ArrayList<Button> listeBoutons = new ArrayList<>();
         listeBoutons.add(new Button("C"));
         listeBoutons.add(new Button("A"));
         listeBoutons.add(new Button("M"));
         listeBoutons.add(new Button("H"));
 
+        // affichage des booutons selon le thème du modèle
+        CornerRadii co = new CornerRadii(15);
         for (Button b : listeBoutons) {
+            b.setTextFill(t.getColorText());
+            b.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,co,new BorderWidths(1))));
+            b.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),co,new Insets(0))));
             boutonModifications.getChildren().add(b);
         }
         boutonModifications.setSpacing(8.0);
+        boutonModifications.setPadding(new Insets(20));
 
         vBoxGauche.getChildren().add(boutonModifications);
         this.getChildren().add(vBoxGauche);
 
+        // création du bouton Exporter et son affichage
         Button boutonExporter = new Button("exporter");
+        CornerRadii co2 = new CornerRadii(10);
+        boutonExporter.setStyle("-fx-font-weight: 900; -fx-font-size: 20");
+        boutonExporter.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,co2,new BorderWidths(3))));
         boutonExporter.setMinHeight(60.0);
         boutonExporter.setMinWidth(120.0);
+        boutonExporter.setBackground(new Background(new BackgroundFill(t.getBordureEtBtnImportant(),co2,null)));
+        boutonExporter.setTextFill(t.getColorTextTitle());
 
+        StackPane sp = new StackPane(boutonExporter);
+        sp.setPadding(new Insets(10));
+
+        // création d'un objet Region afin d'espacer le bouton Exporter du reste des objets
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         this.getChildren().add(spacer);
-        this.getChildren().add(boutonExporter);
-
+        this.getChildren().add(sp);
+        this.setSpacing(10);
+        this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(),null,null)));
+        this.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 2, 0))));
     }
 
 }
