@@ -13,7 +13,7 @@ public class VueDiagramme extends Pane implements Observateur {
     private Modele m;
 
     public VueDiagramme(Sujet s){
-        this.m = (Modele)s;
+        this.m = (Modele) s;
     }
 
     @Override

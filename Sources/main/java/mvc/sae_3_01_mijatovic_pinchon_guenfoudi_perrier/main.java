@@ -28,6 +28,7 @@ public class main extends Application {
         // menu en haut
         TopBarre vueTopBarre = new TopBarre(modele);
         borderPane.setTop(vueTopBarre);
+        modele.enregistrerObservateur(vueTopBarre);
 
         // explorateur de fichier a gauche
         VueRepCourant vueRepCourant = new VueRepCourant(modele);

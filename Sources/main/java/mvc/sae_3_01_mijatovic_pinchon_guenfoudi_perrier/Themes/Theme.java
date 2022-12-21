@@ -11,6 +11,7 @@ public class Theme {
     private Color boutonClassiques; //4
     private Color fondDiagEtTextField; //1
     private Color fondClasse; //3
+    private Color fondQuandClicke;
     private Color topClasse; //3.1
     private Color fondNavEtArbo; //2
     private Color colorText; //5
@@ -18,11 +19,12 @@ public class Theme {
 
     //-----------Constructeurs-----------
 
-    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle) {
+    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle) {
         this.nom = nom;
         this.bordureEtBtnImportant = bordureEtBtnImportant;
         this.boutonClassiques = boutonClassiques;
         this.fondDiagEtTextField = fondDiagEtTextField;
+        this.fondQuandClicke = fondQuandClicke;
         this.fondClasse = fondClasse;
         this.topClasse = topClasse;
         this.fondNavEtArbo = fondNavEtArbo;
@@ -68,5 +70,9 @@ public class Theme {
 
     public Color getColorTextTitle() {
         return colorTextTitle;
+    }
+
+    public Color getFondQuandClicke() {
+        return fondQuandClicke;
     }
 }

@@ -1,17 +1,13 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
-import javafx.scene.control.TreeItem;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Fabrique;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.*;
 
 public class Modele implements Sujet {
 
@@ -25,14 +21,14 @@ public class Modele implements Sujet {
 
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
-    private ArrayList<Boolean> etatsNav;
+    private HashMap<String, Boolean> etatsNav;
 
     //-----------Constructeur-----------
 
     public Modele() {
         this.cheminCourant = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().split("/")[1].split("\\\\")[0];
         this.observateurs = new ArrayList<Observateur>();
-        this.etatsNav = new ArrayList<Boolean>();
+        this.etatsNav = new HashMap<String, Boolean>();
         this.theme=new ThemeClair();
     }
 
@@ -88,6 +84,25 @@ public class Modele implements Sujet {
 
     public void ajouterClasse(String path){}
 
+    /**
+     * Ajoute un bouton situé dans la top barre dans la liste des boutons sur lequels leur état est vérifié (actif ou non)
+     * @param name : nom du bouton
+     */
+    public void addEtatsNav(String name) {
+        if (!etatsNav.containsKey(name)) {
+            etatsNav.put(name, false);
+        }
+    }
+
+    /**
+     * Change l'état d'un bouton
+     * @param name : nom du bouton
+     */
+    public void changerEtatsNav(String name) {
+        etatsNav.put(name, !etatsNav.get(name));
+        this.notifierObservateurs();
+    }
+
     public void changerTheme(Theme t){this.theme=t;}
 
     /*
@@ -115,7 +130,7 @@ public class Modele implements Sujet {
         return cheminCourant;
     }
 
-    public ArrayList<Boolean> getEtatsNav() {
+    public HashMap<String, Boolean> getEtatsNav() {
         return etatsNav;
     }
 

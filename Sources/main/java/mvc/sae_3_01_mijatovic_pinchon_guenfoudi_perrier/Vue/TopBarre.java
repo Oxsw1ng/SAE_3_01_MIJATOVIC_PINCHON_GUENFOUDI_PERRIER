@@ -6,18 +6,26 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class TopBarre extends HBox {
+public class TopBarre extends HBox implements Observateur {
 
     private Sujet sujet;
 
     public TopBarre(Sujet sujet) {
         this.sujet = sujet;
+        this.actualiser();
+    }
+
+    @Override
+    public void actualiser() {
+        this.getChildren().clear();
         Theme t = ((Modele)sujet).getTheme();
         VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
@@ -63,16 +71,28 @@ public class TopBarre extends HBox {
         //création des différents boutons
         ArrayList<Button> listeBoutons = new ArrayList<>();
         listeBoutons.add(new Button("C"));
+        ((Modele) sujet).addEtatsNav("C");
         listeBoutons.add(new Button("A"));
+        ((Modele) sujet).addEtatsNav("A");
         listeBoutons.add(new Button("M"));
+        ((Modele) sujet).addEtatsNav("M");
         listeBoutons.add(new Button("H"));
+        ((Modele) sujet).addEtatsNav("H");
 
         // affichage des booutons selon le thème du modèle
         CornerRadii co = new CornerRadii(15);
+        HashMap<String, Boolean> etatsTemp = ((Modele) sujet).getEtatsNav();
+        ControllerAffichageOptions controlOptions = new ControllerAffichageOptions((Modele) sujet);
+
         for (Button b : listeBoutons) {
+            b.setOnAction(controlOptions);
             b.setTextFill(t.getColorText());
             b.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,co,new BorderWidths(1))));
-            b.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),co,new Insets(0))));
+            if (!etatsTemp.get(b.getText())) {
+                b.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(), co, new Insets(0))));
+            } else {
+                b.setBackground(new Background(new BackgroundFill(t.getFondQuandClicke(), co, new Insets(0))));
+            }
             boutonModifications.getChildren().add(b);
         }
         boutonModifications.setSpacing(8.0);
@@ -104,5 +124,4 @@ public class TopBarre extends HBox {
         this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(),null,null)));
         this.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 2, 0))));
     }
-
 }
