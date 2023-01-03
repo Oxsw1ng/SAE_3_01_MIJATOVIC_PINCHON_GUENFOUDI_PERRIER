@@ -39,9 +39,24 @@ public class VueRepCourant extends VBox implements Observateur {
         this.tf = new TextField();
         this.explorateur = new Button("Choisir un répertoire courant");
         this.listArborescences = new HashMap<>();
-        this.bigParent = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() ;
-        this.bigParent = this.bigParent.substring(1,this.bigParent.length());
+
+        //afficher ce projet dans l arborescence
+        String[] s = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
+        int i=2;
+        this.bigParent = "";
+        boolean Nofind = true;
+        if (s.length>1){
+            this.bigParent = s[1];
+            while (Nofind){
+                this.bigParent+="/"+s[i];
+                if (s[i].equals("SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER"))
+                    Nofind=false;
+                i++;
+            }
+        }
         System.out.println(this.bigParent);
+
+
         //this.bigParent = modele.getCheminCourant().split("\\\\")[0] + "\\";
         // creation d un item de substitution
         this.tv = new TreeView<File>(new TreeItem<>(new File("Chargement du répertoire ...")));
