@@ -2,6 +2,7 @@ module mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+    requires java.compiler;
 
 
     exports mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;

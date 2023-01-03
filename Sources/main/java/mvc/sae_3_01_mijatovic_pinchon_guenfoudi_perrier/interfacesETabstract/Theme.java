@@ -1,8 +1,8 @@
-package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes;
+package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract;
 
 import javafx.scene.paint.Color;
 
-public class Theme {
+public abstract class Theme {
 
     //-----------Attributs-----------
 

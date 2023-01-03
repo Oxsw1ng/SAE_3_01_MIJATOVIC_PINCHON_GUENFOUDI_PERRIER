@@ -1,7 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Fabrique;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -113,6 +113,7 @@ public class Modele implements Sujet {
      */
     public void setCheminCourant(String cheminCourant) {
         this.cheminCourant = cheminCourant;
+        notifierObservateurs();
     }
 
     /*
