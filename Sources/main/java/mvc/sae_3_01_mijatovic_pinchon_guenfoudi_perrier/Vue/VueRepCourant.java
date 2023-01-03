@@ -54,6 +54,7 @@ public class VueRepCourant extends VBox implements Observateur {
                 i++;
             }
         }
+        this.bigParent = this.bigParent.replace("%20", " ");
         System.out.println(this.bigParent);
 
 
