@@ -7,6 +7,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChangementTheme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -16,17 +17,17 @@ import java.util.HashMap;
 
 public class TopBarre extends HBox implements Observateur {
 
-    private Sujet sujet;
+    private Modele modele;
 
-    public TopBarre(Sujet sujet) {
-        this.sujet = sujet;
+    public TopBarre(Modele m) {
+        this.modele = m;
         this.actualiser();
     }
 
     @Override
     public void actualiser() {
         this.getChildren().clear();
-        Theme t = ((Modele)sujet).getTheme();
+        Theme t = modele.getTheme();
         VBox vBoxGauche = new VBox();
         MenuBar mb = new MenuBar();
 
@@ -71,18 +72,18 @@ public class TopBarre extends HBox implements Observateur {
         //création des différents boutons
         ArrayList<Button> listeBoutons = new ArrayList<>();
         listeBoutons.add(new Button("C"));
-        ((Modele) sujet).addEtatsNav("C");
+        modele.addEtatsNav("C");
         listeBoutons.add(new Button("A"));
-        ((Modele) sujet).addEtatsNav("A");
+        modele.addEtatsNav("A");
         listeBoutons.add(new Button("M"));
-        ((Modele) sujet).addEtatsNav("M");
+        modele.addEtatsNav("M");
         listeBoutons.add(new Button("H"));
-        ((Modele) sujet).addEtatsNav("H");
+        modele.addEtatsNav("H");
 
         // affichage des booutons selon le thème du modèle
         CornerRadii co = new CornerRadii(15);
-        HashMap<String, Boolean> etatsTemp = ((Modele) sujet).getEtatsNav();
-        ControllerAffichageOptions controlOptions = new ControllerAffichageOptions((Modele) sujet);
+        HashMap<String, Boolean> etatsTemp = modele.getEtatsNav();
+        ControllerAffichageOptions controlOptions = new ControllerAffichageOptions(modele);
 
         for (Button b : listeBoutons) {
             b.setOnAction(controlOptions);
@@ -114,12 +115,22 @@ public class TopBarre extends HBox implements Observateur {
         StackPane sp = new StackPane(boutonExporter);
         sp.setPadding(new Insets(10));
 
+        // Création du bouton changement de thème
+        Button btnTheme = new Button("Thème : "+modele.getTheme().getNom());
+        btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,co2,new BorderWidths(1))));
+
+        // Ajout du contrôleur sur le bouton
+        ControllerChangementTheme controlTheme = new ControllerChangementTheme(modele);
+        btnTheme.setOnAction(controlTheme);
+
         // création d'un objet Region afin d'espacer le bouton Exporter du reste des objets
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
+        VBox vb = new VBox(sp, btnTheme);
+
         this.getChildren().add(spacer);
-        this.getChildren().add(sp);
+        this.getChildren().add(vb);
         this.setSpacing(10);
         this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(),null,null)));
         this.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 2, 0))));
