@@ -103,7 +103,10 @@ public class Modele implements Sujet {
         this.notifierObservateurs();
     }
 
-    public void changerTheme(Theme t){this.theme=t;}
+    public void changerTheme(Theme t){
+        this.theme=t;
+        this.notifierObservateurs();
+    }
 
     /*
      * méthode de modifications du chemin courant sans mettre à jour toutes les vues sans trop de raison

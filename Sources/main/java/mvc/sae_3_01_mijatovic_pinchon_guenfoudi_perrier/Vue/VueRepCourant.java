@@ -42,13 +42,6 @@ public class VueRepCourant extends VBox implements Observateur {
         actuExpanded(root,List.of(modele.getCheminCourant().split("\\\\")));
         this.tv = new TreeView<File>(root);
 
-        //parametage de l affichage du textField
-        tf.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondDiagEtTextField(),null,null)));
-        tf.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(),BorderStrokeStyle.SOLID,CornerRadii.EMPTY, new BorderWidths(0,0,1,0))));
-        tf.setStyle("-fx-text-fill: "+modele.couleurHexa(modele.getTheme().getColorText()));
-        tv.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(),null,null)));
-        tv.setPrefHeight(1000);
-
         //Personnalisation de l'affichage des items
         this.tv.setCellFactory(tv -> new TreeCell<File>() {
             @Override
@@ -98,6 +91,14 @@ public class VueRepCourant extends VBox implements Observateur {
     */
     @Override
     public void actualiser() {
+
+        //parametage de l affichage du textField
+        tf.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondDiagEtTextField(),null,null)));
+        tf.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(),BorderStrokeStyle.SOLID,CornerRadii.EMPTY, new BorderWidths(0,0,1,0))));
+        tf.setStyle("-fx-text-fill: "+modele.couleurHexa(modele.getTheme().getColorText()));
+        tv.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(),null,null)));
+        tv.setPrefHeight(1000);
+
         tf.setText(modele.getCheminCourant());
         String bigOpposant = modele.getCheminCourant().split("/")[0].split("\\\\")[0]+"\\";
         TreeItem<File> ti;
