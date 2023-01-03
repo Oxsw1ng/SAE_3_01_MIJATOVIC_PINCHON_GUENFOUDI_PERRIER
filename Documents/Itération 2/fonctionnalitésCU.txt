@@ -1,0 +1,3 @@
+classe Classe terminée (rectangle disponible avec un minimum d'affichage)
+Vue Diagramme avancée
+Quelques annexes (thème et explorateur de fichier pour rendre le tout plus agréable pour l'utilisateur)

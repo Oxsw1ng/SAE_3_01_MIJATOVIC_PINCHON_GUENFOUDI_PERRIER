@@ -2,6 +2,7 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.geometry.Insets;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -117,7 +118,8 @@ public class TopBarre extends HBox implements Observateur {
 
         // Création du bouton changement de thème
         Button btnTheme = new Button("Thème : "+modele.getTheme().getNom());
-        btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,co2,new BorderWidths(1))));
+        btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,new CornerRadii(0),new BorderWidths(1))));
+        btnTheme.setAlignment(Pos.CENTER);
 
         // Ajout du contrôleur sur le bouton
         ControllerChangementTheme controlTheme = new ControllerChangementTheme(modele);
@@ -128,6 +130,7 @@ public class TopBarre extends HBox implements Observateur {
         HBox.setHgrow(spacer, Priority.ALWAYS);
 
         VBox vb = new VBox(sp, btnTheme);
+        vb.setAlignment(Pos.CENTER);
 
         this.getChildren().add(spacer);
         this.getChildren().add(vb);

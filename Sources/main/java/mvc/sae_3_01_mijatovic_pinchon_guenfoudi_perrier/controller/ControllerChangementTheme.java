@@ -18,11 +18,12 @@ public class ControllerChangementTheme implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         Button theme = (Button) actionEvent.getSource();
-        switch (theme.getText()) {
-            case "Clair":
+        String s = theme.getText();
+        switch (s) {
+            case "Thème : Clair":
                 modele.changerTheme(new ThemeSombre());
                 break;
-            case "Sombre":
+            case "Thème : Sombre":
                 modele.changerTheme(new ThemeClair());
                 break;
             default:

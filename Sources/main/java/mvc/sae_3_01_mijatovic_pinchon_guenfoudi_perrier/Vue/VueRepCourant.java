@@ -2,14 +2,14 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TreeCell;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -23,6 +23,8 @@ public class VueRepCourant extends VBox implements Observateur {
     //--------Attributs--------
     private Modele modele;
     private TextField tf;
+
+    private Button explorateur;
     private TreeView<File> tv;
 
     private HashMap<String, TreeItem> listArborescences;
@@ -35,9 +37,10 @@ public class VueRepCourant extends VBox implements Observateur {
     public VueRepCourant(Modele modele) {
         this.modele = modele;
         this.tf = new TextField();
+        this.explorateur = new Button("Choisir un répertoire courant");
         this.listArborescences = new HashMap<>();
         this.bigParent = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() ;
-        this.bigParent = this.bigParent.substring(1,this.bigParent.length()-16);
+        this.bigParent = this.bigParent.substring(1,this.bigParent.length());
         System.out.println(this.bigParent);
         //this.bigParent = modele.getCheminCourant().split("\\\\")[0] + "\\";
         // creation d un item de substitution
@@ -103,10 +106,14 @@ public class VueRepCourant extends VBox implements Observateur {
         ControllerChoisirRepertoire control = new ControllerChoisirRepertoire(modele);
         tf.setOnKeyPressed(control);
 
+        // affectation d'un contrôleur pour l'explorateur de fichier
+        ControllerDirectoryExplorer controlExplore = new ControllerDirectoryExplorer(modele);
+        explorateur.setOnAction(controlExplore);
+
         //Parametrage de l'affichage de la vue
-        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
-        this.getChildren().addAll(tf, tv);
-        this.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
+        this.getChildren().addAll(tf,explorateur, tv);
+        this.setAlignment(Pos.CENTER);
+        this.setSpacing(3);
     }
 
     //--------Méthodes--------
@@ -117,12 +124,16 @@ public class VueRepCourant extends VBox implements Observateur {
     @Override
     public void actualiser() {
 
-        //parametage de l affichage du textField
+        //parametage de l affichage du thème
+        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
+        this.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         tf.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondDiagEtTextField(), null, null)));
         tf.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
         tf.setStyle("-fx-text-fill: " + modele.couleurHexa(modele.getTheme().getColorText()));
         tv.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
         tv.setPrefHeight(1000);
+        explorateur.setBackground(new Background(new BackgroundFill(modele.getTheme().getBordureEtBtnImportant(), null, null)));
+        explorateur.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
 
         tf.setText(modele.getCheminCourant());
         String bigOpposant = modele.getCheminCourant().split("/")[0].split("\\\\")[0] + "\\";
