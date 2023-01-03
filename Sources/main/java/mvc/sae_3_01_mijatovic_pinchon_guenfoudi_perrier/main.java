@@ -3,19 +3,12 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.TopBarre;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.nio.file.Files;
 
 public class main extends Application {
 
