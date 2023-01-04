@@ -10,4 +10,9 @@ public class UML implements Format {
 
     }
 
+    @Override
+    public String getNom() {
+        return "UML";
+    }
+
 }

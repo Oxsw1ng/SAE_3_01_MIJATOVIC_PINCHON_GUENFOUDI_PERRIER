@@ -1,11 +1,14 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChangementTheme;
@@ -33,7 +36,9 @@ public class TopBarre extends HBox implements Observateur {
 
         // menu fichier
         Menu menuFichier = new Menu("fichier");
-        MenuItem m1 = new MenuItem("menu item 1");
+        MenuItem m1 = new MenuItem("Choisir le mode d'export");
+        ControllerOpenExporterWindow controlExport = new ControllerOpenExporterWindow(modele);
+        m1.setOnAction(controlExport);
         MenuItem m2 = new MenuItem("menu item 2");
         MenuItem m3 = new MenuItem("menu item 3");
         menuFichier.getItems().add(m1);

@@ -7,4 +7,6 @@ public interface Format {
     //méthode d'export
     public void exporter(Modele m, String chemin);
 
+    public String getNom();
+
 }

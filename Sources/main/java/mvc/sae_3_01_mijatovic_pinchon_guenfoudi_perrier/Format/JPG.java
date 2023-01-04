@@ -10,4 +10,9 @@ public class JPG implements Format {
 
     }
 
+    @Override
+    public String getNom() {
+        return "JPG";
+    }
+
 }

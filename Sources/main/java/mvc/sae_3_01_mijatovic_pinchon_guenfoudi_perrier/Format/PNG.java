@@ -10,4 +10,9 @@ public class PNG implements Format {
 
     }
 
+    @Override
+    public String getNom() {
+        return "PNG";
+    }
+
 }

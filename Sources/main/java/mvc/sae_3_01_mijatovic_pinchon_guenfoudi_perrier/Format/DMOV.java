@@ -10,4 +10,9 @@ public class DMOV implements Format {
 
     }
 
+    @Override
+    public String getNom() {
+        return "DMOV";
+    }
+
 }

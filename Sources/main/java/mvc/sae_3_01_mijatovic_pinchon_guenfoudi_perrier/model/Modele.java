@@ -1,11 +1,12 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.PNG;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Fabrique;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class Modele implements Sujet {
     private Fabrique fabrique;
     private Classe classeCourante;
     private ArrayList<Classe> classes;
-
+    private Format export;
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
     private HashMap<String, Boolean> etatsNav;
@@ -30,6 +31,7 @@ public class Modele implements Sujet {
         this.observateurs = new ArrayList<Observateur>();
         this.etatsNav = new HashMap<String, Boolean>();
         this.theme=new ThemeClair();
+        this.export = new PNG();
     }
 
 
@@ -69,7 +71,22 @@ public class Modele implements Sujet {
         return "#"+hex2;
     }
 
-    public void changerEtatNav(String nomBouton){}
+    public void changerModeExport(String type) {
+        switch (type) {
+            case "JPG":
+                this.export = new JPG();
+                break;
+            case "UML":
+                this.export = new UML();
+                break;
+            case "DMOV":
+                this.export = new DMOV();
+                break;
+            default:
+                this.export = new PNG();
+                break;
+        }
+    }
 
     public void changerNom(String n){
         this.nomFichier = n;
@@ -148,6 +165,10 @@ public class Modele implements Sujet {
 
     public Theme getTheme() {
         return theme;
+    }
+
+    public Format getExport() {
+        return export;
     }
 
     //méthode du patron observateur
