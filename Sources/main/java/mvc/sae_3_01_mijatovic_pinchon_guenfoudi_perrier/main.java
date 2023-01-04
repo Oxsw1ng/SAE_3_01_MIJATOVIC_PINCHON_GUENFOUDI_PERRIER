@@ -34,7 +34,7 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
-        Classe classe = new Classe("/home/remi/Documents/intellij/s2/qdev/td2/src/Date.java");
+        Classe classe = new Classe("fichiers_test/Date.java");
         VBox vBoxclasse = classe.affichageBidon();
         paneCenter.getChildren().add(vBoxclasse);
         borderPane.setCenter(paneCenter);
