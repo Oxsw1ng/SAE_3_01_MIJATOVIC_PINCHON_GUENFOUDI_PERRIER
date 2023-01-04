@@ -2,7 +2,6 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.shape.Line;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
@@ -25,11 +24,10 @@ public class Classe implements Sujet {
     private ArrayList<String> constructeurs;
     private ArrayList<String> methodes;
     private ArrayList<Observateur> observateurs;
-    private Classe superClass;
+    private Class superClass;
     private Class classeCourante;
 
-    private boolean abstractOrNot;
-    private int modifierDeLaClasse;
+    private boolean isInterface;
 
     //-----------Constructeur-----------
     public Classe(String pathJava) {
@@ -58,6 +56,9 @@ public class Classe implements Sujet {
             //suppression du fichier .class après utilisation
             File fichierClass = new File(pathClass);
             fichierClass.delete();
+
+            this.isInterface = this.classeCourante.isInterface();
+            this.superClass = this.classeCourante.getSuperclass();
 
             this.peuplerListeMethodes();
             this.peuplerListeConstructeurs();
@@ -189,33 +190,41 @@ public class Classe implements Sujet {
 
     public VBox affichageBidon() {
         VBox vBoxRetour = new VBox();
-        Label lbNom = new Label(this.nomClasse);
+        ThemeClair thc = new ThemeClair();
 
+
+        VBox vBoxHaut = new VBox();
+        Label lbNom = new Label(this.nomClasse);
+        vBoxHaut.getChildren().add(lbNom);
+        vBoxHaut.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+
+        VBox vBoxMilieu = new VBox();
         StringBuilder sba = new StringBuilder();
         for (String s : this.attributs) {
             sba.append(s+"\n");
         }
         Label lbAttributs = new Label(sba.toString());
+        vBoxMilieu.getChildren().add(lbAttributs);
+        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
 
-
+        VBox vBoxBas = new VBox();
         StringBuilder sbc = new StringBuilder();
         for (String s : this.constructeurs) {
             sbc.append(s+"\n");
         }
         Label lbConstructeurs = new Label(sbc.toString());
-
         StringBuilder sbm = new StringBuilder();
         for (String s : this.methodes) {
             sbm.append(s+"\n");
         }
         Label lbMethodes = new Label(sbm.toString());
+        vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
+        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
 
-        vBoxRetour.getChildren().addAll(lbNom,new Line(0,10,250,10), lbAttributs, new Line(0,250,250,250), lbConstructeurs, lbMethodes);
 
-        ThemeClair thc = new ThemeClair();
+        vBoxRetour.getChildren().addAll(vBoxHaut,vBoxMilieu,vBoxBas);
         vBoxRetour.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
-        vBoxRetour.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
         return vBoxRetour;
     }
 
