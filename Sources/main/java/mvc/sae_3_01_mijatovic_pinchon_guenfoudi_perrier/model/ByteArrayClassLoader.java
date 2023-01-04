@@ -6,8 +6,8 @@ import java.nio.file.Files;
 
 public class ByteArrayClassLoader extends ClassLoader {
 
-    public Class findClass(String name, String path) {
-        File file = new File(path);
+    public Class findClass(String name, String pathClass) {
+        File file = new File(pathClass);
         byte[] ba;
         try {
             ba = Files.readAllBytes(file.toPath());

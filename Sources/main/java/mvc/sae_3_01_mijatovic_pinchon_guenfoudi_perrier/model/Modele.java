@@ -27,7 +27,23 @@ public class Modele implements Sujet {
     //-----------Constructeur-----------
 
     public Modele() {
-        this.cheminCourant = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().split("/")[1].split("\\\\")[0];
+
+        //afficher ce projet dans l arborescence
+        String[] s = this.getClass().getProtectionDomain().getCodeSource().getLocation().getPath().split("/");
+        int i=2;
+        this.cheminCourant = "";
+        boolean Nofind = true;
+        if (s.length>1){
+            this.cheminCourant = s[1];
+            while (Nofind){
+                this.cheminCourant+="\\"+s[i];
+                if (s[i].equals("SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER"))
+                    Nofind=false;
+                i++;
+            }
+        }
+        this.cheminCourant = this.cheminCourant.replace("%20"," ");
+
         this.observateurs = new ArrayList<Observateur>();
         this.etatsNav = new HashMap<String, Boolean>();
         this.theme=new ThemeClair();

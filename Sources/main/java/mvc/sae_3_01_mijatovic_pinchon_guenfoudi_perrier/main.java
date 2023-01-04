@@ -5,9 +5,11 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.TopBarre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class main extends Application {
@@ -32,6 +34,9 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
+        Classe classe = new Classe("fichiers_test/Date.java");
+        VBox vBoxclasse = classe.affichageBidon();
+        paneCenter.getChildren().add(vBoxclasse);
         borderPane.setCenter(paneCenter);
 
 
