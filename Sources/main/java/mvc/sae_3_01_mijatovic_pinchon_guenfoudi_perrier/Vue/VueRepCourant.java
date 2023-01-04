@@ -27,6 +27,8 @@ public class VueRepCourant extends VBox implements Observateur {
     private Button explorateur;
     private TreeView<File> tv;
 
+    private TreeCell<File> tc ;
+
     private HashMap<String, TreeItem> listArborescences;
 
     /* Attribut servant uniquement à vérifier la synchronisation entre le modele et la vue sur le disque à afficher et ainsi éviter de recharger plusieurs fois la même arborescence */
@@ -48,15 +50,13 @@ public class VueRepCourant extends VBox implements Observateur {
         if (s.length>1){
             this.bigParent = s[1];
             while (Nofind){
-                this.bigParent+="/"+s[i];
+                this.bigParent+="\\"+s[i];
                 if (s[i].equals("SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER"))
                     Nofind=false;
                 i++;
             }
         }
-        this.bigParent = this.bigParent.replace("%20", " ");
-        System.out.println(this.bigParent);
-
+        this.bigParent = this.bigParent.replace("%20"," ");
 
         //this.bigParent = modele.getCheminCourant().split("\\\\")[0] + "\\";
         // creation d un item de substitution
@@ -88,6 +88,7 @@ public class VueRepCourant extends VBox implements Observateur {
         thread1.start();
 
         //Personnalisation de l'affichage des items
+
         this.tv.setCellFactory(tv -> new TreeCell<File>() {
             @Override
             protected void updateItem(File item, boolean empty) {
@@ -152,7 +153,7 @@ public class VueRepCourant extends VBox implements Observateur {
         explorateur.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
 
         tf.setText(modele.getCheminCourant());
-        String bigOpposant = modele.getCheminCourant().split("/")[0].split("\\\\")[0] + "\\";
+        String bigOpposant = modele.getCheminCourant();//.split("/")[0].split("\\\\")[0] + "\\";
         TreeItem<File> ti;
         // on ne génère une nouvelle arborescence que si on a changé de disque de lecture
         if (!bigOpposant.equals(bigParent)) {
