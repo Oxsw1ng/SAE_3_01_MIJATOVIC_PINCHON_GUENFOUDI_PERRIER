@@ -140,6 +140,35 @@ public class VueRepCourant extends VBox implements Observateur {
      */
     @Override
     public void actualiser() {
+        this.tv.setCellFactory(tv -> new TreeCell<File>() {
+            @Override
+            protected void updateItem(File item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                    setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
+                } else {
+                    ImageView img;
+                    if (item.isDirectory()) {
+                        img = new ImageView(ChargementRes.getDossierRes());
+                    } else {
+                        img = new ImageView(ChargementRes.getFichierRes());
+                    }
+                    img.setFitWidth(17);
+                    img.setPreserveRatio(true);
+
+                    setGraphic(img);
+                    String s = item.getName();
+                    if (s == "")
+                        s = item.getAbsolutePath();
+                    setText(s);
+                    setTextFill(modele.getTheme().getColorText());
+                    setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
+                }
+            }
+        });
 
         //parametage de l affichage du thème
         this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
