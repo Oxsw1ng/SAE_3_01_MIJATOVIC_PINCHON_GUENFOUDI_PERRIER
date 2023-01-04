@@ -18,6 +18,10 @@ public class Date implements Serializable {
         this.an = d.an;
     }
 
+    public static int methodeStatic() {
+        return 25;
+    }
+
     public int getJour() {
         return jour;
     }

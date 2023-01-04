@@ -34,7 +34,7 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
-        Classe classe = new Classe("fichiers_test/Date.java");
+        Classe classe = new Classe("fichiers_test/Grep.java");
         VBox vBoxclasse = classe.affichageBidon();
         paneCenter.getChildren().add(vBoxclasse);
         borderPane.setCenter(paneCenter);

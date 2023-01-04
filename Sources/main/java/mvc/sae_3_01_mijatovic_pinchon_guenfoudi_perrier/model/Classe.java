@@ -94,50 +94,74 @@ public class Classe implements Sujet {
         }
     }
 
+    public String faireModifiers(int acces) {
+        StringBuilder sb = new StringBuilder();
+        if (Modifier.isPublic(acces)) {
+            sb.append("+ ");
+        } if (Modifier.isPrivate(acces)) {
+            sb.append("- ");
+        } if (Modifier.isProtected(acces)) {
+            sb.append("# ");
+        } if (Modifier.isStatic(acces)) {
+            sb.append("static ");
+        } if (Modifier.isFinal(acces)) {
+            sb.append("final ");
+        } if (Modifier.isAbstract(acces)) {
+            sb.append("abstract ");
+        } if (Modifier.isNative(acces)) {
+            sb.append("native ");
+        } if (Modifier.isSynchronized(acces)) {
+            sb.append("synchronized ");
+        } if (Modifier.isTransient(acces)) {
+            sb.append("transient ");
+        } if (Modifier.isVolatile(acces)) {
+            sb.append("volatile ");
+        }
+        return sb.toString();
+    }
+
+    private String gererParametre(Class[] parametres) {
+        StringBuilder sb = new StringBuilder();
+        boolean aDesParametres = false;
+        for (Class classParam : parametres) {
+            aDesParametres = true;
+            if (classParam.isArray()) {
+                String[] type = classParam.getCanonicalName().split("\\.");
+                if (type[type.length - 1].contains("$"))
+                    type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
+                sb.append(type[type.length - 1] + ", ");
+            } else {
+                String[] type = classParam.getName().split("\\.");
+                sb.append(type[type.length - 1] + ", ");
+            }
+        }
+        if (aDesParametres)
+            sb.setLength(sb.length() - 2); //permet de supprimer la dernière virgule et l'espace en trop si il y a des paramètres
+        return sb.toString();
+    }
+
+    private String gererRetour(Class retour) {
+        StringBuilder sb = new StringBuilder();
+        if (retour.isArray()) {
+            String[] type = retour.getCanonicalName().split("\\.");
+            if (type[type.length - 1].contains("$"))
+                type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
+            sb.append(type[type.length - 1]);
+        } else {
+            String[] type = retour.getName().split("\\.");
+            sb.append(type[type.length - 1]);
+        }
+        return sb.toString();
+    }
+
     public void peuplerListeMethodes() {
         Method[] tabMethodes = this.classeCourante.getDeclaredMethods();
         for (Method m : tabMethodes) {
             StringBuilder sb = new StringBuilder();
-            int acces = m.getModifiers();
-            if (Modifier.isPublic(acces)) {
-                sb.append("+ ");
-            } if (Modifier.isPrivate(acces)) {
-                sb.append("- ");
-            } if (Modifier.isProtected(acces)) {
-                sb.append("# ");
-            } if (Modifier.isStatic(acces)) {
-                sb.append("static ");
-            } if (Modifier.isFinal(acces)) {
-                sb.append("final ");
-            } if (Modifier.isAbstract(acces)) {
-                sb.append("abstract ");
-            } if (Modifier.isNative(acces)) {
-                sb.append("native ");
-            } if (Modifier.isSynchronized(acces)) {
-                sb.append("synchronized ");
-            } if (Modifier.isTransient(acces)) {
-                sb.append("transient ");
-            } if (Modifier.isVolatile(acces)) {
-                sb.append("volatile ");
-            }
+            sb.append(this.faireModifiers(m.getModifiers()));
             sb.append(m.getName());
-            sb.append("(");
-            boolean aDesParametres = false;
-            for (Class classParam : m.getParameterTypes()) {
-                aDesParametres = true;
-                if (classParam.isArray()) {
-                    String[] type = classParam.arrayType().getCanonicalName().split("\\.");
-                    if (type[type.length - 1].contains("$"))
-                        type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
-                    sb.append(type[type.length - 1] + ", ");
-                } else {
-                    String[] type = classParam.getName().split("\\.");
-                    sb.append(type[type.length - 1] + ", ");
-                }
-            }
-            if (aDesParametres)
-                sb.setLength(sb.length() - 2); //permet de supprimer la dernière virgule
-            sb.append("):"+m.getReturnType().getName().split("\\.")[m.getReturnType().getName().split("\\.").length-1]);
+            sb.append("("+this.gererParametre(m.getParameterTypes()));
+            sb.append(") : "+this.gererRetour(m.getReturnType()));
             this.methodes.add(sb.toString());
         }
     }
@@ -145,45 +169,9 @@ public class Classe implements Sujet {
         Constructor[] tabConstructeurs = this.classeCourante.getDeclaredConstructors();
         for (Constructor c : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
-            int acces = c.getModifiers();
-            if (Modifier.isPublic(acces)) {
-                sb.append("+ ");
-            } if (Modifier.isPrivate(acces)) {
-                sb.append("- ");
-            } if (Modifier.isProtected(acces)) {
-                sb.append("# ");
-            } if (Modifier.isStatic(acces)) {
-                sb.append("static ");
-            } if (Modifier.isFinal(acces)) {
-                sb.append("final ");
-            } if (Modifier.isAbstract(acces)) {
-                sb.append("abstract ");
-            } if (Modifier.isNative(acces)) {
-                sb.append("native ");
-            } if (Modifier.isSynchronized(acces)) {
-                sb.append("synchronized ");
-            } if (Modifier.isTransient(acces)) {
-                sb.append("transient ");
-            } if (Modifier.isVolatile(acces)) {
-                sb.append("volatile ");
-            }
+            sb.append(this.faireModifiers(c.getModifiers()));
             sb.append(c.getName());
-            sb.append("(");
-            boolean aDesParametres = false;
-            for (Class classParam : c.getParameterTypes()) {
-                aDesParametres = true;
-                if (classParam.isArray()) {
-                    String[] type = classParam.arrayType().getCanonicalName().split("\\.");
-                    if (type[type.length - 1].contains("$"))
-                        type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
-                    sb.append(type[type.length - 1] + ", ");
-                } else {
-                    String[] type = classParam.getName().split("\\.");
-                    sb.append(type[type.length - 1] + ", ");
-                }
-            }
-            if (aDesParametres)
-                sb.setLength(sb.length() - 2); //permet de supprimer la dernière virgule
+            sb.append("("+this.gererParametre(c.getParameterTypes()));
             sb.append(")");
             this.constructeurs.add(sb.toString());
         }
@@ -192,30 +180,9 @@ public class Classe implements Sujet {
         Field[] tabConstructeurs = this.classeCourante.getDeclaredFields();
         for (Field f : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
-            int acces = f.getModifiers();
-            if (Modifier.isPublic(acces)) {
-                sb.append("+ ");
-            } if (Modifier.isPrivate(acces)) {
-                sb.append("- ");
-            } if (Modifier.isProtected(acces)) {
-                sb.append("# ");
-            } if (Modifier.isStatic(acces)) {
-                sb.append("static ");
-            } if (Modifier.isFinal(acces)) {
-                sb.append("final ");
-            } if (Modifier.isAbstract(acces)) {
-                sb.append("abstract ");
-            } if (Modifier.isNative(acces)) {
-                sb.append("native ");
-            } if (Modifier.isSynchronized(acces)) {
-                sb.append("synchronized ");
-            } if (Modifier.isTransient(acces)) {
-                sb.append("transient ");
-            } if (Modifier.isVolatile(acces)) {
-                sb.append("volatile ");
-            }
+            sb.append(this.faireModifiers(f.getModifiers()));
             sb.append(f.getName());
-            sb.append(":"+f.getType().getName().split("\\.")[f.getType().getName().split("\\.").length-1]);
+            sb.append(" : "+f.getType().getName().split("\\.")[f.getType().getName().split("\\.").length-1]);
             this.attributs.add(sb.toString());
         }
     }
@@ -230,6 +197,7 @@ public class Classe implements Sujet {
         }
         Label lbAttributs = new Label(sba.toString());
 
+
         StringBuilder sbc = new StringBuilder();
         for (String s : this.constructeurs) {
             sbc.append(s+"\n");
@@ -242,8 +210,7 @@ public class Classe implements Sujet {
         }
         Label lbMethodes = new Label(sbm.toString());
 
-
-        vBoxRetour.getChildren().addAll(lbNom,new Line(0,10,150,10), lbAttributs, new Line(0,250,150,250), lbConstructeurs, lbMethodes);
+        vBoxRetour.getChildren().addAll(lbNom,new Line(0,10,250,10), lbAttributs, new Line(0,250,250,250), lbConstructeurs, lbMethodes);
 
         ThemeClair thc = new ThemeClair();
         vBoxRetour.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
