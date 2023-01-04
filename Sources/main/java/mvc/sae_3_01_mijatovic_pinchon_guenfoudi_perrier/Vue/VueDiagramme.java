@@ -6,8 +6,6 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Suj
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
-import java.util.ArrayList;
-
 public class VueDiagramme extends Pane implements Observateur {
 
     private Modele m;
@@ -20,17 +18,13 @@ public class VueDiagramme extends Pane implements Observateur {
     public void actualiser() {
         for (Classe c:m.getClasses()) {
 
-
-
         }
+    }
 
-
+    private void flecheAgreg(Classe source, Classe target){
 
     }
 
-    private void flecheAttr(Classe source, Classe target){
-
-    }
     private void flecheHeredite(Classe source, Classe target){
 
     }
