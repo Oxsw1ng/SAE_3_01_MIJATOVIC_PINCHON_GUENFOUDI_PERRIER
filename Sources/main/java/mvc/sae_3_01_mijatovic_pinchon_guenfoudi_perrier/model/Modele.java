@@ -146,7 +146,10 @@ public class Modele implements Sujet {
      */
     public void setCheminCourant(String cheminCourant) {
         this.cheminCourant = cheminCourant;
-        notifierObservateurs();
+
+        // Si on laisse cette ligne, on peut remonter au répertoire parent en cliquant dessus
+        // L'idée est sympathique mais gourmande en temps
+        //notifierObservateurs();
     }
 
     /*

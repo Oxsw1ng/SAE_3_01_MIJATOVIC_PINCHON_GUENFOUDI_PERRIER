@@ -21,7 +21,7 @@ public class ControllerDirectoryExplorer implements EventHandler<ActionEvent> {
         DirectoryChooser dc = new DirectoryChooser();
         File f = dc.showDialog(new Stage());
         if (f != null) {
-            modele.setCheminCourant(f.getPath());
+            modele.setRepAvecTextField(f.getPath());
         }
     }
 }

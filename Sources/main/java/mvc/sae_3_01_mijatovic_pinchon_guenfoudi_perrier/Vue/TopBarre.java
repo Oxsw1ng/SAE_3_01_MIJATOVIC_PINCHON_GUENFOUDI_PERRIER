@@ -36,9 +36,7 @@ public class TopBarre extends HBox implements Observateur {
 
         // menu fichier
         Menu menuFichier = new Menu("fichier");
-        MenuItem m1 = new MenuItem("Choisir le mode d'export");
-        ControllerOpenExporterWindow controlExport = new ControllerOpenExporterWindow(modele);
-        m1.setOnAction(controlExport);
+        MenuItem m1 = new MenuItem("menu item 1");
         MenuItem m2 = new MenuItem("menu item 2");
         MenuItem m3 = new MenuItem("menu item 3");
         menuFichier.getItems().add(m1);
@@ -109,6 +107,10 @@ public class TopBarre extends HBox implements Observateur {
 
         // création du bouton Exporter et son affichage
         Button boutonExporter = new Button("exporter");
+        // Ajout du controleur pour exporter
+        ControllerOpenExporterWindow controlExport = new ControllerOpenExporterWindow(modele);
+        boutonExporter.setOnAction(controlExport);
+
         CornerRadii co2 = new CornerRadii(10);
         boutonExporter.setStyle("-fx-font-weight: 900; -fx-font-size: 20");
         boutonExporter.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,co2,new BorderWidths(3))));
