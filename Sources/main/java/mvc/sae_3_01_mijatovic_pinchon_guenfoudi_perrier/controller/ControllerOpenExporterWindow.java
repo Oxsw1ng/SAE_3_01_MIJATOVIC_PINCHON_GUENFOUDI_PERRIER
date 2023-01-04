@@ -31,17 +31,20 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         valider.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-
+                String choix = cb.getValue();
+                modele.changerModeExport(choix);
+                modele.getExport().exporter();
             }
         });
         Button quitter = new Button("Quitter");
 
         HBox hb = new HBox(valider, quitter);
+        hb.setAlignment(Pos.CENTER);
 
         VBox vb = new VBox(cb,format,hb);
         vb.setAlignment(Pos.CENTER);
 
-        Scene scene = new Scene(vb, 400, 400);
+        Scene scene = new Scene(vb, 200, 200);
 
         Stage newWindow = new Stage();
         newWindow.setScene(scene);
