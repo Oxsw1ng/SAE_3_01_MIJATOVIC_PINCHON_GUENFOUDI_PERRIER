@@ -51,7 +51,7 @@ public class main extends Application {
         stage.setMaximized(true);
         stage.show();
 
-        //vueRepCourant.majBoutonParent();
+        vueRepCourant.majBoutonParent();
     }
 
     public static void main(String[] args) {

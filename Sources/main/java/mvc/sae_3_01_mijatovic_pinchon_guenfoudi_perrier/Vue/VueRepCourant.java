@@ -1,13 +1,16 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerArborescenceRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -25,9 +28,12 @@ public class VueRepCourant extends VBox implements Observateur {
     private TextField tf;
 
     private Button explorateur;
+
+    private Button bParent;
     private TreeView<File> tv;
 
     private TreeCell<File> tc ;
+
 
     private HashMap<String, TreeItem> listArborescences;
 
@@ -127,8 +133,22 @@ public class VueRepCourant extends VBox implements Observateur {
         ControllerDirectoryExplorer controlExplore = new ControllerDirectoryExplorer(modele);
         explorateur.setOnAction(controlExplore);
 
+        // ajout d un bouton simple en ..
+        bParent = new Button("..");
+        ImageView img;
+        img = new ImageView(ChargementRes.getDossierRes());
+        img.setFitWidth(17);
+        img.setPreserveRatio(true);
+        bParent.setGraphic(img);
+        bParent.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
+        bParent.setTextFill(modele.getTheme().getColorText());
+        bParent.setAlignment(Pos.CENTER_LEFT);
+        bParent.setOnAction( e -> {
+            modele.setRepAvecTextField(this.tv.getRoot().getValue().getParent());
+        });
+
         //Parametrage de l'affichage de la vue
-        this.getChildren().addAll(tf,explorateur, tv);
+        this.getChildren().addAll(tf,explorateur, bParent, tv);
         this.setAlignment(Pos.CENTER);
         this.setSpacing(3);
     }
@@ -136,10 +156,19 @@ public class VueRepCourant extends VBox implements Observateur {
     //--------Méthodes--------
 
     /*
+     * méthode qui est appelée une fois la page crée afin de mettre à jour la taille du bouton
+     */
+    public void majBoutonParent(){
+        this.bParent.setMinWidth(this.getWidth() - 30);
+    }
+
+    /*
      * méthode d'actualisation nécessaire au patron mvc
      */
     @Override
     public void actualiser() {
+
+        //parametage de l affichage du thème
         this.tv.setCellFactory(tv -> new TreeCell<File>() {
             @Override
             protected void updateItem(File item, boolean empty) {
@@ -169,8 +198,8 @@ public class VueRepCourant extends VBox implements Observateur {
                 }
             }
         });
-
-        //parametage de l affichage du thème
+        bParent.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
+        bParent.setTextFill(modele.getTheme().getColorText());
         this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondNavEtArbo(), null, null)));
         this.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         tf.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondDiagEtTextField(), null, null)));
@@ -182,20 +211,16 @@ public class VueRepCourant extends VBox implements Observateur {
         explorateur.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
 
         tf.setText(modele.getCheminCourant());
-        String bigOpposant = modele.getCheminCourant();//.split("/")[0].split("\\\\")[0] + "\\";
-        TreeItem<File> ti;
+        String bigOpposant = modele.getCheminCourant();
+        if (bigOpposant==null) bigOpposant="";
         // on ne génère une nouvelle arborescence que si on a changé de disque de lecture
-        if (!bigOpposant.equals(bigParent)) {
+        if ( !bigOpposant.equals(bigParent)) {
             bigParent = bigOpposant;
+            TreeItem<File> ti;
             ti = genererTreeItem(new File(bigParent));
             ti.setExpanded(true);
-        } else {
-            //sinon on récupère l'arborescence actuelle et on ne change que l'ouverture des repertoires
-            ti = this.tv.getRoot();
+            this.tv.setRoot(ti);
         }
-        // on ouvre les repertoires selon le chemin présent dans le textField
-        actuExpanded(ti, List.of(modele.getCheminCourant().split("\\\\")));
-        this.tv.setRoot(ti);
     }
 
 
@@ -213,7 +238,7 @@ public class VueRepCourant extends VBox implements Observateur {
                 public void handle(TreeItem.TreeModificationEvent<Object> objectTreeModificationEvent) {
                     File file = ((File) objectTreeModificationEvent.getTreeItem().getValue());
                     if (modele.getCheminCourant().split("\\\\").length <= file.getAbsolutePath().split("\\\\").length) {
-                        modele.setCheminCourant(file.getAbsolutePath());
+                        //modele.setCheminCourant(file.getAbsolutePath());
                         tf.setText(file.getAbsolutePath());
                     }
                 }
@@ -225,7 +250,7 @@ public class VueRepCourant extends VBox implements Observateur {
                     List<String> list = List.of(modele.getCheminCourant().split("\\\\"));
                     TreeItem treeItem = objectTreeModificationEvent.getTreeItem();
                     if (list.contains(((File) treeItem.getValue()).getName()) && !treeItem.isExpanded()) {
-                        modele.setCheminCourant(((File) treeItem.getValue()).getParent());
+                        //modele.setCheminCourant(((File) treeItem.getValue()).getParent());
                         tf.setText(((File) treeItem.getValue()).getParent());
                     }
                 }
@@ -242,24 +267,19 @@ public class VueRepCourant extends VBox implements Observateur {
             for (File file : f.listFiles(NameFilter)) {
                 treeIt.getChildren().add(genererTreeItem(file));
             }
+
         }
+
+        // Si c'est un fichier java, ajout du controleur permettant de créer les classes
+        if (!f.isDirectory()) {
+            System.out.println("Rentre dans mon ajout");
+            ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele, f);
+            treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
+        }
+
         //on retourne l'item courant
         return treeIt;
     }
 
-    /*
-     * méthode récursive qui étend les répertoires sélectionnés
-     */
-    private void actuExpanded(TreeItem<File> ti, List<String> list) {
-        // etendre si le dossier est dans la liste du textField
-        if (!ti.getChildren().isEmpty()) {
-            //on vérifie si c est un dossier alors on vérifie les items en dessous
-            for (TreeItem treeIt : ti.getChildren()) {
-                actuExpanded(treeIt, list);
-            }
-        }
-        // on change l'étendu
-        ti.setExpanded(list.contains(ti.getValue().getName()) || modele.getCheminCourant().contains(ti.getValue().getAbsolutePath()));
-    }
 
 }
