@@ -51,6 +51,8 @@ public class main extends Application {
         stage.setMinHeight(400);
         stage.setMaximized(true);
         stage.show();
+
+        vueRepCourant.majBoutonParent();
     }
 
     public static void main(String[] args) {
