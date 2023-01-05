@@ -23,9 +23,9 @@ public class VueClasse extends VBox {
 
     public VueClasse(Classe modele) {
         this.modele = modele;
-       ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele);
-        setOnDragDone(controller);
-        
+       ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
+        setOnMouseDragged(controller);
+
         this.creerVue();
 
 
@@ -69,7 +69,7 @@ public class VueClasse extends VBox {
         actualiser(new ThemeClair());
     }
     private void placerClasse(){
-        System.out.println(this.modele.getCoordonnesX()+":"+modele.getCoordonnesY());
+
         this.setLayoutX(this.modele.getCoordonnesX());
         this.setLayoutY(this.modele.getCoordonnesY());
     }

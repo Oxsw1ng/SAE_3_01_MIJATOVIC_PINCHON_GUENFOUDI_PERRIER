@@ -31,7 +31,19 @@ public class Classe implements Sujet {
     //-----------Constructeur-----------
     public Classe(String pathClass) {
 
-        this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        // Change le split selon l'OS de l'utilisateur
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            this.nomClasse = pathClass;
+            this.nomClasse.replace("\\", "\\\\");
+            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
+        } else {
+            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        }
+        if (nomClasse.split("/").length == 2) {
+            nomClasse = nomClasse.split("/")[1];
+        }
+
         // lecture du fichier .class créé à partir du chemin donné en paramètre
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
@@ -44,7 +56,7 @@ public class Classe implements Sujet {
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
         this.constructeurs = new ArrayList<>();
-        this.observateurs = new ArrayList<Observateur>();
+        this.observateurs = new ArrayList<>();
         this.peuplerListeMethodes();
         this.peuplerListeConstructeurs();
         this.peuplerListeAttributs();
@@ -222,6 +234,7 @@ public class Classe implements Sujet {
     public void setCoordinates(double x,double y){
         coordonnesX=x;
         coordonnesY=y;
+        notifierObservateurs();
     }
     public void setCoordonnesY(int coordonnesY) {
         this.coordonnesY = coordonnesY;

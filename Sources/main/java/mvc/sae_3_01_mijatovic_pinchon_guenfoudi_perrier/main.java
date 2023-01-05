@@ -37,7 +37,6 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
-        System.out.println(SIZEX+":"+SIZEY);
         Classe classe = new Classe("fichiers_test/Date.class");
         VueClasse vBoxclasse = new VueClasse(classe);
         paneCenter.getChildren().add(vBoxclasse);
