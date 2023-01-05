@@ -222,7 +222,6 @@ public class VueRepCourant extends VBox implements Observateur {
             ti.setExpanded(true);
             this.tv.setRoot(ti);
         }
-        System.out.println("ehoh");
         ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele);
         tv.setOnMouseClicked(controlAdjClasse);
     }

@@ -21,7 +21,6 @@ public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent
     @Override
     public void handle(MouseEvent mouseEvent) {
         // Si c'est un fichier java, ajout du controleur permettant de créer les classes
-        System.out.println("Controleur marche");
         TreeView<File> temp = (TreeView<File>) mouseEvent.getSource();
         TreeItem<File> ti = temp.getSelectionModel().getSelectedItem();
         if (ti != null) {

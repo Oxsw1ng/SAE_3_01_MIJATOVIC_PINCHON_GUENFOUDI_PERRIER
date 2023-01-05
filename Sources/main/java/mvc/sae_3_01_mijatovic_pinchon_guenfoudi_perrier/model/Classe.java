@@ -46,7 +46,6 @@ public class Classe implements Sujet {
         // lecture du fichier .class créé à partir du chemin donné en paramètre
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
-        System.out.println(nomClasse+ "   et essai backslash : \\");
         this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
 
         this.isInterface = this.classeCourante.isInterface();
