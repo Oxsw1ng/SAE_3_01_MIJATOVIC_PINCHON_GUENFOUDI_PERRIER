@@ -22,6 +22,7 @@ public class Classe implements Sujet {
     private ArrayList<Observateur> observateurs;
     private Class superClass;
     private Class classeCourante;
+    private Class[] interfaces;
     private double coordonnesX;
     private double coordonnesY;
 
@@ -38,6 +39,7 @@ public class Classe implements Sujet {
 
         this.isInterface = this.classeCourante.isInterface();
         this.superClass = this.classeCourante.getSuperclass();
+        this.interfaces = this.classeCourante.getInterfaces();
 
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
@@ -248,6 +250,8 @@ public class Classe implements Sujet {
     public Class getClasseCourante() {
         return classeCourante;
     }
+
+    public Class[] getInterfaces() {return interfaces;}
 
     public boolean isInterface() {
         return isInterface;

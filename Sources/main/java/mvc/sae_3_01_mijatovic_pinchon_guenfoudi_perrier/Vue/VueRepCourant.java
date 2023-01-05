@@ -276,6 +276,7 @@ public class VueRepCourant extends VBox implements Observateur {
             treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
         }
 
+
         //on retourne l'item courant
         return treeIt;
     }
