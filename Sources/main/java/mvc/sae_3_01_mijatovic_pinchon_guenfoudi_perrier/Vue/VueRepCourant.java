@@ -13,6 +13,7 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerArborescenceRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -221,6 +222,9 @@ public class VueRepCourant extends VBox implements Observateur {
             ti.setExpanded(true);
             this.tv.setRoot(ti);
         }
+        System.out.println("ehoh");
+        ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele);
+        tv.setOnMouseClicked(controlAdjClasse);
     }
 
 
@@ -267,12 +271,6 @@ public class VueRepCourant extends VBox implements Observateur {
             for (File file : f.listFiles(NameFilter)) {
                 treeIt.getChildren().add(genererTreeItem(file));
             }
-
-            // Si c'est un fichier java, ajout du controleur permettant de créer les classes
-        } else if (f.isFile()) {
-            System.out.println("Rentre dans mon ajout");
-            ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele, f);
-            treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
         }
 
 

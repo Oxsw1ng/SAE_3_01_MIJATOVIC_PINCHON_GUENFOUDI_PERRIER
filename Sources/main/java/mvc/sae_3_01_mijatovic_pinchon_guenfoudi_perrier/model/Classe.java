@@ -30,10 +30,23 @@ public class Classe implements Sujet {
     //-----------Constructeur-----------
     public Classe(String pathClass) {
 
-        this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        // Change le split selon l'OS de l'utilisateur
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            this.nomClasse = pathClass;
+            this.nomClasse.replace("\\", "\\\\");
+            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
+        } else {
+            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        }
+        if (nomClasse.split("/").length == 2) {
+            nomClasse = nomClasse.split("/")[1];
+        }
+
         // lecture du fichier .class créé à partir du chemin donné en paramètre
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
+        System.out.println(nomClasse+ "   et essai backslash : \\");
         this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
 
         this.isInterface = this.classeCourante.isInterface();
