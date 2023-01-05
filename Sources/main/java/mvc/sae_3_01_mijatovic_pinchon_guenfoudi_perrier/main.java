@@ -19,6 +19,7 @@ public class main extends Application {
     public static  double SIZEY = 0;
     @Override
     public void start(Stage stage) throws Exception {
+        Pane paneCenter = new Pane();
         Modele modele = new Modele();
 
         BorderPane borderPane = new BorderPane();
@@ -36,10 +37,10 @@ public class main extends Application {
         modele.enregistrerObservateur(vueRepCourant);
 
         // panneau central de l'application
-        Pane paneCenter = new Pane();
         Classe classe = new Classe("fichiers_test/Date.class");
         VueClasse vBoxclasse = new VueClasse(classe);
         paneCenter.getChildren().add(vBoxclasse);
+        modele.changerGrapheCourant(paneCenter);
         borderPane.setCenter(paneCenter);
 
 

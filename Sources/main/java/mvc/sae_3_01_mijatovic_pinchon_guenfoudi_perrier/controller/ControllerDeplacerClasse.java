@@ -1,17 +1,11 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
-
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
-import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueClasse;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.main;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
-
-import static mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.main.SIZEX;
-import static mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.main.SIZEY;
 
 public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     private VueClasse vue;
@@ -26,17 +20,24 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
 
-        Bounds bounds = vue.getBoundsInLocal();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-        System.out.println(bounds.getMaxX());
-        System.out.println(x + ":" + y);
-
 
         model.setCoordinates(x + vue.getLayoutX(), y + vue.getLayoutY());
         clampNodeToParentBounds(vue);
+        if(mouseEvent.isDragDetect()){
+            modifierCursor(Cursor.CLOSED_HAND);
+        }
+        else {
+            modifierCursor(Cursor.OPEN_HAND);
+        }
+
     }
-    void clampNodeToParentBounds(Node node) {
+    private void modifierCursor(Cursor hand){
+        vue.setCursor(hand);
+
+    }
+    private void clampNodeToParentBounds(Node node) {
         Bounds parentBounds = node.getParent().getLayoutBounds();
         Bounds nodeBounds = node.getLayoutBounds();
 
