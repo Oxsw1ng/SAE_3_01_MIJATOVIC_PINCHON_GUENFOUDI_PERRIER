@@ -268,14 +268,13 @@ public class VueRepCourant extends VBox implements Observateur {
                 treeIt.getChildren().add(genererTreeItem(file));
             }
 
-        }
-
-        // Si c'est un fichier java, ajout du controleur permettant de créer les classes
-        if (!f.isDirectory()) {
+            // Si c'est un fichier java, ajout du controleur permettant de créer les classes
+        } else if (f.isFile()) {
             System.out.println("Rentre dans mon ajout");
             ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele, f);
             treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
         }
+
 
         //on retourne l'item courant
         return treeIt;
