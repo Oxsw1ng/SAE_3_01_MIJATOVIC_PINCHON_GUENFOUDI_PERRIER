@@ -6,15 +6,11 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
-import javax.tools.*;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Classe implements Sujet {
 
@@ -28,72 +24,25 @@ public class Classe implements Sujet {
     private Class classeCourante;
 
     private boolean isInterface;
-    private double coordonneX;
-    private double coordonneY;
 
     //-----------Constructeur-----------
-    public Classe(String nomClass) {
+    public Classe(String pathClass) {
+
+        this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        // lecture du fichier .class créé à partir du chemin donné en paramètre
+
+        ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
+        this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
+
+        this.isInterface = this.classeCourante.isInterface();
+        this.superClass = this.classeCourante.getSuperclass();
+
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
         this.constructeurs = new ArrayList<>();
-        this.observateurs = new ArrayList<>();
-        try {
-            //solution 1 : pas très fonctionnelle
-            /*File fichierJava = new File(pathJava);
-            String pathClass = pathJava.substring(0, pathJava.length() - 5) + ".class";
-
-            //compilation du fichier .java (argument path du constructeur)
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
-            Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays.asList(fichierJava));
-            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
-            task.call();
-            fileManager.close();
-
-            this.nomClasse = pathJava.split("/")[pathJava.split("/").length - 1].split("\\.")[0];
-            // lecture du fichier .class créé à partir du chemin donné en paramètre
-            ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
-            this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
-
-            //suppression du fichier .class après utilisation
-            File fichierClass = new File(pathClass);
-            fichierClass.delete();*/
-
-
-            this.classeCourante = Class.forName(nomClass);
-            this.nomClasse = getNomReduitClass(nomClass);
-            this.isInterface = this.classeCourante.isInterface();
-            this.superClass = this.classeCourante.getSuperclass();
-            this.peuplerListeMethodes();
-            this.peuplerListeConstructeurs();
-            this.peuplerListeAttributs();
-//            //solution 2
-//
-//            this.nomClasse = pathJava.split("/")[pathJava.split("/").length - 1].split("\\.")[0];
-//            Files.copy(fichierJava.toPath(), new File("Sources/main/java/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/cache/"+this.nomClasse+".java").toPath());
-//            this.classeCourante = Class.forName("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.cache."+nomClasse);
-
-
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    /**
-     * Retourne le dernier élément du nom de classe complet, c'est-à-dire la partie qui suit le dernier point (.).
-     *
-     * @param nomClassComplet le nom de classe complet
-     * @return le dernier élément du nom de classe complet
-     */
-    private static String getNomReduitClass(String nomClassComplet) {
-        // on utilise la méthode split de la classe String pour découper l'input en un tableau de sous-chaines
-        // en utilisant le point (.) comme séparateur
-        String[] parts = nomClassComplet.split("\\.");
-        // on retourne la dernière partie, qui correspond au dernier élément du nom de classe complet
-        return parts[parts.length - 1];
+        this.peuplerListeMethodes();
+        this.peuplerListeConstructeurs();
+        this.peuplerListeAttributs();
     }
 
     @Override
@@ -117,32 +66,23 @@ public class Classe implements Sujet {
         StringBuilder sb = new StringBuilder();
         if (Modifier.isPublic(acces)) {
             sb.append("+ ");
-        }
-        if (Modifier.isPrivate(acces)) {
+        } if (Modifier.isPrivate(acces)) {
             sb.append("- ");
-        }
-        if (Modifier.isProtected(acces)) {
+        } if (Modifier.isProtected(acces)) {
             sb.append("# ");
-        }
-        if (Modifier.isStatic(acces)) {
+        } if (Modifier.isStatic(acces)) {
             sb.append("static ");
-        }
-        if (Modifier.isFinal(acces)) {
+        } if (Modifier.isFinal(acces)) {
             sb.append("final ");
-        }
-        if (Modifier.isAbstract(acces)) {
+        } if (Modifier.isAbstract(acces)) {
             sb.append("abstract ");
-        }
-        if (Modifier.isNative(acces)) {
+        } if (Modifier.isNative(acces)) {
             sb.append("native ");
-        }
-        if (Modifier.isSynchronized(acces)) {
+        } if (Modifier.isSynchronized(acces)) {
             sb.append("synchronized ");
-        }
-        if (Modifier.isTransient(acces)) {
+        } if (Modifier.isTransient(acces)) {
             sb.append("transient ");
-        }
-        if (Modifier.isVolatile(acces)) {
+        } if (Modifier.isVolatile(acces)) {
             sb.append("volatile ");
         }
         return sb.toString();
@@ -187,32 +127,30 @@ public class Classe implements Sujet {
         for (Method m : tabMethodes) {
             StringBuilder sb = new StringBuilder();
             sb.append(this.faireModifiers(m.getModifiers()));
-            sb.append(getNomReduitClass(m.getName()));
-            sb.append("(" + this.gererParametre(m.getParameterTypes()));
-            sb.append(") : " + this.gererRetour(m.getReturnType()));
+            sb.append(m.getName());
+            sb.append("("+this.gererParametre(m.getParameterTypes()));
+            sb.append(") : "+this.gererRetour(m.getReturnType()));
             this.methodes.add(sb.toString());
         }
     }
-
     public void peuplerListeConstructeurs() {
         Constructor[] tabConstructeurs = this.classeCourante.getDeclaredConstructors();
         for (Constructor c : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
             sb.append(this.faireModifiers(c.getModifiers()));
-            sb.append(getNomReduitClass(c.getName()));
-            sb.append("(" + this.gererParametre(c.getParameterTypes()));
+            sb.append(c.getName());
+            sb.append("("+this.gererParametre(c.getParameterTypes()));
             sb.append(")");
             this.constructeurs.add(sb.toString());
         }
     }
-
     public void peuplerListeAttributs() {
         Field[] tabConstructeurs = this.classeCourante.getDeclaredFields();
         for (Field f : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
             sb.append(this.faireModifiers(f.getModifiers()));
-            sb.append(getNomReduitClass(f.getName()));
-            sb.append(" : " + f.getType().getName().split("\\.")[f.getType().getName().split("\\.").length - 1]);
+            sb.append(f.getName());
+            sb.append(" : "+this.gererRetour(f.getType()));
             this.attributs.add(sb.toString());
         }
     }
@@ -231,106 +169,42 @@ public class Classe implements Sujet {
         VBox vBoxMilieu = new VBox();
         StringBuilder sba = new StringBuilder();
         for (String s : this.attributs) {
-            sba.append(s + "\n");
+            sba.append(s+"\n");
         }
         Label lbAttributs = new Label(sba.toString());
         vBoxMilieu.getChildren().add(lbAttributs);
-        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
+        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
 
         VBox vBoxBas = new VBox();
         StringBuilder sbc = new StringBuilder();
         for (String s : this.constructeurs) {
-            sbc.append(s + "\n");
+            sbc.append(s+"\n");
         }
         Label lbConstructeurs = new Label(sbc.toString());
         StringBuilder sbm = new StringBuilder();
         for (String s : this.methodes) {
-            sbm.append(s + "\n");
+            sbm.append(s+"\n");
         }
         Label lbMethodes = new Label(sbm.toString());
         vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
-        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
+        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
 
 
-        vBoxRetour.getChildren().addAll(vBoxHaut, vBoxMilieu, vBoxBas);
+        vBoxRetour.getChildren().addAll(vBoxHaut,vBoxMilieu,vBoxBas);
         vBoxRetour.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
         return vBoxRetour;
     }
 
-    public ArrayList<String> getAttributs() {
-        return attributs;
+    public Method[] getMethodes() {
+        return classeCourante.getDeclaredMethods();
     }
 
-    public ArrayList<String> getMethodes() {
-        return methodes;
+    public Field[] getAttributs() {
+        return classeCourante.getDeclaredFields();
     }
 
-    public void setAttributs(ArrayList<String> attributs) {
-        this.attributs = attributs;
+    public Constructor[] getConstructeurs() {
+        return classeCourante.getDeclaredConstructors();
     }
 
-    public void setConstructeurs(ArrayList<String> constructeurs) {
-        this.constructeurs = constructeurs;
-    }
-
-    public void setMethodes(ArrayList<String> methodes) {
-        this.methodes = methodes;
-    }
-
-    public ArrayList<Observateur> getObservateurs() {
-        return observateurs;
-    }
-
-    public void setObservateurs(ArrayList<Observateur> observateurs) {
-        this.observateurs = observateurs;
-    }
-
-    public ArrayList<String> getConstructeurs() {
-        return constructeurs;
-    }
-
-    public String getNomClasse() {
-        return nomClasse;
-    }
-
-    public void setNomClasse(String nomClasse) {
-        this.nomClasse = nomClasse;
-    }
-
-    public Class getSuperClass() {
-        return superClass;
-    }
-
-    public void setSuperClass(Class superClass) {
-        this.superClass = superClass;
-    }
-
-    public Class getClasseCourante() {
-        return classeCourante;
-    }
-
-    public void setClasseCourante(Class classeCourante) {
-        this.classeCourante = classeCourante;
-    }
-
-    public boolean isInterface() {
-        return isInterface;
-    }
-
-    public void setInterface(boolean anInterface) {
-        isInterface = anInterface;
-    }
-
-    public double getCoordonneX() {
-        return this.coordonneX;
-    }
-    public double getCoordonneY() {
-        return this.coordonneY;
-    }
-    public void setCoordinates(double x,double y){
-        this.coordonneX=x;
-        this.coordonneY=y;
-        notifierObservateurs();
-
-    }
 }

@@ -32,11 +32,8 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
             @Override
             public void handle(ActionEvent actionEvent) {
                 String choix = cb.getValue();
-                if (choix == null) {
-                    choix = "default PNG";
-                }
                 modele.changerModeExport(choix);
-                modele.getExport().exporter(modele, "essaiGraphe");
+//                modele.getExport().exporter();
             }
         });
         Button quitter = new Button("Quitter");
