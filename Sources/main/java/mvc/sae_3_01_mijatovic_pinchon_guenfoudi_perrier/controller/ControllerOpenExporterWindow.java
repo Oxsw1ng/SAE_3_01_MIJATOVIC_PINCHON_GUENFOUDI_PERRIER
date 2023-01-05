@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -27,27 +28,27 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
 
         Label format = new Label("Format courant : "+modele.getExport().getNom());
 
+        TextField cheminField = new TextField();
+        cheminField.setPromptText("le chemin et le nom du fichier");
+        cheminField.setStyle("-fx-prompt-text-fill: gray;");
+
         Button valider = new Button("Valider");
         valider.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                String chemin = cheminField.getText();
                 String choix = cb.getValue();
-                if (choix == null) {
-                    choix = "default : PNG";
-                }
                 modele.changerModeExport(choix);
-                modele.getExport().exporter(modele, "test");
+                modele.getExport().exporter(modele, chemin);
             }
         });
         Button quitter = new Button("Quitter");
 
         HBox hb = new HBox(valider, quitter);
         hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(8);
 
-        VBox vb = new VBox(cb,format,hb);
+        VBox vb = new VBox(cb,cheminField,format,hb);
         vb.setAlignment(Pos.CENTER);
-        vb.setSpacing(18);
 
         Scene scene = new Scene(vb, 200, 200);
 
@@ -55,12 +56,5 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         newWindow.setScene(scene);
         newWindow.setTitle("Choisir le mode d'export");
         newWindow.show();
-
-        quitter.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                newWindow.close();
-            }
-        });
     }
 }

@@ -1,6 +1,10 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format;
 
+import javafx.scene.SnapshotParameters;
+import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Format;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -10,19 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 
-public class PNG implements Format {
-
-    @Override
-    public void exporter(Modele m, String chemin) {
-        WritableImage wim = new WritableImage(500,500);
-        m.getGrapheCourant().snapshot(null, wim);
-        File file = new File(chemin);
-        //try {
-        //   ImageIO.write(SwingFXUtils.fromFXImage(wim, null), "png", file);
-        //} catch (IOException e) {
-        //    throw new RuntimeException(e);
-        //}
-    }
+public class PNG extends FormatImage {
 
     @Override
     public String getNom() {
