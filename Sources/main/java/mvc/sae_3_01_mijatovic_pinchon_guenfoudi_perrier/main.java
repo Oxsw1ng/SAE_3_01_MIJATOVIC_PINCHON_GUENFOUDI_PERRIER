@@ -15,7 +15,8 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class main extends Application {
-
+    public static double SIZEX = 0;
+    public static  double SIZEY = 0;
     @Override
     public void start(Stage stage) throws Exception {
         Modele modele = new Modele();
@@ -36,6 +37,8 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
+        SIZEX=paneCenter.getLayoutX();
+        SIZEY=paneCenter.getLayoutY();
         Classe classe = new Classe("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair");
         Classe classe2 = new Classe("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre");
         VBox vBoxclasse = new VueClasse(classe);
