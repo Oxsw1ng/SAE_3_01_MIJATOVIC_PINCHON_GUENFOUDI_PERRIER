@@ -42,7 +42,7 @@ public class Classe implements Sujet {
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
         this.constructeurs = new ArrayList<>();
-        this.observateurs = new ArrayList<Observateur>();
+        this.observateurs = new ArrayList<>();
         this.peuplerListeMethodes();
         this.peuplerListeConstructeurs();
         this.peuplerListeAttributs();
@@ -220,6 +220,7 @@ public class Classe implements Sujet {
     public void setCoordinates(double x,double y){
         coordonnesX=x;
         coordonnesY=y;
+        notifierObservateurs();
     }
     public void setCoordonnesY(int coordonnesY) {
         this.coordonnesY = coordonnesY;

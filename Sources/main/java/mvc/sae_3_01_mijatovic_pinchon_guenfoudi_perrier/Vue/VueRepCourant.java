@@ -260,7 +260,7 @@ public class VueRepCourant extends VBox implements Observateur {
             FileFilter NameFilter = new FileFilter() {
                 @Override
                 public boolean accept(File pathname) {
-                    return (pathname.isDirectory() || pathname.getName().endsWith(".java")) && !pathname.isHidden();
+                    return (pathname.isDirectory() || pathname.getName().endsWith(".class")) && !pathname.isHidden();
                 }
             };
             // ajout des sous fichiers à l'item courant
