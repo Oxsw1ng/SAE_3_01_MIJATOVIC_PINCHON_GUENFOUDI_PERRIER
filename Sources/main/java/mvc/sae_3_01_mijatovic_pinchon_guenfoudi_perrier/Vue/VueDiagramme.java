@@ -5,6 +5,8 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Obs
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
+import java.util.ArrayList;
+
 public class VueDiagramme extends Pane implements Observateur {
 
     private Modele modele;
@@ -15,9 +17,11 @@ public class VueDiagramme extends Pane implements Observateur {
 
     @Override
     public void actualiser() {
-
-        for (Classe c:modele.getClasses()) {
-
+        this.getChildren().clear();
+        ArrayList<Classe> list = modele.getClasses();
+        for (Classe c:list) {
+            VueClasse vue = new VueClasse(c);
+            this.getChildren().add(vue);
         }
         modele.changerGrapheCourant(this);
     }
