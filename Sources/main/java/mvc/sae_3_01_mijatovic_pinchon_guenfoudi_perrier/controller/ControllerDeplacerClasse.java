@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueClasse;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueDiagramme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.main;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
@@ -29,27 +30,39 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
         Bounds bounds = vue.getBoundsInLocal();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
-        System.out.println(bounds.getMaxX());
-        System.out.println(x + ":" + y);
 
 
-        model.setCoordinates(x + vue.getLayoutX(), y + vue.getLayoutY());
-        clampNodeToParentBounds(vue);
+        double x2 = x + vue.getLayoutX();
+        double y2 = y + vue.getLayoutY();
+
+        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
+            model.setCoordonnesX(x2);
+            vue.setLayoutX(x2);
+        }
+        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight()-vue.getHeight())){
+            model.setCoordonnesY(y2);
+            vue.setLayoutY(y2);
+        }
+        //double[] pos =clampNodeToParentBounds();
+
+
     }
-    void clampNodeToParentBounds(Node node) {
-        Bounds parentBounds = node.getParent().getLayoutBounds();
-        Bounds nodeBounds = node.getLayoutBounds();
+    /*
+    double[] clampNodeToParentBounds() {
+        Bounds parentBounds = vue.getParent().getLayoutBounds();
+        Bounds nodeBounds = vue.getLayoutBounds();
 
-        double newLayoutX = clamp(node.getLayoutX(), 0, parentBounds.getWidth() - nodeBounds.getWidth());
-        double newLayoutY = clamp(node.getLayoutY(), 0, parentBounds.getHeight() - nodeBounds.getHeight());
+        double newLayoutX = clamp(vue.getLayoutX(), 0, parentBounds.getWidth() - nodeBounds.getWidth());
+        double newLayoutY = clamp(vue.getLayoutY(), 0, parentBounds.getHeight() - nodeBounds.getHeight());
 
-        node.setLayoutX(newLayoutX);
-        node.setLayoutY(newLayoutY);
+        return new double[]{newLayoutX,newLayoutY};
     }
 
     double clamp(double value, double min, double max) {
         return Math.max(min, Math.min(max, value));
     }
+
+     */
 }
 
 

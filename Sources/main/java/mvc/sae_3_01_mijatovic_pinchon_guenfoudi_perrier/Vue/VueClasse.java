@@ -37,13 +37,18 @@ public class VueClasse extends VBox {
      * @return une boîte de type VBox contenant les informations de la classe
      */
     public void creerVue() {
+        Theme t = this.modele.getTheme();
 
         VBox vBoxHaut = new VBox();
+        vBoxHaut.setBackground(new Background(new BackgroundFill(t.getTopClasse(), null, null)));
+        vBoxHaut.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
         Label lbNom = new Label(modele.getNomClasse());
         vBoxHaut.getChildren().add(lbNom);
 
 
         VBox vBoxMilieu = new VBox();
+        vBoxMilieu.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        vBoxMilieu.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         StringBuilder sba = new StringBuilder();
         for (String s : modele.getAttributs()) {
             sba.append(s + "\n");
@@ -62,35 +67,23 @@ public class VueClasse extends VBox {
             sbm.append(s + "\n");
         }
         Label lbMethodes = new Label(sbm.toString());
+        vBoxBas.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        vBoxBas.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
 
 
         this.getChildren().addAll(vBoxHaut, vBoxMilieu, vBoxBas);
-        actualiser(new ThemeClair());
-    }
-    private void placerClasse(){
+        this.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        placerClasse(modele.getCoordonnesX(),modele.getCoordonnesY());
 
-        this.setLayoutX(this.modele.getCoordonnesX());
-        this.setLayoutY(this.modele.getCoordonnesY());
     }
-    public void actualiser(Theme theme) {
-        placerClasse();
-        //changer theme entier
-        this.setBackground(new Background(new BackgroundFill(theme.getFondClasse(), null, null)));
-        for (Node n:this.getChildren()) {
-            VBox v = ((VBox) n);
-            v.setBackground(new Background(new BackgroundFill(theme.getFondClasse(), null, null)));
-            v.setBorder(new Border(new BorderStroke(theme.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
-            for (Node n2:v.getChildren()) {
-                ((Label)n2).setTextFill(theme.getColorText());
-            }
-        }
-        //le top c est différent
-        VBox top = (VBox)this.getChildren().get(0);// au pire c est 1
-        top.setBackground(new Background(new BackgroundFill(theme.getTopClasse(), null, null)));
-        for (Node n:top.getChildren()) {
-            ((Label)n).setTextFill(theme.getColorTextTitle());
-        }
+    public void placerClasse(double x, double y){
+        this.setLayoutX(x);
+        this.setLayoutY(y);
+    }
+
+    public Classe getModele() {
+        return modele;
     }
 }
 

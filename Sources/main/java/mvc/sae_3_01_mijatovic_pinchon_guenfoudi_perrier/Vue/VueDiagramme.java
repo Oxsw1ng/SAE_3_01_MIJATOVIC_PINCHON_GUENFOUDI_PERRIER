@@ -31,9 +31,6 @@ public class VueDiagramme extends Pane implements Observateur {
         this.getChildren().clear();
         for (Classe c:modele.getClasses()) {
             VueClasse vue = new VueClasse(c);
-            vue.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondClasse(), null, null)));
-            vue.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
-
             table.put(c,vue);
             this.getChildren().add(vue);
         }

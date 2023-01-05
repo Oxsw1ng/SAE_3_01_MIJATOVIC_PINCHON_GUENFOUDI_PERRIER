@@ -3,13 +3,10 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.TopBarre;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueClasse;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueRepCourant;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -21,7 +18,8 @@ public class main extends Application {
     public void start(Stage stage) throws Exception {
         Modele modele = new Modele();
 
-        BorderPane borderPane = new BorderPane();
+        VuePage borderPane = new VuePage(modele);
+        borderPane.actualiser();
 
         // menu en haut
         TopBarre vueTopBarre = new TopBarre(modele);
@@ -36,12 +34,14 @@ public class main extends Application {
         modele.enregistrerObservateur(vueRepCourant);
 
         // panneau central de l'application
-        Pane paneCenter = new Pane();
-        Classe classe = new Classe("fichiers_test/Date.class");
-        VueClasse vBoxclasse = new VueClasse(classe);
-        paneCenter.getChildren().add(vBoxclasse);
+        VueDiagramme paneCenter = new VueDiagramme(modele);
+        Classe classe = new Classe("fichiers_test/Date.class",modele);
+        modele.ajouterClasse(classe);
         borderPane.setCenter(paneCenter);
+        paneCenter.actualiser();
+        modele.enregistrerObservateur(paneCenter);
 
+        modele.enregistrerObservateur(borderPane);
 
         Scene scene = new Scene(borderPane,1000,800);
         stage.setScene(scene);

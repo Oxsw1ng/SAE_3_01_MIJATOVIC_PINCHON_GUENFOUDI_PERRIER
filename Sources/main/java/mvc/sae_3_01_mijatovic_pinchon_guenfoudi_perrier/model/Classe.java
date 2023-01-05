@@ -5,6 +5,7 @@ import javafx.scene.layout.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -26,10 +27,13 @@ public class Classe implements Sujet {
     private double coordonnesX;
     private double coordonnesY;
 
+    private Modele modele;
+
     private boolean isInterface;
 
     //-----------Constructeur-----------
-    public Classe(String pathClass) {
+    public Classe(String pathClass, Modele modele) {
+        this.modele=modele;
 
         // Change le split selon l'OS de l'utilisateur
         String os = System.getProperty("os.name").toLowerCase();
@@ -224,7 +228,7 @@ public class Classe implements Sujet {
         return coordonnesX;
     }
 
-    public void setCoordonnesX(int coordonnesX) {
+    public void setCoordonnesX(double coordonnesX) {
         this.coordonnesX = coordonnesX;
     }
 
@@ -236,7 +240,7 @@ public class Classe implements Sujet {
         coordonnesY=y;
         notifierObservateurs();
     }
-    public void setCoordonnesY(int coordonnesY) {
+    public void setCoordonnesY(double coordonnesY) {
         this.coordonnesY = coordonnesY;
     }
 
@@ -265,6 +269,10 @@ public class Classe implements Sujet {
     }
 
     public Class[] getInterfaces() {return interfaces;}
+
+    public Theme getTheme(){
+        return this.modele.getTheme();
+    }
 
     public boolean isInterface() {
         return isInterface;
