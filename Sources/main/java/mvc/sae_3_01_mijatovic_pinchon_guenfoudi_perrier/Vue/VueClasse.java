@@ -22,8 +22,8 @@ public class VueClasse extends VBox implements Observateur {
         this.modele = modele;
         modele.enregistrerObservateur(this);
        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele);
-        setOnMouseDragged(controller);
-        setOnMousePressed(controller);
+        setOnDragDone(controller);
+        
         this.creerVue();
 
 
@@ -73,9 +73,9 @@ public class VueClasse extends VBox implements Observateur {
         placerClasse();
     }
     private void placerClasse(){
-        System.out.println(this.modele.getCoordonneX()+":"+modele.getCoordonneY());
-        this.setLayoutX(this.modele.getCoordonneX());
-        this.setLayoutY(this.modele.getCoordonneY());
+        System.out.println(this.modele.getCoordonnesX()+":"+modele.getCoordonnesY());
+        this.setLayoutX(this.modele.getCoordonnesX());
+        this.setLayoutY(this.modele.getCoordonnesY());
     }
     @Override
     public void actualiser() {

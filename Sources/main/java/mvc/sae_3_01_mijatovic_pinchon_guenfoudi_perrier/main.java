@@ -37,12 +37,9 @@ public class main extends Application {
 
         // panneau central de l'application
         Pane paneCenter = new Pane();
-        SIZEX=paneCenter.getLayoutX();
-        SIZEY=paneCenter.getLayoutY();
-        Classe classe = new Classe("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair");
-        Classe classe2 = new Classe("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre");
-        VBox vBoxclasse = new VueClasse(classe);
-        VBox vBoxclasse2 = new VueClasse(classe2);
+        System.out.println(SIZEX+":"+SIZEY);
+        Classe classe = new Classe("fichiers_test/Date.class");
+        VueClasse vBoxclasse = new VueClasse(classe);
         paneCenter.getChildren().add(vBoxclasse);
         borderPane.setCenter(paneCenter);
 
@@ -55,7 +52,7 @@ public class main extends Application {
         stage.setMaximized(true);
         stage.show();
 
-        vueRepCourant.majBoutonParent();
+        //vueRepCourant.majBoutonParent();
     }
 
     public static void main(String[] args) {

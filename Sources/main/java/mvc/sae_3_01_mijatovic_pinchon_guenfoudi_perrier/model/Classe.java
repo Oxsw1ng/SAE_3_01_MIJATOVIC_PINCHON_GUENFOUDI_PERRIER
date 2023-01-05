@@ -22,6 +22,8 @@ public class Classe implements Sujet {
     private ArrayList<Observateur> observateurs;
     private Class superClass;
     private Class classeCourante;
+    private double coordonnesX;
+    private double coordonnesY;
 
     private boolean isInterface;
 
@@ -40,6 +42,7 @@ public class Classe implements Sujet {
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
         this.constructeurs = new ArrayList<>();
+        this.observateurs = new ArrayList<Observateur>();
         this.peuplerListeMethodes();
         this.peuplerListeConstructeurs();
         this.peuplerListeAttributs();
@@ -195,16 +198,58 @@ public class Classe implements Sujet {
         return vBoxRetour;
     }
 
-    public Method[] getMethodes() {
-        return classeCourante.getDeclaredMethods();
+    public String getNomClasse() {
+        return nomClasse;
     }
 
-    public Field[] getAttributs() {
-        return classeCourante.getDeclaredFields();
+    public void setNomClasse(String nomClasse) {
+        this.nomClasse = nomClasse;
     }
 
-    public Constructor[] getConstructeurs() {
-        return classeCourante.getDeclaredConstructors();
+    public double getCoordonnesX() {
+        return coordonnesX;
     }
 
+    public void setCoordonnesX(int coordonnesX) {
+        this.coordonnesX = coordonnesX;
+    }
+
+    public double getCoordonnesY() {
+        return coordonnesY;
+    }
+    public void setCoordinates(double x,double y){
+        coordonnesX=x;
+        coordonnesY=y;
+    }
+    public void setCoordonnesY(int coordonnesY) {
+        this.coordonnesY = coordonnesY;
+    }
+
+    public ArrayList<String> getAttributs() {
+        return attributs;
+    }
+
+    public ArrayList<String> getConstructeurs() {
+        return constructeurs;
+    }
+
+    public ArrayList<String> getMethodes() {
+        return methodes;
+    }
+
+    public ArrayList<Observateur> getObservateurs() {
+        return observateurs;
+    }
+
+    public Class getSuperClass() {
+        return superClass;
+    }
+
+    public Class getClasseCourante() {
+        return classeCourante;
+    }
+
+    public boolean isInterface() {
+        return isInterface;
+    }
 }
