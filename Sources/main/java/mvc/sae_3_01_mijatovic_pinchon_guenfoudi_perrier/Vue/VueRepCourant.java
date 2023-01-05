@@ -272,6 +272,7 @@ public class VueRepCourant extends VBox implements Observateur {
 
         // Si c'est un fichier java, ajout du controleur permettant de créer les classes
         if (!f.isDirectory()) {
+            System.out.println("Rentre dans mon ajout");
             ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele, f);
             treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
         }

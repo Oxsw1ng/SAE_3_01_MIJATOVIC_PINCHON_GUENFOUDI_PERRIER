@@ -21,6 +21,7 @@ public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent
 
     @Override
     public void handle(MouseEvent mouseEvent) {
+        System.out.println("Controleur marche");
         Classe addClasse = new Classe(chemin.getPath());
         modele.ajouterClasse(addClasse);
         if (mouseEvent.isPrimaryButtonDown()) {
