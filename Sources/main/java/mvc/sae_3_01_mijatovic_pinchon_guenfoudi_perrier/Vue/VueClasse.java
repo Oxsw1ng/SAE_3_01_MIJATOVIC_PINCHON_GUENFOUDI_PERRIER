@@ -1,26 +1,28 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.scene.Node;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDeplacerClasse;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 /**
  * Une vue qui permet d'afficher les informations d'une classe (nom, attributs, constructeurs et méthodes).
  */
-public class VueClasse extends VBox implements Observateur {
+public class VueClasse extends VBox {
 
     private Classe modele;
 
 
     public VueClasse(Classe modele) {
         this.modele = modele;
-        modele.enregistrerObservateur(this);
        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
         setOnMouseDragged(controller);
 
@@ -35,23 +37,24 @@ public class VueClasse extends VBox implements Observateur {
      * @return une boîte de type VBox contenant les informations de la classe
      */
     public void creerVue() {
-        ThemeClair thc = new ThemeClair();
-
+        Theme t = this.modele.getTheme();
 
         VBox vBoxHaut = new VBox();
+        vBoxHaut.setBackground(new Background(new BackgroundFill(t.getTopClasse(), null, null)));
+        vBoxHaut.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
         Label lbNom = new Label(modele.getNomClasse());
         vBoxHaut.getChildren().add(lbNom);
-        vBoxHaut.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
 
         VBox vBoxMilieu = new VBox();
+        vBoxMilieu.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        vBoxMilieu.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         StringBuilder sba = new StringBuilder();
         for (String s : modele.getAttributs()) {
             sba.append(s + "\n");
         }
         Label lbAttributs = new Label(sba.toString());
         vBoxMilieu.getChildren().add(lbAttributs);
-        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
 
         VBox vBoxBas = new VBox();
         StringBuilder sbc = new StringBuilder();
@@ -64,23 +67,23 @@ public class VueClasse extends VBox implements Observateur {
             sbm.append(s + "\n");
         }
         Label lbMethodes = new Label(sbm.toString());
+        vBoxBas.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        vBoxBas.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
         vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
-        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
 
 
         this.getChildren().addAll(vBoxHaut, vBoxMilieu, vBoxBas);
-        this.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
-        placerClasse();
-    }
-    private void placerClasse(){
+        this.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        placerClasse(modele.getCoordonnesX(),modele.getCoordonnesY());
 
-        this.setLayoutX(this.modele.getCoordonnesX());
-        this.setLayoutY(this.modele.getCoordonnesY());
     }
-    @Override
-    public void actualiser() {
-        placerClasse();
+    public void placerClasse(double x, double y){
+        this.setLayoutX(x);
+        this.setLayoutY(y);
+    }
 
+    public Classe getModele() {
+        return modele;
     }
 }
 

@@ -5,6 +5,7 @@ import javafx.scene.layout.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -22,15 +23,31 @@ public class Classe implements Sujet {
     private ArrayList<Observateur> observateurs;
     private Class superClass;
     private Class classeCourante;
+    private Class[] interfaces;
     private double coordonnesX;
     private double coordonnesY;
+
+    private Modele modele;
 
     private boolean isInterface;
 
     //-----------Constructeur-----------
-    public Classe(String pathClass) {
+    public Classe(String pathClass, Modele modele) {
+        this.modele=modele;
 
-        this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        // Change le split selon l'OS de l'utilisateur
+        String os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) {
+            this.nomClasse = pathClass;
+            this.nomClasse.replace("\\", "\\\\");
+            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
+        } else {
+            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        }
+        if (nomClasse.split("/").length == 2) {
+            nomClasse = nomClasse.split("/")[1];
+        }
+
         // lecture du fichier .class créé à partir du chemin donné en paramètre
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
@@ -38,6 +55,7 @@ public class Classe implements Sujet {
 
         this.isInterface = this.classeCourante.isInterface();
         this.superClass = this.classeCourante.getSuperclass();
+        this.interfaces = this.classeCourante.getInterfaces();
 
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
@@ -210,7 +228,7 @@ public class Classe implements Sujet {
         return coordonnesX;
     }
 
-    public void setCoordonnesX(int coordonnesX) {
+    public void setCoordonnesX(double coordonnesX) {
         this.coordonnesX = coordonnesX;
     }
 
@@ -222,7 +240,7 @@ public class Classe implements Sujet {
         coordonnesY=y;
         notifierObservateurs();
     }
-    public void setCoordonnesY(int coordonnesY) {
+    public void setCoordonnesY(double coordonnesY) {
         this.coordonnesY = coordonnesY;
     }
 
@@ -248,6 +266,12 @@ public class Classe implements Sujet {
 
     public Class getClasseCourante() {
         return classeCourante;
+    }
+
+    public Class[] getInterfaces() {return interfaces;}
+
+    public Theme getTheme(){
+        return this.modele.getTheme();
     }
 
     public boolean isInterface() {

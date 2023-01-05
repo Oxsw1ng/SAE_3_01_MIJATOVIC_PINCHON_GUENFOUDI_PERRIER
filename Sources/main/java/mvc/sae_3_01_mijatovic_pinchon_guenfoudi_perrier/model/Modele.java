@@ -51,6 +51,7 @@ public class Modele implements Sujet {
         this.theme=new ThemeClair();
         this.export = new PNG();
         this.grapheCourant = new Pane();
+        this.classes = new ArrayList<Classe>();
     }
 
 
