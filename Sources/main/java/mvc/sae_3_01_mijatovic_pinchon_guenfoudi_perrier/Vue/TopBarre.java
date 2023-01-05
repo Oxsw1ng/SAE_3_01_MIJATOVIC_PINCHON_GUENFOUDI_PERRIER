@@ -5,9 +5,11 @@ import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
@@ -132,13 +134,18 @@ public class TopBarre extends HBox implements Observateur {
         btnTheme.setOnAction(controlTheme);
 
         // création d'un objet Region afin d'espacer le bouton Exporter du reste des objets
-        Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        Region spacer1 = new Region();
+        HBox.setHgrow(spacer1, Priority.ALWAYS);
+        ImageView img = new ImageView(ChargementRes.getLogo());
+        img.setFitHeight(120);
+        img.setPreserveRatio(true);
+        Region spacer2 = new Region();
+        HBox.setHgrow(spacer2, Priority.ALWAYS);
 
         VBox vb = new VBox(sp, btnTheme);
         vb.setAlignment(Pos.CENTER);
 
-        this.getChildren().add(spacer);
+        this.getChildren().addAll(spacer1,img,spacer2);
         this.getChildren().add(vb);
         this.setSpacing(10);
         this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(),null,null)));
