@@ -1,3 +1,5 @@
+package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.test_fichier;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
