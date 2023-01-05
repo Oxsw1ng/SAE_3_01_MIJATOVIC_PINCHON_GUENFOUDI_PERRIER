@@ -2,7 +2,6 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.scene.layout.Pane;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -21,6 +20,20 @@ public class VueDiagramme extends Pane implements Observateur {
 
         }
         modele.changerGrapheCourant(this);
+    }
+
+    private void pointBordClasse(Classe source, Classe target) {
+
+
+        int[] pointA = {};
+        int[] pointB = {}; //point centre classe source
+        int[] pointC = {}; //point centre classe target
+
+        int distanceBA = (int) Math.sqrt( (pointA[0]-pointB[0])*(pointA[0]-pointB[0]) + (pointA[1]-pointB[1])*(pointA[1]-pointB[1]));
+        int[] vecteurBA = {(pointA[0]-pointB[0]),(pointA[1]-pointB[1])};
+        int[] vecteurBC = {(pointC[0]-pointB[0]),(pointC[1]-pointB[1])};
+
+        int[] pointD = {vecteurBC[1] * ((distanceBA * distanceBA) / (vecteurBA[0] * vecteurBC[0] + vecteurBA[1] * vecteurBC[1])) + pointB[0], 1};
     }
 
     private void flecheAgreg(Classe source, Classe target){
