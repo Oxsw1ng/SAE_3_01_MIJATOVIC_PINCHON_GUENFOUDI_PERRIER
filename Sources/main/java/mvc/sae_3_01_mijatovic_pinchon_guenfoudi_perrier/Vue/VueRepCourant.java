@@ -1,13 +1,16 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerArborescenceRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -242,7 +245,15 @@ public class VueRepCourant extends VBox implements Observateur {
             for (File file : f.listFiles(NameFilter)) {
                 treeIt.getChildren().add(genererTreeItem(file));
             }
+
         }
+
+        // Si c'est un fichier java, ajout du controleur permettant de créer les classes
+        if (!f.isDirectory()) {
+            ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele, f);
+            treeIt.addEventHandler(MouseEvent.MOUSE_CLICKED, controlAdjClasse);
+        }
+
         //on retourne l'item courant
         return treeIt;
     }

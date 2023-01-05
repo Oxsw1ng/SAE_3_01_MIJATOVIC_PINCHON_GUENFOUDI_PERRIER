@@ -121,7 +121,10 @@ public class Modele implements Sujet {
 
     public void deleteClasse(){}
 
-    public void ajouterClasse(String path){}
+    public void ajouterClasse(Classe classe){
+        this.classes.add(classe);
+        notifierObservateurs();
+    }
 
     /**
      * Ajoute un bouton situé dans la top barre dans la liste des boutons sur lequels leur état est vérifié (actif ou non)
