@@ -8,17 +8,19 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class VueDiagramme extends Pane implements Observateur {
 
-    private Modele m;
+    private Modele modele;
 
-    public VueDiagramme(Sujet s){
-        this.m = (Modele) s;
+    public VueDiagramme(Modele modele){
+        this.modele = modele;
     }
 
     @Override
     public void actualiser() {
-        for (Classe c:m.getClasses()) {
+
+        for (Classe c:modele.getClasses()) {
 
         }
+        modele.changerGrapheCourant(this);
     }
 
     private void flecheAgreg(Classe source, Classe target){

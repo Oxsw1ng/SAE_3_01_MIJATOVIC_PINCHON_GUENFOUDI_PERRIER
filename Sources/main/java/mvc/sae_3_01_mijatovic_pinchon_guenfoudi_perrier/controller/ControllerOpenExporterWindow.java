@@ -33,16 +33,18 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
             public void handle(ActionEvent actionEvent) {
                 String choix = cb.getValue();
                 modele.changerModeExport(choix);
-                modele.getExport().exporter();
+                modele.getExport().exporter(modele, "essaiGraphe");
             }
         });
         Button quitter = new Button("Quitter");
 
         HBox hb = new HBox(valider, quitter);
         hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(5);
 
         VBox vb = new VBox(cb,format,hb);
         vb.setAlignment(Pos.CENTER);
+        vb.setSpacing(15);
 
         Scene scene = new Scene(vb, 200, 200);
 
@@ -50,5 +52,12 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         newWindow.setScene(scene);
         newWindow.setTitle("Choisir le mode d'export");
         newWindow.show();
+
+        quitter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                newWindow.close();
+            }
+        });
     }
 }

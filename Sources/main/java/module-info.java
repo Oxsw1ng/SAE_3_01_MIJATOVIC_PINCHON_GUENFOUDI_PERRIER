@@ -4,6 +4,7 @@ module mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier {
     requires javafx.graphics;
     requires javafx.base;
     requires java.compiler;
+    requires java.desktop;
 
 
     exports mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;

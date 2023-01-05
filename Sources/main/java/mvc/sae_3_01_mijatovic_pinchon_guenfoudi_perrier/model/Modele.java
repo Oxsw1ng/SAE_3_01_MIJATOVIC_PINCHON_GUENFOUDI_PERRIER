@@ -1,5 +1,6 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
@@ -19,6 +20,7 @@ public class Modele implements Sujet {
     private Fabrique fabrique;
     private Classe classeCourante;
     private ArrayList<Classe> classes;
+    private Pane grapheCourant;
     private Format export;
     private String cheminCourant;
     private ArrayList<Observateur> observateurs;
@@ -48,6 +50,7 @@ public class Modele implements Sujet {
         this.etatsNav = new HashMap<String, Boolean>();
         this.theme=new ThemeClair();
         this.export = new PNG();
+        this.grapheCourant = new Pane();
     }
 
 
@@ -87,6 +90,9 @@ public class Modele implements Sujet {
         return "#"+hex2;
     }
 
+    public void changerGrapheCourant(Pane graphe) {
+        this.grapheCourant = graphe;
+    }
     public void changerModeExport(String type) {
         switch (type) {
             case "JPG":
@@ -188,6 +194,10 @@ public class Modele implements Sujet {
 
     public Format getExport() {
         return export;
+    }
+
+    public Pane getGrapheCourant() {
+        return grapheCourant;
     }
 
     //méthode du patron observateur
