@@ -3,6 +3,7 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
 import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
@@ -34,6 +35,13 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
 
         double x2 = x + vue.getLayoutX();
         double y2 = y + vue.getLayoutY();
+        if(mouseEvent.isDragDetect()){
+            modifierCursor(Cursor.CLOSED_HAND);
+        }
+        else {
+            modifierCursor(Cursor.OPEN_HAND);
+        }
+
 
         if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
             model.setCoordonnesX(x2);
@@ -47,6 +55,10 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
 
 
     }
+private void modifierCursor(Cursor hand){
+        vue.setCursor(hand);
+
+        }
     /*
     double[] clampNodeToParentBounds() {
         Bounds parentBounds = vue.getParent().getLayoutBounds();
