@@ -1,6 +1,5 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -10,11 +9,11 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.File;
 
-public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent> {
+public class ControllerDoubleClickFichier implements EventHandler<MouseEvent> {
 
     private Modele modele;
 
-    public ControllerArborescenceRepertoire(Modele modele) {
+    public ControllerDoubleClickFichier(Modele modele) {
         this.modele = modele;
     }
 
@@ -26,12 +25,11 @@ public class ControllerArborescenceRepertoire implements EventHandler<MouseEvent
         if (ti != null) {
             File f = ti.getValue();
             if (f.isFile()) {
-                Classe addClasse = new Classe(f.getAbsolutePath());
-                modele.ajouterClasse(addClasse);
-                if (mouseEvent.isPrimaryButtonDown()) {
-                    if (mouseEvent.isDragDetect()) {
-                        addClasse.setCoordinates(mouseEvent.getX(), mouseEvent.getY());
-                    }
+                if (mouseEvent.getClickCount() == 2) {
+                    Classe addClasse = new Classe(f.getAbsolutePath());
+                    addClasse.setCoordinates(0, 0);
+                    modele.ajouterClasse(addClasse);
+                    System.out.println("Ca marche");
                 }
             }
         }

@@ -1,19 +1,16 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.application.Platform;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerArborescenceRepertoire;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDoubleClickFichier;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -222,7 +219,7 @@ public class VueRepCourant extends VBox implements Observateur {
             ti.setExpanded(true);
             this.tv.setRoot(ti);
         }
-        ControllerArborescenceRepertoire controlAdjClasse = new ControllerArborescenceRepertoire(modele);
+        ControllerDoubleClickFichier controlAdjClasse = new ControllerDoubleClickFichier(modele);
         tv.setOnMouseClicked(controlAdjClasse);
     }
 
