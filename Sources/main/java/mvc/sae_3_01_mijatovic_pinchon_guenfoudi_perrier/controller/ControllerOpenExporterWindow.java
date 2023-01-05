@@ -33,7 +33,7 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
             public void handle(ActionEvent actionEvent) {
                 String choix = cb.getValue();
                 modele.changerModeExport(choix);
-                modele.getExport().exporter();
+//                modele.getExport().exporter();
             }
         });
         Button quitter = new Button("Quitter");

@@ -6,15 +6,11 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 
-import javax.tools.*;
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Classe implements Sujet {
 
@@ -30,52 +26,23 @@ public class Classe implements Sujet {
     private boolean isInterface;
 
     //-----------Constructeur-----------
-    public Classe(String pathJava) {
+    public Classe(String pathClass) {
+
+        this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+        // lecture du fichier .class créé à partir du chemin donné en paramètre
+
+        ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
+        this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
+
+        this.isInterface = this.classeCourante.isInterface();
+        this.superClass = this.classeCourante.getSuperclass();
+
         this.methodes = new ArrayList<>();
         this.attributs = new ArrayList<>();
         this.constructeurs = new ArrayList<>();
-        try {
-            //solution 1 : pas très fonctionnelle
-            File fichierJava = new File(pathJava);
-            String pathClass = pathJava.substring(0, pathJava.length() - 5) + ".class";
-
-            //compilation du fichier .java (argument path du constructeur)
-            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
-            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
-            Iterable<? extends JavaFileObject> compilationUnits = fileManager.getJavaFileObjectsFromFiles(Arrays.asList(fichierJava));
-            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, diagnostics, null, null, compilationUnits);
-            task.call();
-            fileManager.close();
-
-            this.nomClasse = pathJava.split("/")[pathJava.split("/").length - 1].split("\\.")[0];
-            // lecture du fichier .class créé à partir du chemin donné en paramètre
-            ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
-            this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
-
-            //suppression du fichier .class après utilisation
-            File fichierClass = new File(pathClass);
-            fichierClass.delete();
-
-            this.isInterface = this.classeCourante.isInterface();
-            this.superClass = this.classeCourante.getSuperclass();
-
-            this.peuplerListeMethodes();
-            this.peuplerListeConstructeurs();
-            this.peuplerListeAttributs();
-
-//            //solution 2
-//
-//            this.nomClasse = pathJava.split("/")[pathJava.split("/").length - 1].split("\\.")[0];
-//            Files.copy(fichierJava.toPath(), new File("Sources/main/java/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/cache/"+this.nomClasse+".java").toPath());
-//            this.classeCourante = Class.forName("mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.cache."+nomClasse);
-
-
-        } catch (IOException e) {
-            System.out.println("erreur lors du chargement du fichier java : " + e.getMessage());
-        }
-
-
+        this.peuplerListeMethodes();
+        this.peuplerListeConstructeurs();
+        this.peuplerListeAttributs();
     }
 
     @Override
@@ -183,7 +150,7 @@ public class Classe implements Sujet {
             StringBuilder sb = new StringBuilder();
             sb.append(this.faireModifiers(f.getModifiers()));
             sb.append(f.getName());
-            sb.append(" : "+f.getType().getName().split("\\.")[f.getType().getName().split("\\.").length-1]);
+            sb.append(" : "+this.gererRetour(f.getType()));
             this.attributs.add(sb.toString());
         }
     }
