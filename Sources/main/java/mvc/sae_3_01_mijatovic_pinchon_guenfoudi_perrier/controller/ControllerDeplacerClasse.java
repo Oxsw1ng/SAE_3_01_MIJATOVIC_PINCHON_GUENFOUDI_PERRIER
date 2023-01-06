@@ -19,6 +19,9 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     private VueClasse vue;
     private Classe model;
 
+    private double xDuClique;
+    private double yDuClique;
+
     public ControllerDeplacerClasse(Classe model, VueClasse vue) {
         this.model = model;
         this.vue = vue;
@@ -28,20 +31,11 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
 
-        Bounds bounds = vue.getBoundsInLocal();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
 
-
-        double x2 = x + vue.getLayoutX();
-        double y2 = y + vue.getLayoutY();
-        if(mouseEvent.isDragDetect()){
-            modifierCursor(Cursor.CLOSED_HAND);
-        }
-        else {
-            modifierCursor(Cursor.OPEN_HAND);
-        }
-
+        double x2 = x + vue.getLayoutX() -xDuClique ;
+        double y2 = y + vue.getLayoutY() -yDuClique;
 
         if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
             model.setCoordonnesX(x2);
@@ -51,30 +45,17 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
             model.setCoordonnesY(y2);
             vue.setLayoutY(y2);
         }
-        //double[] pos =clampNodeToParentBounds();
-
 
     }
-private void modifierCursor(Cursor hand){
-        vue.setCursor(hand);
 
-        }
-    /*
-    double[] clampNodeToParentBounds() {
-        Bounds parentBounds = vue.getParent().getLayoutBounds();
-        Bounds nodeBounds = vue.getLayoutBounds();
-
-        double newLayoutX = clamp(vue.getLayoutX(), 0, parentBounds.getWidth() - nodeBounds.getWidth());
-        double newLayoutY = clamp(vue.getLayoutY(), 0, parentBounds.getHeight() - nodeBounds.getHeight());
-
-        return new double[]{newLayoutX,newLayoutY};
+    public void setxDuClique(double xDuClique) {
+        this.xDuClique = xDuClique;
     }
 
-    double clamp(double value, double min, double max) {
-        return Math.max(min, Math.min(max, value));
+    public void setyDuClique(double yDuClique) {
+        this.yDuClique = yDuClique;
     }
 
-     */
 }
 
 

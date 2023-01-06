@@ -28,7 +28,7 @@ public class VueDiagramme extends Pane implements Observateur {
     @Override
     public void actualiser() {
         // mise a jour du thème
-
+        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getColorFond2(), null, null)));
 
         // mise a jour des données
         table.clear();

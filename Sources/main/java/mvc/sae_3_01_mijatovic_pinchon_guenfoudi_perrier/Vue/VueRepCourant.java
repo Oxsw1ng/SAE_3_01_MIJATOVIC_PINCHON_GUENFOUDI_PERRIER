@@ -11,6 +11,7 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDoubleClickFichier;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChoisirRepertoire;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDirectoryExplorer;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDragFichier;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -220,7 +221,9 @@ public class VueRepCourant extends VBox implements Observateur {
             this.tv.setRoot(ti);
         }
         ControllerDoubleClickFichier controlAdjClasse = new ControllerDoubleClickFichier(modele);
+        //ControllerDragFichier controlDrag = new ControllerDragFichier(modele);
         tv.setOnMouseClicked(controlAdjClasse);
+       // tv.setOnMouseDragged(controlDrag);
     }
 
 
