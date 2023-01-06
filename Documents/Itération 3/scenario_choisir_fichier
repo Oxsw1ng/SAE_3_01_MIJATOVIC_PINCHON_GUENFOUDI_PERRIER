@@ -1,0 +1,4 @@
+Ouvrir le logiciel de génération de diagramme de classe.
+Dans l'arborescence située à gauche de la fenêtre principale, naviguer jusqu'au dossier contenant le fichier .class que vous souhaitez afficher dans le diagramme principal.
+Double-cliquer sur le fichier .class sélectionné pour l'ouvrir dans l'éditeur de diagramme de classe.
+Le diagramme de classe associé au fichier .class sélectionné s'affiche dans la fenêtre principale du logiciel.

@@ -28,8 +28,9 @@ public class VueClasse extends VBox {
     public VueClasse(Classe modele) {
         this.modele = modele;
        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
+        setOnMousePressed(e -> {this.setCursor(Cursor.CLOSED_HAND);controller.setxDuClique(e.getX());controller.setyDuClique(e.getY());});
+        setOnMouseReleased(e -> this.setCursor(Cursor.OPEN_HAND));
         setOnMouseDragged(controller);
-
         this.creerVue();
 
 
@@ -57,13 +58,13 @@ public class VueClasse extends VBox {
             listNode.add(labelMethodes);
 
         this.getChildren().addAll(listNode);
-        mettreStroke();
+        mettreStrokeAndBackground();
         placerClasse(modele.getCoordonnesX(), modele.getCoordonnesY());
 
     }
 
-    public void mettreStroke() {
-        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getTopClasse(), null, null)));
+    public void mettreStrokeAndBackground() {
+        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondClasse(), null, null)));
         this.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
 
     }
@@ -84,7 +85,6 @@ public class VueClasse extends VBox {
         Theme t = modele.getTheme();
 
         VBox vBoxMilieu = new VBox();
-        vBoxMilieu.setBackground(new Background(new BackgroundFill(t.getTopClasse(), null, null)));
         vBoxMilieu.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 2, 0))));
 
         StringBuilder sba = new StringBuilder();
