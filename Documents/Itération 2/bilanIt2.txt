@@ -1,0 +1,8 @@
+Cette itération fut assez éprouvante.
+Nous avons eu de nombreux problèmes au cours de celle-ci comme l'arborescence du répertoire qui au début chargeait le disque
+entier ce qui mettait un temps fou et il a ensuite été réadapté au projet courant et au parcours d'autres répertoires.
+Nous avons aussi touché à la classe Classe permettant d'avoir un modèle classe qui fut rude au niveau de l'introspection d'une
+classe : nous avons d'abord essayé de compiler un .java à la main por récupérer son .class mais çela a eu du mal à marcher
+Nous avons donc opter pour une solution plus facile : utiliser les .class déjà existants.
+Cela nous a fait perdre beaucoup de temps. De plus, il nous manquait Naël qui n'était pas apte à travailler pour des raisons 
+personnelles.

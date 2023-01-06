@@ -4,3 +4,4 @@ Déplacer les classes sur le diagramme
 Exporter le diagramme sous les formats JPG et PNG
 Double clic permettant d'ajouter une classe au diagramme
 Modification de l'affichage des classes en cliquant sur les boutons du haut
+(Flèches entre deux points)
