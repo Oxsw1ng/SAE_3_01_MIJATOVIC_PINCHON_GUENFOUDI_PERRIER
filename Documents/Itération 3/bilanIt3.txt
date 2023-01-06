@@ -1,0 +1,5 @@
+Pendant cette itération, l'application a bien avançée. 
+On a cependant eu quelques problèmes notamment avec les flèches que Rémi a essayé de faire, Naël a essayé de faire
+un décorateur pour la vue de Classe (pour pouvoir afficher ce que l'on souhaite selon les boutons) mais ça n'a pas
+abouti et Yann avec le contrôleur permettant de drag & drop les classes sur la vue diagramme.
+L'application a cependant avançée à pas de géants au cours de cette itération.

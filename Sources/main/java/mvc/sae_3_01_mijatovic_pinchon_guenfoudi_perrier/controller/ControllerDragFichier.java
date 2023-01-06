@@ -14,7 +14,7 @@ import java.io.File;
 public class ControllerDragFichier implements EventHandler<MouseEvent> {
 
     public Modele modele;
-    public Classe classe;
+    public static Classe classe;
 
     public ControllerDragFichier(Modele modele) {
         this.modele = modele;
@@ -22,19 +22,27 @@ public class ControllerDragFichier implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent mouseEvent) {
-        if (mouseEvent.isDragDetect()) {
-            System.out.println("Quelque chose se passe");
+        if (classe == null) {
             TreeView<File> temp = (TreeView<File>) mouseEvent.getSource();
             TreeItem<File> ti = temp.getSelectionModel().getSelectedItem();
             if (ti != null) {
                 File f = ti.getValue();
                 if (f.isFile()) {
+                    System.out.println("Choisit la classe");
                     classe = new Classe(f.getAbsolutePath(), modele);
-                    classe.setCoordinates(mouseEvent.getX(), mouseEvent.getY());
                 }
             }
+        if (mouseEvent.isPrimaryButtonDown()) {
+            System.out.println("Drag détecté");
+            if (classe != null) {
+                classe.setCoordinates(mouseEvent.getX(), mouseEvent.getY());
+            } else {
+                System.out.println("Classe nulle");
+            }
+        }
         } else {
             modele.ajouterClasse(classe);
+            classe = null;
         }
     }
 }
