@@ -27,7 +27,7 @@ public class VueClasse extends VBox {
        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
         setOnMouseDragged(controller);
         this.setCursor(Cursor.OPEN_HAND);
-        setOnMousePressed(e -> this.setCursor(Cursor.CLOSED_HAND));
+        setOnMousePressed(e -> {this.setCursor(Cursor.CLOSED_HAND);controller.setxDuClique(e.getX());controller.setyDuClique(e.getY());});
         setOnMouseReleased(e -> this.setCursor(Cursor.OPEN_HAND));
 
         this.creerVue();

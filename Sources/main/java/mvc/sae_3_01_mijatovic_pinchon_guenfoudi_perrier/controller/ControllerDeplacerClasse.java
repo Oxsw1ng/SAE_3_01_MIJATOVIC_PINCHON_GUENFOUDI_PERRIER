@@ -19,6 +19,9 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     private VueClasse vue;
     private Classe model;
 
+    private double xDuClique;
+    private double yDuClique;
+
     public ControllerDeplacerClasse(Classe model, VueClasse vue) {
         this.model = model;
         this.vue = vue;
@@ -28,44 +31,31 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
 
-        //Bounds bounds = vue.getBoundsInLocal();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
 
+        double x2 = x + vue.getLayoutX() -xDuClique ;
+        double y2 = y + vue.getLayoutY() -yDuClique;
 
-        double x2 = x + vue.getLayoutX() ;
-        double y2 = y + vue.getLayoutY() ;
-
-
-        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth())){
+        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
             model.setCoordonnesX(x2);
             vue.setLayoutX(x2);
         }
-        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight())){
+        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight()-vue.getHeight())){
             model.setCoordonnesY(y2);
             vue.setLayoutY(y2);
         }
 
-        //double[] pos =clampNodeToParentBounds();
-
-
-    }
-    /*
-    double[] clampNodeToParentBounds() {
-        Bounds parentBounds = vue.getParent().getLayoutBounds();
-        Bounds nodeBounds = vue.getLayoutBounds();
-
-        double newLayoutX = clamp(vue.getLayoutX(), 0, parentBounds.getWidth() - nodeBounds.getWidth());
-        double newLayoutY = clamp(vue.getLayoutY(), 0, parentBounds.getHeight() - nodeBounds.getHeight());
-
-        return new double[]{newLayoutX,newLayoutY};
     }
 
-    double clamp(double value, double min, double max) {
-        return Math.max(min, Math.min(max, value));
+    public void setxDuClique(double xDuClique) {
+        this.xDuClique = xDuClique;
     }
 
-     */
+    public void setyDuClique(double yDuClique) {
+        this.yDuClique = yDuClique;
+    }
+
 }
 
 
