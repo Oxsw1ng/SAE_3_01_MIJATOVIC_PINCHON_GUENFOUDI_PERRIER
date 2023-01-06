@@ -223,7 +223,7 @@ public class VueRepCourant extends VBox implements Observateur {
         ControllerDoubleClickFichier controlAdjClasse = new ControllerDoubleClickFichier(modele);
         //ControllerDragFichier controlDrag = new ControllerDragFichier(modele);
         tv.setOnMouseClicked(controlAdjClasse);
-       // tv.setOnMouseDragged(controlDrag);
+        //tv.setOnMouseDragged(controlDrag);
     }
 
 

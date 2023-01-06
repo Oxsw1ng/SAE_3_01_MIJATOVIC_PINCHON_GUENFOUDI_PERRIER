@@ -26,6 +26,7 @@ public class ControllerDoubleClickFichier implements EventHandler<MouseEvent> {
             File f = ti.getValue();
             if (f.isFile()) {
                 if (mouseEvent.getClickCount() == 2) {
+                    System.out.println("Double Click fonctionne");
                     Classe addClasse = new Classe(f.getAbsolutePath(),modele);
                     addClasse.setCoordinates(0, 0);
                     modele.ajouterClasse(addClasse);
