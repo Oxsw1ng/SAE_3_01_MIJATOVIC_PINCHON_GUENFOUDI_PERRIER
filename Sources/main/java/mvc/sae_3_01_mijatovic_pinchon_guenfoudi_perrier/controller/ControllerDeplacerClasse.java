@@ -28,37 +28,28 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
 
-        Bounds bounds = vue.getBoundsInLocal();
+        //Bounds bounds = vue.getBoundsInLocal();
         double x = mouseEvent.getX();
         double y = mouseEvent.getY();
 
 
-        double x2 = x + vue.getLayoutX();
-        double y2 = y + vue.getLayoutY();
-        if(mouseEvent.isDragDetect()){
-            modifierCursor(Cursor.CLOSED_HAND);
-        }
-        else {
-            modifierCursor(Cursor.OPEN_HAND);
-        }
+        double x2 = x + vue.getLayoutX() ;
+        double y2 = y + vue.getLayoutY() ;
 
 
-        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
+        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth())){
             model.setCoordonnesX(x2);
             vue.setLayoutX(x2);
         }
-        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight()-vue.getHeight())){
+        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight())){
             model.setCoordonnesY(y2);
             vue.setLayoutY(y2);
         }
+
         //double[] pos =clampNodeToParentBounds();
 
 
     }
-private void modifierCursor(Cursor hand){
-        vue.setCursor(hand);
-
-        }
     /*
     double[] clampNodeToParentBounds() {
         Bounds parentBounds = vue.getParent().getLayoutBounds();

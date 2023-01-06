@@ -16,10 +16,11 @@ public abstract class Theme {
     private Color fondNavEtArbo; //2
     private Color colorText; //5
     private Color colorTextTitle; //6
+    private Color ColorFond2; //7
 
     //-----------Constructeurs-----------
 
-    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle) {
+    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle, Color colorFond2) {
         this.nom = nom;
         this.bordureEtBtnImportant = bordureEtBtnImportant;
         this.boutonClassiques = boutonClassiques;
@@ -30,6 +31,7 @@ public abstract class Theme {
         this.fondNavEtArbo = fondNavEtArbo;
         this.colorText = colorText;
         this.colorTextTitle = colorTextTitle;
+        this.ColorFond2 = colorFond2;
 
     }
 
@@ -75,4 +77,6 @@ public abstract class Theme {
     public Color getFondQuandClicke() {
         return fondQuandClicke;
     }
+
+    public Color getColorFond2(){return ColorFond2;}
 }

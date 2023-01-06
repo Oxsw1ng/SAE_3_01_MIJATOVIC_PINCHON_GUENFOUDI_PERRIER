@@ -1,5 +1,6 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -25,6 +26,9 @@ public class VueClasse extends VBox {
         this.modele = modele;
        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
         setOnMouseDragged(controller);
+        this.setCursor(Cursor.OPEN_HAND);
+        setOnMousePressed(e -> this.setCursor(Cursor.CLOSED_HAND));
+        setOnMouseReleased(e -> this.setCursor(Cursor.OPEN_HAND));
 
         this.creerVue();
 
