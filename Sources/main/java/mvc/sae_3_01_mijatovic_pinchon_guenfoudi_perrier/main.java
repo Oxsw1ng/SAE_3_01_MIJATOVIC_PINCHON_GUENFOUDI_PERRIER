@@ -7,7 +7,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -17,6 +16,8 @@ public class main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Modele modele = new Modele();
+
+
 
         VuePage borderPane = new VuePage(modele);
         borderPane.actualiser();
@@ -39,7 +40,7 @@ public class main extends Application {
         Classe classe2 = new Classe("fichiers_test/Grep.class",modele);
         modele.ajouterClasse(classe1);
         modele.ajouterClasse(classe2);
-        paneCenter.flecheAgreg(classe1, classe2);
+//        paneCenter.flecheAgreg(classe1, classe2);
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
         modele.enregistrerObservateur(paneCenter);

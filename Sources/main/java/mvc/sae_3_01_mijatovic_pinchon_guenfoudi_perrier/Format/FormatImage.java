@@ -22,8 +22,7 @@ public abstract class FormatImage implements Format {
 
         // Prendre une capture d'écran du pane
         SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        Image image = m.getGrapheCourant().snapshot(params, null);
+                    Image image = m.getGrapheCourant().snapshot(params, null);
 
         // Écrire l'image dans un fichier
         try {

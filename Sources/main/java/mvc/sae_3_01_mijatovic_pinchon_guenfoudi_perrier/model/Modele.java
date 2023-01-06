@@ -203,6 +203,10 @@ public class Modele implements Sujet {
     public Pane getGrapheCourant() {
         return grapheCourant;
     }
+    public boolean getEtatNav(String clef) {
+        return etatsNav.get(clef);
+    }
+
 
     //méthode du patron observateur
 

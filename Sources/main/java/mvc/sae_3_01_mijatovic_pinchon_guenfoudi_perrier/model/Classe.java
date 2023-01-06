@@ -277,4 +277,8 @@ public class Classe implements Sujet {
     public boolean isInterface() {
         return isInterface;
     }
+
+    public Modele getModele() {
+        return modele;
+    }
 }
