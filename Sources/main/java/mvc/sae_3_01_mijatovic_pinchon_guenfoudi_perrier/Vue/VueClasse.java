@@ -1,8 +1,6 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
-import javafx.scene.Node;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDeplacerClasse;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -55,6 +53,7 @@ public class VueClasse extends VBox {
         }
         Label lbAttributs = new Label(sba.toString());
         vBoxMilieu.getChildren().add(lbAttributs);
+        vBoxMilieu.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 2, 2, 2))));
 
         VBox vBoxBas = new VBox();
         StringBuilder sbc = new StringBuilder();
@@ -84,6 +83,14 @@ public class VueClasse extends VBox {
 
     public Classe getModele() {
         return modele;
+    }
+
+    public int getLargeurClasse() {
+        return (int) this.getWidth();
+    }
+
+    public int getHauteurClasse() {
+        return (int) this.getHeight();
     }
 }
 
