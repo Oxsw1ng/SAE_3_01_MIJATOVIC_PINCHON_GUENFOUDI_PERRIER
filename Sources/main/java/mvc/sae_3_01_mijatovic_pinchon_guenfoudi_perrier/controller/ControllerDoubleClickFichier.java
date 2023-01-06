@@ -29,7 +29,6 @@ public class ControllerDoubleClickFichier implements EventHandler<MouseEvent> {
                     Classe addClasse = new Classe(f.getAbsolutePath(),modele);
                     addClasse.setCoordinates(0, 0);
                     modele.ajouterClasse(addClasse);
-                    System.out.println("Ca marche");
                 }
             }
         }

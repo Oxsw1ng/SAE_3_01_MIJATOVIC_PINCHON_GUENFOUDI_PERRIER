@@ -33,22 +33,15 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         cheminField.setStyle("-fx-prompt-text-fill: gray;");
 
         Button valider = new Button("Valider");
-        valider.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                String chemin = cheminField.getText();
-                String choix = cb.getValue();
-                modele.changerModeExport(choix);
-                modele.getExport().exporter(modele, chemin);
-            }
-        });
         Button quitter = new Button("Quitter");
 
         HBox hb = new HBox(valider, quitter);
         hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(8);
 
         VBox vb = new VBox(cb,cheminField,format,hb);
         vb.setAlignment(Pos.CENTER);
+        vb.setSpacing(18);
 
         Scene scene = new Scene(vb, 200, 200);
 
@@ -56,5 +49,22 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         newWindow.setScene(scene);
         newWindow.setTitle("Choisir le mode d'export");
         newWindow.show();
+
+        valider.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String chemin = cheminField.getText();
+                String choix = cb.getValue();
+                modele.changerModeExport(choix);
+                modele.getExport().exporter(modele, chemin);
+                newWindow.close();
+            }
+        });
+        quitter.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                newWindow.close();
+            }
+        });
     }
 }
