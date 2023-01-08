@@ -16,22 +16,40 @@ import java.util.ArrayList;
 public class Classe implements Sujet {
 
     //-----------Attributs-----------
+    /** Nom de la classe */
     private String nomClasse;
+    /** Liste des attributs de la classe */
     private ArrayList<String> attributs;
+    /** Liste des constructeurs de la classe */
     private ArrayList<String> constructeurs;
+    /** Liste des méthodes de la classe */
     private ArrayList<String> methodes;
+    /** Liste des observateurs de cette classe */
     private ArrayList<Observateur> observateurs;
+    /** Superclasse de la classe */
     private Class superClass;
+    /** Objet Class correspondant à la classe */
     private Class classeCourante;
+    /** Tableau d'objets Class représentant les interfaces implémentées par la classe */
     private Class[] interfaces;
+    /** Coordonnées X de la classe dans l'interface graphique */
     private double coordonnesX;
+    /** Coordonnées Y de la classe dans l'interface graphique */
     private double coordonnesY;
 
+    /** Objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe */
     private Modele modele;
 
+    /** Indique si la classe est une interface ou non */
     private boolean isInterface;
 
     //-----------Constructeur-----------
+    /**
+     * Crée une nouvelle instance de la classe en lisant le fichier .class correspondant au chemin donné en paramètre.
+     *
+     * @param pathClass chemin du fichier .class
+     * @param modele objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe
+     */
     public Classe(String pathClass, Modele modele) {
         this.modele=modele;
 
@@ -49,6 +67,8 @@ public class Classe implements Sujet {
         }
 
         // lecture du fichier .class créé à partir du chemin donné en paramètre
+
+
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
         this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
@@ -82,7 +102,13 @@ public class Classe implements Sujet {
             observateurCourant.actualiser();
         }
     }
-
+    /**
+     * Gère les modificateurs d'un membre de la classe (attribut, méthode, etc.) et renvoie une chaîne de caractères
+     * représentant ces modificateurs sous forme de caractères spéciaux.
+     *
+     * @param acces entier représentant les modificateurs du membre de la classe
+     * @return chaîne de caractères représentant les modificateurs du membre de la classe
+     */
     public String faireModifiers(int acces) {
         StringBuilder sb = new StringBuilder();
         if (Modifier.isPublic(acces)) {
@@ -108,7 +134,13 @@ public class Classe implements Sujet {
         }
         return sb.toString();
     }
-
+    /**
+     * Gère les paramètres d'une méthode ou d'un constructeur et renvoie une chaîne de caractères représentant ces
+     * paramètres.
+     *
+     * @param parametres tableau d'objets Class représentant les paramètres de la méthode ou du constructeur
+     * @return chaîne de caractères représentant les paramètres de la méthode ou du constructeur
+     */
     private String gererParametre(Class[] parametres) {
         StringBuilder sb = new StringBuilder();
         boolean aDesParametres = false;
