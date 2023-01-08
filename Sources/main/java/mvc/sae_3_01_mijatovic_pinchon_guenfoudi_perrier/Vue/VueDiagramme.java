@@ -1,11 +1,15 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.animation.PauseTransition;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDragExterieur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -25,6 +29,8 @@ public class VueDiagramme extends Pane implements Observateur {
     public VueDiagramme(Modele modele){
         this.modele = modele;
         table = new HashMap<Classe,VueClasse>();
+        this.setOnDragOver(this::handleDragOverEvent);
+        this.setOnDragDropped(new ControllerDragExterieur(modele));
     }
 
     @Override
@@ -219,6 +225,14 @@ public class VueDiagramme extends Pane implements Observateur {
                 retour=current;
         }
         return retour;
+    }
+    private void handleDragOverEvent(DragEvent event) {
+        Dragboard db = event.getDragboard();
+        if (db.hasFiles()) {
+            event.acceptTransferModes(TransferMode.COPY);
+        } else {
+            event.consume();
+        }
     }
 
 }

@@ -36,10 +36,6 @@ public class main extends Application {
 
         // panneau central de l'application
         VueDiagramme paneCenter = new VueDiagramme(modele);
-        Classe classe1 = new Classe("fichiers_test/Date.class",modele);
-        Classe classe2 = new Classe("fichiers_test/Grep.class",modele);
-        modele.ajouterClasse(classe1);
-        modele.ajouterClasse(classe2);
 //        paneCenter.flecheAgreg(classe1, classe2);
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
