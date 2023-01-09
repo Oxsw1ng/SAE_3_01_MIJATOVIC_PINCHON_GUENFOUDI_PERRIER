@@ -30,7 +30,7 @@ public class Fleche extends Group {
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
         this.textSurFleche=null;
-        fleche(pointBordClasse(),pointBordClasse(),type,textSurFleche);
+        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
     }
 
     public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, String texte) {
@@ -39,8 +39,8 @@ public class Fleche extends Group {
         this.vueParent = vueDiag;
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
-        this.textSurFleche=null;
-        fleche(pointBordClasse(),pointBordClasse(),type,textSurFleche);
+        this.textSurFleche=texte;
+        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
     }
 
 
@@ -62,18 +62,18 @@ public class Fleche extends Group {
     }
 
 
-    public Point pointBordClasse() {
+    public Point pointBordClasse(VueClasse vue1, VueClasse vue2) {
 
 
-        Point pointA = new Point((int) Math.round(vueSource.getLayoutX()), (int) Math.round(vueSource.getLayoutY()));
-        Point pointB = new Point((int) Math.round(vueSource.getLayoutX()+vueSource.getLargeurClasse()), (int) Math.round(vueSource.getLayoutY()));
-        Point pointC = new Point((int) Math.round(vueSource.getLayoutX()+vueSource.getLargeurClasse()), (int) Math.round(vueSource.getLayoutY()+vueSource.getHauteurClasse()));
-        Point pointD = new Point((int) Math.round(vueSource.getLayoutX()), (int) Math.round(vueSource.getLayoutY()+vueSource.getHauteurClasse()));
+        Point pointA = new Point((int) Math.round(vue1.getLayoutX()), (int) Math.round(vue1.getLayoutY()));
+        Point pointB = new Point((int) Math.round(vue1.getLayoutX()+vue1.getLargeurClasse()), (int) Math.round(vue1.getLayoutY()));
+        Point pointC = new Point((int) Math.round(vue1.getLayoutX()+vue1.getLargeurClasse()), (int) Math.round(vue1.getLayoutY()+vue1.getHauteurClasse()));
+        Point pointD = new Point((int) Math.round(vue1.getLayoutX()), (int) Math.round(vue1.getLayoutY()+vue1.getHauteurClasse()));
 
         Point[] pointsSource = new Point[]{pointA, pointB, pointC, pointD};
 
-        Point centreSource = new Point((int) Math.round(vueSource.getLayoutX()+vueSource.getLargeurClasse()/2), (int) Math.round(vueSource.getLayoutY()+vueSource.getHauteurClasse()/2));
-        Point centreTarget = new Point((int) Math.round(vueTarget.getLayoutX()+vueTarget.getLargeurClasse()/2), (int) Math.round(vueTarget.getLayoutY()+vueTarget.getHauteurClasse()/2));
+        Point centreSource = new Point((int) Math.round(vue1.getLayoutX()+vue1.getLargeurClasse()/2), (int) Math.round(vue1.getLayoutY()+vue1.getHauteurClasse()/2));
+        Point centreTarget = new Point((int) Math.round(vue2.getLayoutX()+vue2.getLargeurClasse()/2), (int) Math.round(vue2.getLayoutY()+vue2.getHauteurClasse()/2));
 
         // Calcul de la pente et de l'ordonnée à l'origine de la droite reliant les deux classes
         double m1;
@@ -209,7 +209,8 @@ public class Fleche extends Group {
 
     public void deplacer() {
         this.getChildren().clear();
-        fleche(pointBordClasse(),pointBordClasse(),type,textSurFleche);
+        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
+
     }
 
 }
