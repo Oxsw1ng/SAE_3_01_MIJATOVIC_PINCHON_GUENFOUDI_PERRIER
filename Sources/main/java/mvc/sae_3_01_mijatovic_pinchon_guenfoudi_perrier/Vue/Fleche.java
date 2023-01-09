@@ -31,8 +31,6 @@ public class Fleche extends Group {
         this.vueParent = vueDiag;
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
-        this.ancienpointSource = new Point(0,0);
-        this.ancienpointTarget = new Point(0,0);
         this.textSurFleche=null;
         fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
     }
@@ -43,8 +41,6 @@ public class Fleche extends Group {
         this.vueParent = vueDiag;
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
-        this.ancienpointSource = new Point(0,0);
-        this.ancienpointTarget = new Point(0,0);
         this.textSurFleche=texte;
         fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
     }
@@ -129,6 +125,9 @@ public class Fleche extends Group {
                 }
                 Point I = new Point(x, y);
 
+//                // ligne servant à des tests uniquement afin de visualiser les points d'intersections
+//                this.getChildren().add(new Line(I.getX(), I.getY(), I.getX()+10, I.getY()+10));
+
                 if (pointAppartientSegment(I,extremite1,extremite2)) {
                     pointsAppartenantAuxSegments.add(I);
                 }
@@ -148,73 +147,77 @@ public class Fleche extends Group {
     }
 
     public void fleche(Point sourcePoint, Point targetPoint, int type, String texteMilieuFleche){
-        if (sourcePoint == null) {
+        if (sourcePoint == null && this.ancienpointSource != null) {
             sourcePoint = this.ancienpointSource;
         }
 
-        if (targetPoint == null) {
+        if (targetPoint == null && this.ancienpointTarget != null) {
             targetPoint = this.ancienpointTarget;
         }
 
-        // Création de la ligne reliant les deux points
-        Line ligne = new Line(sourcePoint.getX(), sourcePoint.getY(), targetPoint.getX(), targetPoint.getY());
-        ligne.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
-        ligne.setStrokeWidth(2);
+        if (targetPoint != null && sourcePoint != null) {
 
-        this.getChildren().add(ligne);
+            // Création de la ligne reliant les deux points
+            Line ligne = new Line(sourcePoint.getX(), sourcePoint.getY(), targetPoint.getX(), targetPoint.getY());
+            ligne.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+            ligne.setStrokeWidth(2);
 
-        // Calcul de l'angle de la ligne
-        double angle = Math.atan2(targetPoint.getY() - sourcePoint.getY(), targetPoint.getX() - sourcePoint.getX());
+            this.getChildren().add(ligne);
 
-        // Calcul des coordonnées des points de la flèche
-        double x3 = targetPoint.getX() - 25 * Math.cos(angle - Math.PI / 6);
-        double y3 = targetPoint.getY() - 25 * Math.sin(angle - Math.PI / 6);
-        double x4 = targetPoint.getX() - 25 * Math.cos(angle + Math.PI / 6);
-        double y4 = targetPoint.getY() - 25 * Math.sin(angle + Math.PI / 6);
+            // Calcul de l'angle de la ligne
+            double angle = Math.atan2(targetPoint.getY() - sourcePoint.getY(), targetPoint.getX() - sourcePoint.getX());
 
-        switch (type) {
-            case FLECHE_IMPLEMENTATION:
-                ArrayList dash = new ArrayList<>();
-                dash.add(20.0);
-                dash.add(20.0);
-                ligne.getStrokeDashArray().addAll(dash);
-            case FLECHE_HEREDITE:
-                // Création de la flèche
-                javafx.scene.shape.Polygon fleche = new Polygon();
-                fleche.getPoints().addAll(
-                        targetPoint.getX(), targetPoint.getY(),
-                        x3, y3,
-                        x4, y4
-                );
-                fleche.setFill(this.modele.getTheme().getFondNavEtArbo());
-                fleche.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
-                fleche.setStrokeWidth(2);
-                this.getChildren().add(fleche);
-                break;
-            case FLECHE_AGREGATION:
+            // Calcul des coordonnées des points de la flèche
+            double x3 = targetPoint.getX() - 25 * Math.cos(angle - Math.PI / 6);
+            double y3 = targetPoint.getY() - 25 * Math.sin(angle - Math.PI / 6);
+            double x4 = targetPoint.getX() - 25 * Math.cos(angle + Math.PI / 6);
+            double y4 = targetPoint.getY() - 25 * Math.sin(angle + Math.PI / 6);
 
-                Line ligne2 = new Line(x3, y3, targetPoint.getX(), targetPoint.getY());
-                ligne2.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
-                ligne2.setStrokeWidth(2);
+            switch (type) {
+                case FLECHE_IMPLEMENTATION:
+                    ArrayList dash = new ArrayList<>();
+                    dash.add(20.0);
+                    dash.add(20.0);
+                    ligne.getStrokeDashArray().addAll(dash);
+                case FLECHE_HEREDITE:
+                    // Création de la flèche
+                    javafx.scene.shape.Polygon fleche = new Polygon();
+                    fleche.getPoints().addAll(
+                            targetPoint.getX(), targetPoint.getY(),
+                            x3, y3,
+                            x4, y4
+                    );
+                    fleche.setFill(this.modele.getTheme().getFondNavEtArbo());
+                    fleche.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    fleche.setStrokeWidth(2);
+                    this.getChildren().add(fleche);
+                    break;
+                case FLECHE_AGREGATION:
 
-                Line ligne3 = new Line(x4, y4, targetPoint.getX(), targetPoint.getY());
-                ligne3.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
-                ligne3.setStrokeWidth(2);
+                    Line ligne2 = new Line(x3, y3, targetPoint.getX(), targetPoint.getY());
+                    ligne2.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    ligne2.setStrokeWidth(2);
 
-                javafx.scene.control.Label labelAgregation = new javafx.scene.control.Label(texteMilieuFleche);
-                double x = (ligne.getStartX() + ligne.getEndX()) / 2;
-                double y = (ligne.getStartY() + ligne.getEndY()) / 2;
-                labelAgregation.setLayoutX(x - labelAgregation.getWidth() / 2);
-                labelAgregation.setLayoutY(y - labelAgregation.getHeight() / 2);
+                    Line ligne3 = new Line(x4, y4, targetPoint.getX(), targetPoint.getY());
+                    ligne3.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    ligne3.setStrokeWidth(2);
+
+                    javafx.scene.control.Label labelAgregation = new javafx.scene.control.Label(texteMilieuFleche);
+                    double x = (ligne.getStartX() + ligne.getEndX()) / 2;
+                    double y = (ligne.getStartY() + ligne.getEndY()) / 2;
+                    labelAgregation.setLayoutX(x - labelAgregation.getWidth() / 2);
+                    labelAgregation.setLayoutY(y - labelAgregation.getHeight() / 2);
 
 
-                this.getChildren().addAll(ligne2, ligne3, labelAgregation);
-                break;
+                    this.getChildren().addAll(ligne2, ligne3, labelAgregation);
+                    break;
+            }
+
+            this.ancienpointSource = sourcePoint;
+            this.ancienpointTarget = targetPoint;
         }
-
-        this.ancienpointSource = sourcePoint;
-        this.ancienpointTarget = targetPoint;
     }
+
 
     public void deplacer() {
         this.getChildren().clear();
