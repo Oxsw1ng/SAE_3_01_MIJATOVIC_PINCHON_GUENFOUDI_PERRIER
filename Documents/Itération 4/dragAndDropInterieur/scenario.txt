@@ -1,0 +1,6 @@
+L'utilisateur lance l'application
+Il ouvre le dossier où il désire ajouter la classe au diagramme
+Il clique sur le fichier en restant appuyé
+Tout en restant appuyé, il bouge sa souris là où il souhaite ajouter sa classe dans le diagramme
+Il lâche le clic de sa souris
+La classe s'ajoute là où l'utilisateur a placé sa souris.

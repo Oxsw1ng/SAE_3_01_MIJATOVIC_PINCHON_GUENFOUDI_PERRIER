@@ -284,19 +284,27 @@ public class Classe implements Sujet, Comparable<Classe> {
     }
 
     public void setCoordonnesX(double coordonnesX) {
-        this.coordonnesX = coordonnesX;
+        if (coordonnesX >= 0) {
+            this.coordonnesX = coordonnesX;
+        } else {
+            this.coordonnesX = 0;
+        }
     }
 
     public double getCoordonnesY() {
         return coordonnesY;
     }
     public void setCoordinates(double x,double y){
-        coordonnesX=x;
-        coordonnesY=y;
+        this.setCoordonnesX(x);
+        this.setCoordonnesY(y);
         notifierObservateurs();
     }
     public void setCoordonnesY(double coordonnesY) {
-        this.coordonnesY = coordonnesY;
+        if (coordonnesY >= 0) {
+            this.coordonnesY = coordonnesY;
+        } else {
+            this.coordonnesY = 0;
+        }
     }
 
     public ArrayList<String> getAttributs() {
@@ -340,5 +348,8 @@ public class Classe implements Sujet, Comparable<Classe> {
     @Override
     public int compareTo(Classe o) {
         return this.getNomClasse().compareTo(o.getNomClasse());
+    }
+    public void supprimerClasseDansModele(){
+        modele.supprimerClasse(this);
     }
 }

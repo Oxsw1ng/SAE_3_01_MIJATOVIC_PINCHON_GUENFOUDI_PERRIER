@@ -1,1 +1,4 @@
 pouvoir glisser déposer une classe depuis l'exterieur
+Drag and drop sur les fichiers de l'arborescence intérieure
+Ajout des flèches
+Ajout des .class avec des objets non-primitifs

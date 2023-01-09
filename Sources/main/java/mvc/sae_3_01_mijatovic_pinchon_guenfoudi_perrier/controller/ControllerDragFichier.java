@@ -21,9 +21,10 @@ public class ControllerDragFichier implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent mouseEvent) {
+        TreeView<File> tv = (TreeView<File>) mouseEvent.getSource();
         Classe temp = modele.getClasseCourante();
         if (temp != null) {
-            temp.setCoordinates(mouseEvent.getX(), mouseEvent.getY());
+            temp.setCoordinates(mouseEvent.getX()  - tv.getWidth(), mouseEvent.getY());
             modele.changerClasseCourante(temp);
         }
 
