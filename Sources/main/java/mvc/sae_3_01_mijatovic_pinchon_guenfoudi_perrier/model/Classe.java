@@ -14,7 +14,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Classe implements Sujet, Comparable<Classe> {
+public class Classe implements Comparable<Classe> {
 
     //-----------Attributs-----------
     /** Nom de la classe */
@@ -26,8 +26,6 @@ public class Classe implements Sujet, Comparable<Classe> {
     private ArrayList<String> constructeurs;
     /** Liste des méthodes de la classe */
     private ArrayList<String> methodes;
-    /** Liste des observateurs de cette classe */
-    private ArrayList<Observateur> observateurs;
     /** Superclasse de la classe */
     private Class superClass;
     /** Objet Class correspondant à la classe */
@@ -89,7 +87,6 @@ public class Classe implements Sujet, Comparable<Classe> {
                 this.methodes = new ArrayList<>();
                 this.attributs = new ArrayList<>();
                 this.constructeurs = new ArrayList<>();
-                this.observateurs = new ArrayList<>();
                 this.peuplerListeMethodes();
                 this.peuplerListeConstructeurs();
                 this.peuplerListeAttributs();
@@ -109,22 +106,6 @@ public class Classe implements Sujet, Comparable<Classe> {
         }
     }
 
-    @Override
-    public void enregistrerObservateur(Observateur o) {
-        this.observateurs.add(o);
-    }
-
-    @Override
-    public void supprimerObservateur(Observateur o) {
-        this.observateurs.remove(o);
-    }
-
-    @Override
-    public void notifierObservateurs() {
-        for (Observateur observateurCourant : this.observateurs) {
-            observateurCourant.actualiser();
-        }
-    }
     /**
      * Gère les modificateurs d'un membre de la classe (attribut, méthode, etc.) et renvoie une chaîne de caractères
      * représentant ces modificateurs sous forme de caractères spéciaux.
@@ -297,7 +278,6 @@ public class Classe implements Sujet, Comparable<Classe> {
     public void setCoordinates(double x,double y){
         this.setCoordonnesX(x);
         this.setCoordonnesY(y);
-        notifierObservateurs();
     }
     public void setCoordonnesY(double coordonnesY) {
         if (coordonnesY >= 0) {
@@ -317,10 +297,6 @@ public class Classe implements Sujet, Comparable<Classe> {
 
     public ArrayList<String> getMethodes() {
         return methodes;
-    }
-
-    public ArrayList<Observateur> getObservateurs() {
-        return observateurs;
     }
 
     public Class getSuperClass() {
