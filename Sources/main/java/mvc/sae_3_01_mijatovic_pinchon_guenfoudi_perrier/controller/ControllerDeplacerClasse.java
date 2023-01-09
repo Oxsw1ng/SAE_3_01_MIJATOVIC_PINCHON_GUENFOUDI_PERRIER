@@ -45,6 +45,8 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
             vue.setLayoutY(y2);
         }
 
+        ((VueDiagramme)vue.getParent()).deplacerFleche();
+
     }
 
     public void setxDuClique(double xDuClique) {

@@ -40,11 +40,6 @@ public class main extends Application {
         paneCenter.actualiser();
         borderPane.setCenter(paneCenter);
 
-        //permet de visualier la flèche entre les deux classes
-//        PauseTransition pauseTransition = new PauseTransition(new Duration(3000.0));
-//        pauseTransition.setOnFinished(e -> paneCenter.fleche(paneCenter.pointBordClasse(classe1,classe2),paneCenter.pointBordClasse(classe2,classe1),VueDiagramme.FLECHE_HEREDITE, null));
-//        pauseTransition.play();
-
         modele.enregistrerObservateur(paneCenter);
         modele.enregistrerObservateur(borderPane);
 
