@@ -41,8 +41,6 @@ public class VueClasse extends VBox {
         setOnMouseDragged(controller);
         this.setCursor(Cursor.OPEN_HAND);
         this.creerVue();
-
-
     }
 
     /**
