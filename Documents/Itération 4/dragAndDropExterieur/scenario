@@ -1,0 +1,5 @@
+Ouvrez l'application qui affiche une vue centrale vide.
+Glissez et déposez un fichier .class à partir de l'extérieur de l'application (par exemple, depuis votre bureau) sur la vue centrale.
+L'application détecte que le fichier glissé et déposé est un fichier .class.
+L'application ajoute le fichier .class à la vue centrale.
+Si vous essayez de glisser et de déposer un fichier qui n'est pas un .class (par exemple, un fichier .txt), l'application ne fait rien et le fichier n'est pas ajouté à la vue centrale.

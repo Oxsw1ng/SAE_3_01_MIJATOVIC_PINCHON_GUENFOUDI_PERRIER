@@ -1,0 +1,1 @@
+pouvoir glisser déposer une classe depuis l'exterieur
