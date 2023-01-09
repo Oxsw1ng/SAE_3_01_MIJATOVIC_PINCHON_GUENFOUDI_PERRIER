@@ -59,7 +59,7 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
             @Override
             public void handle(ActionEvent actionEvent) {
                 DirectoryChooser dc = new DirectoryChooser();
-                dc.setInitialDirectory(new File(""));
+                dc.setInitialDirectory(new File("."));
                 File f = dc.showDialog(null);
                 if (f != null) {
                     repertoireSauvegarde = f.getPath();
