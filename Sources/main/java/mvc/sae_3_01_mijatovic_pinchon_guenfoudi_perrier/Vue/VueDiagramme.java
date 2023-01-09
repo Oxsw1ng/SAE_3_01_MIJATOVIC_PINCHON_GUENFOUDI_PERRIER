@@ -48,6 +48,7 @@ public class VueDiagramme extends Pane implements Observateur {
             VueClasse vue = new VueClasse(c);
             table.put(c,vue);
             this.getChildren().add(vue);
+            vue.toFront();
         }
         modele.changerGrapheCourant(this);
 
@@ -60,6 +61,7 @@ public class VueDiagramme extends Pane implements Observateur {
                    Fleche f = new Fleche(c,retour,Fleche.FLECHE_AGREGATION,modele,this,t[1]);
                    fleches.add(f);
                    this.getChildren().add(f);
+                   f.toBack();
                }
            }
            //ajout des dépendance selon les interfaces
@@ -71,6 +73,7 @@ public class VueDiagramme extends Pane implements Observateur {
                    Fleche f = new Fleche(c,retour,Fleche.FLECHE_IMPLEMENTATION,modele,this);
                    fleches.add(f);
                    this.getChildren().add(f);
+                   f.toBack();
                }
            }
            //ajout des dépendance selon l'hérédité
@@ -81,6 +84,7 @@ public class VueDiagramme extends Pane implements Observateur {
                Fleche f = new Fleche(c,retour,Fleche.FLECHE_HEREDITE,modele,this);
                fleches.add(f);
                this.getChildren().add(f);
+               f.toBack();
            }
        }
     }

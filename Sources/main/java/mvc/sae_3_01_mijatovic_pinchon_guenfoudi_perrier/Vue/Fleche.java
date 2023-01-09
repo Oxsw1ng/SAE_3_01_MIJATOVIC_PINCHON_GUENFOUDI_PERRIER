@@ -17,6 +17,8 @@ public class Fleche extends Group {
     public static final int FLECHE_AGREGATION = 3;
     private VueClasse vueSource;
     private VueClasse vueTarget;
+    private Point ancienpointSource;
+    private Point ancienpointTarget;
     private int type;
     private Modele modele;
     private String textSurFleche;
@@ -64,7 +66,6 @@ public class Fleche extends Group {
 
     public Point pointBordClasse(VueClasse vue1, VueClasse vue2) {
 
-
         Point pointA = new Point((int) Math.round(vue1.getLayoutX()), (int) Math.round(vue1.getLayoutY()));
         Point pointB = new Point((int) Math.round(vue1.getLayoutX()+vue1.getLargeurClasse()), (int) Math.round(vue1.getLayoutY()));
         Point pointC = new Point((int) Math.round(vue1.getLayoutX()+vue1.getLargeurClasse()), (int) Math.round(vue1.getLayoutY()+vue1.getHauteurClasse()));
@@ -78,7 +79,7 @@ public class Fleche extends Group {
         // Calcul de la pente et de l'ordonnée à l'origine de la droite reliant les deux classes
         double m1;
         if (centreTarget.getX() - centreSource.getX() == 0) {
-            m1 = 10000000000L;
+            m1 = 100000000000L;
         } else {
             m1 = (centreTarget.getY() - centreSource.getY()) / (centreTarget.getX() - centreSource.getX());
         }
@@ -99,7 +100,7 @@ public class Fleche extends Group {
             // Calcul de la pente et de l'ordonnée à l'origine de la droite reliant deux sommets du rectangle qui modélise la classe
             double m2;
             if (extremite2.getX() - extremite1.getX() == 0) {
-                m2 = 10000000000L;
+                m2 = 100000000000L;
             } else {
                 m2 = (extremite2.getY() - extremite1.getY()) / (extremite2.getX() - extremite1.getX());
             }
@@ -109,7 +110,7 @@ public class Fleche extends Group {
             if (m1 != m2) {
                 int x = (int) Math.abs(Math.round((p2 - p1) / (m2 - m1)));
                 // on cherche des valeurs à plus ou moins 2 à cause des arrondis, qui peuvent générer des erreurs
-                if ((extremite1.getX() == extremite2.getX()) && x-2 <= extremite1.getX() && extremite1.getX() >= x+2) {
+                if ((extremite1.getX() == extremite2.getX()) && x-3 <= extremite1.getX() && extremite1.getX() <= x+3) {
                     x = (int) extremite1.getX();
                 }
                 int y;
@@ -119,7 +120,7 @@ public class Fleche extends Group {
                     y = (int) Math.abs(Math.round(m1 * x + p1));
                 }
                 //pareil ici
-                if ((extremite1.getY() == extremite2.getY()) && y-2 <= extremite1.getY() && extremite1.getY() >= y+2) {
+                if ((extremite1.getY() == extremite2.getY()) && y-3 <= extremite1.getY() && extremite1.getY() <= y+3) {
                     y = (int) extremite1.getY();
                 }
                 Point I = new Point(x, y);
@@ -146,7 +147,16 @@ public class Fleche extends Group {
     }
 
     public void fleche(Point sourcePoint, Point targetPoint, int type, String texteMilieuFleche){
-        if (sourcePoint != null || targetPoint != null) {
+        if (sourcePoint == null && this.ancienpointSource != null) {
+            sourcePoint = this.ancienpointSource;
+        }
+
+        if (targetPoint == null && this.ancienpointTarget != null) {
+            targetPoint = this.ancienpointTarget;
+        }
+
+        if (targetPoint != null && sourcePoint != null) {
+
             // Création de la ligne reliant les deux points
             Line ligne = new Line(sourcePoint.getX(), sourcePoint.getY(), targetPoint.getX(), targetPoint.getY());
             ligne.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
@@ -202,10 +212,12 @@ public class Fleche extends Group {
                     this.getChildren().addAll(ligne2, ligne3, labelAgregation);
                     break;
             }
+
+            this.ancienpointSource = sourcePoint;
+            this.ancienpointTarget = targetPoint;
         }
-
-
     }
+
 
     public void deplacer() {
         this.getChildren().clear();

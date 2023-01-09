@@ -41,9 +41,6 @@ public class main extends Application {
 
         // panneau central de l'application
         VueDiagramme paneCenter = new VueDiagramme(modele);
-        // TEST TEST TEST TEST
-
-
 //        paneCenter.flecheAgreg(classe1, classe2);
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
