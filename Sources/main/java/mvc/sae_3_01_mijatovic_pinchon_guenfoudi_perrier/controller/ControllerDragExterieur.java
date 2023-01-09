@@ -21,6 +21,7 @@ public class ControllerDragExterieur implements EventHandler<DragEvent> {
         if(fichierClasse!=null){
             String pathClasse=fichierClasse.getPath();
             Classe nouvelleClasse=new Classe(pathClasse,modele);
+            nouvelleClasse.setCoordinates(dragEvent.getX(),dragEvent.getY());
             modele.ajouterClasse(nouvelleClasse);
         }
     }
