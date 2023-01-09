@@ -2,6 +2,8 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
@@ -23,12 +25,18 @@ import java.util.ArrayList;
 public class VueClasse extends VBox {
 
     private Classe modele;
-
+    private VBox attributs;
+    private Label methodes;
+    private Label constructeurs;
 
     public VueClasse(Classe modele) {
         this.modele = modele;
-       ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele,this);
-        setOnMousePressed(e -> {this.setCursor(Cursor.CLOSED_HAND);controller.setxDuClique(e.getX());controller.setyDuClique(e.getY());});
+        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele, this);
+        setOnMousePressed(e -> {
+            this.setCursor(Cursor.CLOSED_HAND);
+            controller.setxDuClique(e.getX());
+            controller.setyDuClique(e.getY());
+        });
         setOnMouseReleased(e -> this.setCursor(Cursor.OPEN_HAND));
         setOnMouseDragged(controller);
         this.setCursor(Cursor.OPEN_HAND);
@@ -44,21 +52,25 @@ public class VueClasse extends VBox {
      */
     public void creerVue() {
         Theme t = this.modele.getTheme();
-
         VBox vBoxHaut = creerVBoxHaut();
-        VBox vBoxAttributs=creerVBoxAttributs();
-        Label labelConstructeurs=creerLabelConstructeur();
-        Label labelMethodes=creerLabelMethode();
+
+        attributs = creerVBoxAttributs();
+        constructeurs = creerLabelConstructeur();
+        methodes = creerLabelMethode();
+
         ArrayList<Node> listNode = new ArrayList<>();
         listNode.add(vBoxHaut);
         if (!modele.getModele().getEtatNav("A"))
-            listNode.add(vBoxAttributs);
+            listNode.add(attributs);
         if (!modele.getModele().getEtatNav("C"))
-            listNode.add(labelConstructeurs);
+            listNode.add(constructeurs);
         if (!modele.getModele().getEtatNav("M"))
-            listNode.add(labelMethodes);
-
+            listNode.add(methodes);
         this.getChildren().addAll(listNode);
+
+        ContextMenu contextMenu = creerMenuContextuel();
+        this.setOnContextMenuRequested(event -> contextMenu.show(this, event.getScreenX(), event.getScreenY()));
+
         mettreStrokeAndBackground();
         placerClasse(modele.getCoordonnesX(), modele.getCoordonnesY());
 
@@ -117,7 +129,7 @@ public class VueClasse extends VBox {
     }
 
 
-    public void placerClasse(double x, double y){
+    public void placerClasse(double x, double y) {
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
@@ -134,5 +146,91 @@ public class VueClasse extends VBox {
         return (int) this.getHeight();
     }
 
+    private ContextMenu creerMenuContextuel() {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem suppression = new MenuItem("Supprimer la classe");
+
+        MenuItem masquerAttribut = new MenuItem("masquer attribut");
+        MenuItem masquerMethode = new MenuItem("masquer methode");
+        MenuItem masquerConstructeur = new MenuItem("masquer constructeur");
+
+        MenuItem afficherAttribut = new MenuItem("afficher attributs");
+        MenuItem afficherMethode = new MenuItem("afficher methode");
+        MenuItem afficherConstructeur = new MenuItem("afficher constructeur");
+
+        suppression.setOnAction(actionEvent -> modele.supprimerClasseDansModele());
+
+        masquerAttribut.setOnAction(actionEvent -> {
+            cacherAttribut();
+            int index = contextMenu.getItems().indexOf(masquerAttribut);
+            contextMenu.getItems().remove(masquerAttribut);
+            contextMenu.getItems().add(index, afficherAttribut);
+        });
+        masquerMethode.setOnAction(actionEvent -> {
+            cacherMethodes();
+            int index = contextMenu.getItems().indexOf(masquerMethode);
+            contextMenu.getItems().remove(masquerMethode);
+            contextMenu.getItems().add(index, afficherMethode);
+        });
+        masquerConstructeur.setOnAction(actionEvent -> {
+            cacherConstructeurs();
+            int index = contextMenu.getItems().indexOf(masquerConstructeur);
+            contextMenu.getItems().remove(masquerConstructeur);
+            contextMenu.getItems().add(index, afficherConstructeur);
+        });
+
+        afficherAttribut.setOnAction(actionEvent -> {
+            voirAttribut();
+            int index = contextMenu.getItems().indexOf(afficherAttribut);
+            contextMenu.getItems().remove(afficherAttribut);
+            contextMenu.getItems().add(index, masquerAttribut);
+        });
+        afficherMethode.setOnAction(actionEvent -> {
+            voirMethode();
+            int index = contextMenu.getItems().indexOf(afficherMethode);
+            contextMenu.getItems().remove(afficherMethode);
+            contextMenu.getItems().add(index, masquerMethode);
+        });
+        afficherConstructeur.setOnAction(actionEvent -> {
+            voirConstructeur();
+            int index = contextMenu.getItems().indexOf(afficherConstructeur);
+            contextMenu.getItems().remove(afficherConstructeur);
+            contextMenu.getItems().add(index, masquerConstructeur);
+        });
+
+        contextMenu.getItems().addAll(suppression, masquerAttribut, masquerMethode, masquerConstructeur);
+        return contextMenu;
+    }
+
+    private void voirAttribut() {
+        this.getChildren().add(1, attributs);
+    }
+
+    private void voirMethode() {
+        int sizeVbox = this.getChildren().size();
+        this.getChildren().add(sizeVbox, methodes);
+
+    }
+
+    private void voirConstructeur() {
+        int sizeVbox=this.getChildren().size();
+        if(sizeVbox>3)
+            this.getChildren().add(2, constructeurs);
+        else
+            this.getChildren().add(1,constructeurs);
+    }
+
+    private void cacherAttribut() {
+        this.getChildren().remove(attributs);
+    }
+
+    private void cacherMethodes() {
+        this.getChildren().remove(methodes);
+    }
+
+    private void cacherConstructeurs() {
+        this.getChildren().remove(constructeurs);
+    }
 }
 

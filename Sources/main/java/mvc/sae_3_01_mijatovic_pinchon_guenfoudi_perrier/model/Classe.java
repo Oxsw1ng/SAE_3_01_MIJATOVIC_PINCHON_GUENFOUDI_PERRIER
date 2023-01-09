@@ -12,12 +12,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Classe implements Sujet, Comparable<Classe> {
 
     //-----------Attributs-----------
     /** Nom de la classe */
     private String nomClasse;
+    private String cheminClasse;
     /** Liste des attributs de la classe */
     private ArrayList<String> attributs;
     /** Liste des constructeurs de la classe */
@@ -52,6 +54,7 @@ public class Classe implements Sujet, Comparable<Classe> {
      */
     public Classe(String pathClass, Modele modele) {
         this.modele=modele;
+        this.cheminClasse = pathClass;
 
         // Change le split selon l'OS de l'utilisateur
         String os = System.getProperty("os.name").toLowerCase();
@@ -71,19 +74,39 @@ public class Classe implements Sujet, Comparable<Classe> {
 
 
         ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
+        for (Classe c : this.modele.getClasses()) {
+            byteArrayClassLoader.findClass(c.nomClasse, c.cheminClasse);
+        }
         this.classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
 
-        this.isInterface = this.classeCourante.isInterface();
-        this.superClass = this.classeCourante.getSuperclass();
-        this.interfaces = this.classeCourante.getInterfaces();
+        boolean neFonctionnePas = true;
+        while (neFonctionnePas) {
+            try {
+                this.isInterface = this.classeCourante.isInterface();
+                this.superClass = this.classeCourante.getSuperclass();
+                this.interfaces = this.classeCourante.getInterfaces();
 
-        this.methodes = new ArrayList<>();
-        this.attributs = new ArrayList<>();
-        this.constructeurs = new ArrayList<>();
-        this.observateurs = new ArrayList<>();
-        this.peuplerListeMethodes();
-        this.peuplerListeConstructeurs();
-        this.peuplerListeAttributs();
+                this.methodes = new ArrayList<>();
+                this.attributs = new ArrayList<>();
+                this.constructeurs = new ArrayList<>();
+                this.observateurs = new ArrayList<>();
+                this.peuplerListeMethodes();
+                this.peuplerListeConstructeurs();
+                this.peuplerListeAttributs();
+                neFonctionnePas = false;
+            } catch (NoClassDefFoundError e) {
+                String path;
+                if (os.contains("win")) {
+                    path = pathClass;
+                    path.replace("\\", "\\\\");
+                    path = String.join("\\", Arrays.copyOf(pathClass.split("\\\\"), pathClass.split("\\\\").length-1)) + "\\";
+                } else {
+                    path = String.join("/", Arrays.copyOf(pathClass.split("/"), pathClass.split("/").length-1)) + "/";
+                }
+                String nomClasseNonPrimitive =  e.getMessage();
+                byteArrayClassLoader.findClass(nomClasseNonPrimitive, path+nomClasseNonPrimitive+".class");
+            }
+        }
     }
 
     @Override
@@ -175,7 +198,7 @@ public class Classe implements Sujet, Comparable<Classe> {
         return sb.toString();
     }
 
-    public void peuplerListeMethodes() {
+    public void peuplerListeMethodes() throws NoClassDefFoundError {
         Method[] tabMethodes = this.classeCourante.getDeclaredMethods();
         for (Method m : tabMethodes) {
             StringBuilder sb = new StringBuilder();
@@ -186,7 +209,7 @@ public class Classe implements Sujet, Comparable<Classe> {
             this.methodes.add(sb.toString());
         }
     }
-    public void peuplerListeConstructeurs() {
+    public void peuplerListeConstructeurs() throws NoClassDefFoundError{
         Constructor[] tabConstructeurs = this.classeCourante.getDeclaredConstructors();
         for (Constructor c : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
@@ -197,7 +220,7 @@ public class Classe implements Sujet, Comparable<Classe> {
             this.constructeurs.add(sb.toString());
         }
     }
-    public void peuplerListeAttributs() {
+    public void peuplerListeAttributs() throws NoClassDefFoundError {
         Field[] tabConstructeurs = this.classeCourante.getDeclaredFields();
         for (Field f : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
@@ -325,5 +348,8 @@ public class Classe implements Sujet, Comparable<Classe> {
     @Override
     public int compareTo(Classe o) {
         return this.getNomClasse().compareTo(o.getNomClasse());
+    }
+    public void supprimerClasseDansModele(){
+        modele.supprimerClasse(this);
     }
 }

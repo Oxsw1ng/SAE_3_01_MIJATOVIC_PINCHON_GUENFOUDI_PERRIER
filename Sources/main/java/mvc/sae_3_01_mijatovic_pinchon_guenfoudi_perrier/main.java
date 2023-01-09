@@ -35,19 +35,15 @@ public class main extends Application {
 
         // panneau central de l'application
         VueDiagramme paneCenter = new VueDiagramme(modele);
-        Classe classe1 = new Classe("fichiers_test/Date.class",modele);
-        Classe classe2 = new Classe("fichiers_test/Date.class",modele);
-        modele.ajouterClasse(classe1);
-        modele.ajouterClasse(classe2);
 //        paneCenter.flecheAgreg(classe1, classe2);
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
         borderPane.setCenter(paneCenter);
 
         //permet de visualier la flèche entre les deux classes
-        PauseTransition pauseTransition = new PauseTransition(new Duration(3000.0));
-        pauseTransition.setOnFinished(e -> paneCenter.fleche(paneCenter.pointBordClasse(classe1,classe2),paneCenter.pointBordClasse(classe2,classe1),VueDiagramme.FLECHE_HEREDITE, null));
-        pauseTransition.play();
+//        PauseTransition pauseTransition = new PauseTransition(new Duration(3000.0));
+//        pauseTransition.setOnFinished(e -> paneCenter.fleche(paneCenter.pointBordClasse(classe1,classe2),paneCenter.pointBordClasse(classe2,classe1),VueDiagramme.FLECHE_HEREDITE, null));
+//        pauseTransition.play();
 
         modele.enregistrerObservateur(paneCenter);
         modele.enregistrerObservateur(borderPane);
