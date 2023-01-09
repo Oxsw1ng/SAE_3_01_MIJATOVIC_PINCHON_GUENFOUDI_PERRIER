@@ -14,6 +14,7 @@ import java.io.File;
 public class ControllerDragFichier implements EventHandler<MouseEvent> {
 
     public Modele modele;
+    public static boolean isDragging = false;
 
     public ControllerDragFichier(Modele modele) {
         this.modele = modele;
@@ -21,6 +22,9 @@ public class ControllerDragFichier implements EventHandler<MouseEvent> {
 
     @Override
     public void handle(MouseEvent mouseEvent) {
+        if (!isDragging) {
+            isDragging = true;
+        }
         TreeView<File> tv = (TreeView<File>) mouseEvent.getSource();
         Classe temp = modele.getClasseCourante();
         if (temp != null) {
