@@ -221,5 +221,10 @@ public class Modele implements Sujet {
 
     @Override
     public void notifierObservateurs() {for (Observateur o:this.observateurs) {o.actualiser();}}
+
+    public void supprimerClasse(Classe classeASupprimer){
+        classes.remove(classeASupprimer);
+        notifierObservateurs();
+    }
 }
 

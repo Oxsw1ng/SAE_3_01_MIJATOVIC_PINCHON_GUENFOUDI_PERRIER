@@ -341,4 +341,7 @@ public class Classe implements Sujet, Comparable<Classe> {
     public int compareTo(Classe o) {
         return this.getNomClasse().compareTo(o.getNomClasse());
     }
+    public void supprimerClasseDansModele(){
+        modele.supprimerClasse(this);
+    }
 }
