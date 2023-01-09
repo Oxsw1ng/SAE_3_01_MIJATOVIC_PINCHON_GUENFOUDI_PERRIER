@@ -19,7 +19,7 @@ public class Modele implements Sujet {
     private Theme theme;
     private Fabrique fabrique;
     private Classe classeCourante;
-    private ArrayList<Classe> classes;
+    private TreeSet<Classe> classes;
     private Pane grapheCourant;
     private Format export;
     private String cheminCourant;
@@ -51,7 +51,7 @@ public class Modele implements Sujet {
         this.theme=new ThemeClair();
         this.export = new PNG();
         this.grapheCourant = new Pane();
-        this.classes = new ArrayList<Classe>();
+        this.classes = new TreeSet<Classe>();
     }
 
 
@@ -115,7 +115,8 @@ public class Modele implements Sujet {
         this.nomFichier = n;
     }
 
-    public void changerClasseCourante(String nomClasse) {
+    public void changerClasseCourante(Classe nomClasse) {
+        this.classeCourante = nomClasse;
     }
 
     public void moveClasse(){}
@@ -123,7 +124,9 @@ public class Modele implements Sujet {
     public void deleteClasse(){}
 
     public void ajouterClasse(Classe classe){
-        this.classes.add(classe);
+        if (!classes.contains(classe)) {
+            this.classes.add(classe);
+        }
         notifierObservateurs();
     }
 
@@ -188,7 +191,7 @@ public class Modele implements Sujet {
         return classeCourante;
     }
 
-    public ArrayList<Classe> getClasses() {
+    public TreeSet<Classe> getClasses() {
         return classes;
     }
 

@@ -18,8 +18,6 @@ public class main extends Application {
     public void start(Stage stage) throws Exception {
         Modele modele = new Modele();
 
-
-
         VuePage borderPane = new VuePage(modele);
         borderPane.actualiser();
 

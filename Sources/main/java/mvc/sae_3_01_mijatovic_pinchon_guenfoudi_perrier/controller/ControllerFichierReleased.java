@@ -1,21 +1,16 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
 
 import javafx.event.EventHandler;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
-import java.io.File;
+public class ControllerFichierReleased implements EventHandler<MouseEvent> {
 
-public class ControllerDragFichier implements EventHandler<MouseEvent> {
+    private Modele modele;
 
-    public Modele modele;
-
-    public ControllerDragFichier(Modele modele) {
+    public ControllerFichierReleased(Modele modele) {
         this.modele = modele;
     }
 
@@ -23,9 +18,8 @@ public class ControllerDragFichier implements EventHandler<MouseEvent> {
     public void handle(MouseEvent mouseEvent) {
         Classe temp = modele.getClasseCourante();
         if (temp != null) {
-            temp.setCoordinates(mouseEvent.getX(), mouseEvent.getY());
-            modele.changerClasseCourante(temp);
+            modele.ajouterClasse(temp);
+            modele.changerClasseCourante(null);
         }
-
     }
 }

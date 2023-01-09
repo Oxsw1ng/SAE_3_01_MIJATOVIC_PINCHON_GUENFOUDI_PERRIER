@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
-public class Classe implements Sujet {
+public class Classe implements Sujet, Comparable<Classe> {
 
     //-----------Attributs-----------
     /** Nom de la classe */
@@ -312,5 +312,10 @@ public class Classe implements Sujet {
 
     public Modele getModele() {
         return modele;
+    }
+
+    @Override
+    public int compareTo(Classe o) {
+        return this.getNomClasse().compareTo(o.getNomClasse());
     }
 }
