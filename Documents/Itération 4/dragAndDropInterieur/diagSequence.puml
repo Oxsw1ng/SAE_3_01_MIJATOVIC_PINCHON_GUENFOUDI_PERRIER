@@ -1,0 +1,39 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Utilisateur -> TreeView : mousePressed
+TreeView -> ControllerDoubleClickFichier : handle(mousePressed)
+ControllerDoubleClickFichier -> Modele : getClasseCourante()
+Modele --> ControllerDoubleClickFichier : null
+ControllerDoubleClickFichier -> Modele : changerClasseCourante(addClasse)
+Modele --> ControllerDoubleClickFichier
+ControllerDoubleClickFichier --> TreeView
+TreeView --> Utilisateur
+
+loop "Tant que la souris est cliqué"
+Utilisateur -> TreeView : mouseDrag
+TreeView -> ControllerDragFichier : handle(mouseDrag)
+ControllerDragFichier -> Modele : getClasseCourante()
+Modele --> ControllerDragFichier : temp
+ControllerDragFichier -> Classe : setCoordinates(mouseDrag.getX() - TreeView.getWidth(), mouseDrag.getY())
+Classe --> ControllerDragFichier :
+ControllerDragFichier -> Modele : changerClasseCourante(temp)
+Modele --> ControllerDragFichier :
+ControllerDragFichier --> TreeView :
+TreeView --> Utilisateur :
+end
+
+Utilisateur -> TreeView : mouseReleased
+TreeView -> ControllerFichierReleased : handle(mouseReleased)
+ControllerFichierReleased -> Modele : getClasseCourante()
+Modele --> ControllerFichierReleased : temp
+ControllerFichierReleased -> Modele : ajouterClasse(temp)
+Modele --> ControllerFichierReleased
+ControllerFichierReleased -> Modele : changerClasseCourante(null)
+Modele --> ControllerFichierReleased :
+ControllerFichierReleased --> TreeView
+TreeView --> Utilisateur
+
+@enduml
