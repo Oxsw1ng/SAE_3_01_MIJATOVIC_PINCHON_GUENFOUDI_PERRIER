@@ -2,14 +2,20 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.*;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
+
+import java.awt.*;
 
 public class main extends Application {
     public static double SIZEX = 0;
@@ -35,10 +41,14 @@ public class main extends Application {
 
         // panneau central de l'application
         VueDiagramme paneCenter = new VueDiagramme(modele);
+        // TEST TEST TEST TEST
+
+
 //        paneCenter.flecheAgreg(classe1, classe2);
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
         borderPane.setCenter(paneCenter);
+
 
         modele.enregistrerObservateur(paneCenter);
         modele.enregistrerObservateur(borderPane);

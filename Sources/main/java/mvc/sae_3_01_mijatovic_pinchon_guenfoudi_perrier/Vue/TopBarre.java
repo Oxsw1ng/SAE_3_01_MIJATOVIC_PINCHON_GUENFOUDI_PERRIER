@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAuteurs;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
@@ -37,7 +38,7 @@ public class TopBarre extends HBox implements Observateur {
         MenuBar mb = new MenuBar();
 
         // menu fichier
-        Menu menuFichier = new Menu("fichier");
+        Menu menuFichier = new Menu("Fichier");
         MenuItem m1 = new MenuItem("menu item 1");
         MenuItem m2 = new MenuItem("menu item 2");
         MenuItem m3 = new MenuItem("menu item 3");
@@ -47,7 +48,7 @@ public class TopBarre extends HBox implements Observateur {
         mb.getMenus().add(menuFichier);
 
         // menu aide
-        Menu menuAide = new Menu("aide");
+        Menu menuAide = new Menu("Aide");
         MenuItem m4 = new MenuItem("menu item 1");
         MenuItem m5 = new MenuItem("menu item 2");
         MenuItem m6 = new MenuItem("menu item 3");
@@ -57,13 +58,13 @@ public class TopBarre extends HBox implements Observateur {
         mb.getMenus().add(menuAide);
 
         // menu a propos
-        Menu menuAPropos = new Menu("à propos");
-        MenuItem m7 = new MenuItem("menu item 1");
-        MenuItem m8 = new MenuItem("menu item 2");
-        MenuItem m9 = new MenuItem("menu item 3");
+        Menu menuAPropos = new Menu("A propos");
+        MenuItem m7 = new MenuItem("Auteurs");
+        ControllerAuteurs controlAuteurs = new ControllerAuteurs(modele);
+        m7.setOnAction(controlAuteurs);
+        MenuItem m8 = new MenuItem("Technologies");
         menuAPropos.getItems().add(m7);
         menuAPropos.getItems().add(m8);
-        menuAPropos.getItems().add(m9);
         mb.getMenus().add(menuAPropos);
 
         // paramétrage de l'affichage de la menuBar
