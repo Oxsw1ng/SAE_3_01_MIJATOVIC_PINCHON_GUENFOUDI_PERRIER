@@ -4,8 +4,11 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDeplacerClasse;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -15,6 +18,8 @@ import javafx.scene.layout.VBox;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -85,7 +90,17 @@ public class VueClasse extends VBox {
         VBox vBoxHaut = new VBox();
         vBoxHaut.setBackground(new Background(new BackgroundFill(t.getTopClasse(), null, null)));
         vBoxHaut.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 2, 0))));
+        ImageView iv;
+        if (modele.isInterface()) {
+            iv = new ImageView(ChargementRes.getLetterI());
+        } else {
+            iv = new ImageView(ChargementRes.getLetterC());
+        }
+        iv.setPreserveRatio(true);
+        iv.setFitHeight(15);
+
         Label lbNom = new Label(modele.getNomClasse());
+        lbNom.setGraphic(iv);
         vBoxHaut.getChildren().add(lbNom);
 
         return vBoxHaut;

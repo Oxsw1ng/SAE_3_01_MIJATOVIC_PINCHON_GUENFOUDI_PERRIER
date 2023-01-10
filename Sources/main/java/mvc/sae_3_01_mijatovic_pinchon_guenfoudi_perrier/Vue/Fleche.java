@@ -1,9 +1,11 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.animation.PauseTransition;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.util.Duration;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -32,8 +34,10 @@ public class Fleche extends Group {
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
         this.textSurFleche=null;
-        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
-    }
+
+        PauseTransition pauseTransition = new PauseTransition(new Duration(10));
+        pauseTransition.setOnFinished(e -> fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche));
+        pauseTransition.play();    }
 
     public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, String texte) {
         this.type=tp;
@@ -42,7 +46,10 @@ public class Fleche extends Group {
         this.vueSource=vueParent.getVueClasse(src);
         this.vueTarget=vueParent.getVueClasse(tgt);
         this.textSurFleche=texte;
-        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
+
+        PauseTransition pauseTransition = new PauseTransition(new Duration(10));
+        pauseTransition.setOnFinished(e -> fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche));
+        pauseTransition.play();
     }
 
 
