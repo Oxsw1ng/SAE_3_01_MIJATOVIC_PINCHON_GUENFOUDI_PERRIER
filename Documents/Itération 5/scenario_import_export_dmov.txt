@@ -1,0 +1,20 @@
+I. Exporter un projet
+    1. Ouvrir l'application.
+    1. Faire un diagramme avec les classes souhaitées.
+    2. Cliquer sur le bouton "exporter" et choisir une exportation au format DMOV.
+    3. Fermer l'application et constater que le fichier a bien été créé.
+
+II. Importer un projet
+    1. Ouvrir l'application.
+    2. Cliquer sur l'onglet "Fichier" puis "ouvrir un fichier .dmov
+    3. Selectionner le fichier .dmov précédement créé.
+    4. Constater que l'état du projet est identique au moment où le projet a été sauvegardé.
+
+III. Sauvegarde et modifications d'un projet
+    1. Ouvrir l'application
+    2. Cliquer sur l'onglet "Fichier" puis "ouvrir un fichier .dmov
+    3. Modifier le projet.
+    4. Cliquer sur l'onglet "Fichier" puis "sauvegarder" (met à jour le projet actuellement ouvert).
+    5. Fermer l'application.
+    6. Les modifications sur le fichier .dmov ne sont pas visibles hors de l'application,
+        il faut refaire toutes les étapes du test II pour vérifier que le projet a bien été mis à jour.
