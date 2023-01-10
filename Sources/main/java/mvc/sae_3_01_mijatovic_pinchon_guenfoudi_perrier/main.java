@@ -16,12 +16,12 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class main extends Application {
+    
     public static double SIZEX = 0;
     public static double SIZEY = 0;
 
     @Override
-    public void start(Stage stage) throws Exception {
-
+    public void start(Stage stage) {
         Modele modele = new Modele();
 
         VuePage borderPane = new VuePage(modele);

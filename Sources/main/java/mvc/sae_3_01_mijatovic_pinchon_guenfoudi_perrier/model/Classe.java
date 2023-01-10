@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Classe implements Comparable<Classe>, Serializable {
+    static final long serialVersionUID = 648175960228010030L;
+
 
     //-----------Attributs-----------
     /** Nom de la classe */

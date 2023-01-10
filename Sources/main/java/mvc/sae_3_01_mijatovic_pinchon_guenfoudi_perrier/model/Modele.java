@@ -16,6 +16,8 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Modele implements Sujet, Serializable {
+    static final long serialVersionUID = 648175960228010030L;
+    private String cheminDMOV;
 
     //-----------Attributs-----------
     private String nomFichier;
@@ -55,6 +57,7 @@ public class Modele implements Sujet, Serializable {
         this.export = new PNG();
         this.grapheCourant = new Pane();
         this.classes = new TreeSet<Classe>();
+        this.cheminDMOV = null;
     }
 
     public Modele (String cheminObjetDMOV) {
@@ -80,6 +83,7 @@ public class Modele implements Sujet, Serializable {
             this.theme = new ThemeClair();
             this.export = new PNG();
             this.grapheCourant = new Pane();
+            this.cheminDMOV = cheminObjetDMOV;
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -186,6 +190,22 @@ public class Modele implements Sujet, Serializable {
         this.notifierObservateurs();
     }
 
+
+
+    //-------------Setter------------
+    public void setModele(Modele modele) {
+        this.nomFichier = modele.getNomFichier();
+        this.theme = modele.getTheme();
+        this.classeCourante = modele.getClasseCourante();
+        this.classes = modele.getClasses();
+        this.grapheCourant = modele.getGrapheCourant();
+        this.export = modele.getExport();
+        this.cheminCourant = modele.getCheminCourant();
+        this.etatsNav = modele.getEtatsNav();
+        this.cheminDMOV = modele.getCheminDMOV();
+        this.notifierObservateurs();
+    }
+
     /*
      * méthode de modifications du chemin courant sans mettre à jour toutes les vues sans trop de raison
      */
@@ -240,6 +260,9 @@ public class Modele implements Sujet, Serializable {
     }
     public boolean getEtatNav(String clef) {
         return etatsNav.get(clef);
+    }
+    public String getCheminDMOV() {
+        return cheminDMOV;
     }
 
 

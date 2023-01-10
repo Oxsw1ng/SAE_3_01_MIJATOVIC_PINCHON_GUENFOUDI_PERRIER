@@ -52,13 +52,23 @@ public class VueRepCourant extends VBox implements Observateur {
         if (s.length>1){
             this.bigParent = s[1];
             while (Nofind){
-                this.bigParent+="\\"+s[i];
+                String system = System.getProperty("os.name").toLowerCase();
+                if (system.contains("win")) {
+                    this.bigParent+="\\"+s[i];
+                } else {
+                    this.bigParent+="/"+s[i];
+                }
                 if (s[i].equals("SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER"))
                     Nofind=false;
                 i++;
             }
         }
-        this.bigParent = this.bigParent.replace("%20"," ");
+        String system = System.getProperty("os.name").toLowerCase();
+        if (system.contains("win")) {
+            this.bigParent = this.bigParent.replace("%20"," ");
+        } else {
+            this.bigParent = "/"+bigParent;
+        }
 
         //this.bigParent = modele.getCheminCourant().split("\\\\")[0] + "\\";
         // creation d un item de substitution
@@ -239,17 +249,32 @@ public class VueRepCourant extends VBox implements Observateur {
                 @Override
                 public void handle(TreeItem.TreeModificationEvent<Object> objectTreeModificationEvent) {
                     File file = ((File) objectTreeModificationEvent.getTreeItem().getValue());
-                    if (modele.getCheminCourant().split("\\\\").length <= file.getAbsolutePath().split("\\\\").length) {
-                        //modele.setCheminCourant(file.getAbsolutePath());
-                        tf.setText(file.getAbsolutePath());
+                    String system = System.getProperty("os.name").toLowerCase();
+                    if (system.contains("win")) {
+                        if (modele.getCheminCourant().split("\\\\").length <= file.getAbsolutePath().split("\\\\").length) {
+                            //modele.setCheminCourant(file.getAbsolutePath());
+                            tf.setText(file.getAbsolutePath());
+                        }
+                    } else {
+                        if (modele.getCheminCourant().split("/").length <= file.getAbsolutePath().split("/").length) {
+                            //modele.setCheminCourant(file.getAbsolutePath());
+                            tf.setText(file.getAbsolutePath());
+                        }
                     }
+
                 }
             });
             // évènement de rétrécissement d'un fichier
             treeIt.addEventHandler(TreeItem.branchCollapsedEvent(), new EventHandler<TreeItem.TreeModificationEvent<Object>>() {
                 @Override
                 public void handle(TreeItem.TreeModificationEvent<Object> objectTreeModificationEvent) {
-                    List<String> list = List.of(modele.getCheminCourant().split("\\\\"));
+                    String system = System.getProperty("os.name").toLowerCase();
+                    List<String> list;
+                    if (system.contains("win")) {
+                        list = List.of(modele.getCheminCourant().split("\\\\"));
+                    } else {
+                        list = List.of(modele.getCheminCourant().split("/"));
+                    }
                     TreeItem treeItem = objectTreeModificationEvent.getTreeItem();
                     if (list.contains(((File) treeItem.getValue()).getName()) && !treeItem.isExpanded()) {
                         //modele.setCheminCourant(((File) treeItem.getValue()).getParent());

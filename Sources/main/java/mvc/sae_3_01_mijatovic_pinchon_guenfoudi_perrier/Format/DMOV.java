@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 public class DMOV implements Format, Serializable {
+    static final long serialVersionUID = 648175960228010030L;
 
     @Override
     public void exporter(Modele m, String chemin) {

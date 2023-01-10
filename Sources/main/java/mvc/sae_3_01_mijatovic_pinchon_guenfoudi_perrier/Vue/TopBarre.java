@@ -10,11 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAuteurs;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerOpenExporterWindow;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerAffichageOptions;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerChangementTheme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -39,8 +36,17 @@ public class TopBarre extends HBox implements Observateur {
 
         // menu fichier
         Menu menuFichier = new Menu("Fichier");
-        MenuItem m1 = new MenuItem("menu item 1");
-        MenuItem m2 = new MenuItem("menu item 2");
+        MenuItem m1 = new MenuItem("ouvrir un fichier .dmov");
+        ControllerImporterDMOV controllerImporterDMOV = new ControllerImporterDMOV(this.modele);
+        m1.setOnAction(controllerImporterDMOV);
+        MenuItem m2 = new MenuItem("sauvegarder");
+        if (this.modele.getCheminDMOV() == null) {
+            m2.setDisable(true);
+        } else {
+            m2.setDisable(false);
+        }
+        ControllerSauvegarderDMOV controllerSauvegarderDMOV = new ControllerSauvegarderDMOV(this.modele);
+        m2.setOnAction(controllerSauvegarderDMOV);
         MenuItem m3 = new MenuItem("menu item 3");
         menuFichier.getItems().add(m1);
         menuFichier.getItems().add(m2);
