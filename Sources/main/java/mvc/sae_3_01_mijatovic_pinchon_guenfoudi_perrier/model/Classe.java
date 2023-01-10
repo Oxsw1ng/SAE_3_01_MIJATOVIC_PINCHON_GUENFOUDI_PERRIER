@@ -232,46 +232,6 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
     }
 
-    public VBox affichageBidon() {
-        VBox vBoxRetour = new VBox();
-        ThemeClair thc = new ThemeClair();
-
-
-        VBox vBoxHaut = new VBox();
-        Label lbNom = new Label(this.nomClasse);
-        vBoxHaut.getChildren().add(lbNom);
-        vBoxHaut.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-
-        VBox vBoxMilieu = new VBox();
-        StringBuilder sba = new StringBuilder();
-        for (String s : this.attributs) {
-            sba.append(s+"\n");
-        }
-        Label lbAttributs = new Label(sba.toString());
-        vBoxMilieu.getChildren().add(lbAttributs);
-        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
-
-        VBox vBoxBas = new VBox();
-        StringBuilder sbc = new StringBuilder();
-        for (String s : this.constructeurs) {
-            sbc.append(s+"\n");
-        }
-        Label lbConstructeurs = new Label(sbc.toString());
-        StringBuilder sbm = new StringBuilder();
-        for (String s : this.methodes) {
-            sbm.append(s+"\n");
-        }
-        Label lbMethodes = new Label(sbm.toString());
-        vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
-        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
-
-
-        vBoxRetour.getChildren().addAll(vBoxHaut,vBoxMilieu,vBoxBas);
-        vBoxRetour.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
-        return vBoxRetour;
-    }
-
     public String getNomClasse() {
         return nomClasse;
     }

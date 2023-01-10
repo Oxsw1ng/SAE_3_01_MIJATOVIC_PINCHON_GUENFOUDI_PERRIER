@@ -92,7 +92,7 @@ public class VueClasse extends VBox {
     }
 
     public VBox creerVBoxAttributs() {
-        Theme t = new ThemeClair();
+        Theme t = modele.getTheme();
 
         VBox vBoxMilieu = new VBox();
         vBoxMilieu.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 2, 0))));
