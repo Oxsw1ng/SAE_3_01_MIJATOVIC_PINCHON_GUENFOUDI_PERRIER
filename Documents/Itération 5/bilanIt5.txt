@@ -1,0 +1,5 @@
+Pour cette itération, il y a eu quelques légers ajouts et quelques légers problèmes.
+Les options dans l'application augmentent (export en PlantUML et en DMOV, import d'un projet déjà existant,
+thème personalisé...). Il y a eu aussi un lot de problèmes notamment sur le zoom/dézoom sur le diagramme dont la solution
+n'a pas encore été trouvée. Aussi, le gros problème des types non-primitifs dans la chargement des constructeurs des
+.class n'a toujours pas été trouvé.
