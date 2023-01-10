@@ -9,11 +9,9 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 public class main extends Application {
-    public static double SIZEX = 0;
-    public static  double SIZEY = 0;
     @Override
     public void start(Stage stage) {
-        Modele modele = new Modele("/home/remi/Documents/w.dmov");
+        Modele modele = new Modele();
 
         VuePage borderPane = new VuePage(modele);
         borderPane.actualiser();
