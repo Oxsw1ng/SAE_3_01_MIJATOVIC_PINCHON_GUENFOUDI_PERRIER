@@ -25,8 +25,13 @@ public class ControllerDoubleClickFichier implements EventHandler<MouseEvent> {
         if (ti != null) {
             File f = ti.getValue();
             if (f.isFile()) {
-                Classe addClasse = new Classe(f.getAbsolutePath(),modele);
-                if (modele.getClasseCourante() == null) {
+                Classe addClasse;
+                try {
+                    addClasse = new Classe(f.getAbsolutePath(), modele);
+                } catch (Exception e) {
+                    addClasse = null;
+                }
+                if (modele.getClasseCourante() == null && addClasse != null) {
                     modele.changerClasseCourante(addClasse);
                 }
                 if (mouseEvent.getClickCount() == 2) {

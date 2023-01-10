@@ -17,12 +17,16 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.awt.*;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class main extends Application {
     public static double SIZEX = 0;
     public static  double SIZEY = 0;
     @Override
     public void start(Stage stage) throws Exception {
+
         Modele modele = new Modele();
 
         VuePage borderPane = new VuePage(modele);
