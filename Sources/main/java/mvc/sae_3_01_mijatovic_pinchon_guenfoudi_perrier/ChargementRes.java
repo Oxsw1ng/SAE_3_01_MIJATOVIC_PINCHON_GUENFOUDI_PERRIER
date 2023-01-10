@@ -14,10 +14,16 @@ public class ChargementRes {
     // icon du fichier
     public static Image getFichierRes(){
         return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/fichier.png").toExternalForm());
-
     }
     public static Image getLogo(){
         return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/logo.png").toExternalForm());
+    }
 
+    public static Image getLetterC(){
+        return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/letter-c.png").toExternalForm());
+    }
+
+    public static Image getLetterI(){
+        return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/letter-i.png").toExternalForm());
     }
 }
