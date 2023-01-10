@@ -14,9 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
-import java.lang.ModuleLayer.Controller;
 import java.util.ArrayList;
 
 /**
@@ -49,7 +47,6 @@ public class VueClasse extends VBox {
      * @return une boîte de type VBox contenant les informations de la classe
      */
     public void creerVue() {
-        Theme t = this.modele.getTheme();
         VBox vBoxHaut = creerVBoxHaut();
 
         attributs = creerVBoxAttributs();
@@ -75,8 +72,10 @@ public class VueClasse extends VBox {
     }
 
     public void mettreStrokeAndBackground() {
-        this.setBackground(new Background(new BackgroundFill(modele.getTheme().getFondClasse(), null, null)));
-        this.setBorder(new Border(new BorderStroke(modele.getTheme().getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
+        Theme t = modele.getTheme();
+
+        this.setBackground(new Background(new BackgroundFill(t.getFondClasse(), null, null)));
+        this.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2, 2, 2, 2))));
 
     }
 

@@ -9,8 +9,8 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 public class VuePage extends BorderPane implements Observateur {
     private Modele modele;
 
-    public VuePage(Modele model) {
-        this.modele=model;
+    public VuePage(Modele modele) {
+        this.modele=modele;
     }
 
     @Override

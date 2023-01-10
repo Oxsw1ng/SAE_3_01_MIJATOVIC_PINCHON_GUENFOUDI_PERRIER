@@ -3,10 +3,9 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Classe implements Comparable<Classe> {
+public class Classe implements Comparable<Classe>, Serializable {
 
     //-----------Attributs-----------
     /** Nom de la classe */
@@ -41,6 +40,11 @@ public class Classe implements Comparable<Classe> {
     private String superClass;
 
     //-----------Constructeur-----------
+
+    public void setModele(Modele modele) {
+        this.modele = modele;
+    }
+
     /**
      * Crée une nouvelle instance de la classe en lisant le fichier .class correspondant au chemin donné en paramètre.
      *
@@ -219,46 +223,6 @@ public class Classe implements Comparable<Classe> {
             sb.append(" : "+this.gererRetour(f.getType()));
             this.attributs.add(sb.toString());
         }
-    }
-
-    public VBox affichageBidon() {
-        VBox vBoxRetour = new VBox();
-        ThemeClair thc = new ThemeClair();
-
-
-        VBox vBoxHaut = new VBox();
-        Label lbNom = new Label(this.nomClasse);
-        vBoxHaut.getChildren().add(lbNom);
-        vBoxHaut.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-
-        VBox vBoxMilieu = new VBox();
-        StringBuilder sba = new StringBuilder();
-        for (String s : this.attributs) {
-            sba.append(s+"\n");
-        }
-        Label lbAttributs = new Label(sba.toString());
-        vBoxMilieu.getChildren().add(lbAttributs);
-        vBoxMilieu.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
-
-        VBox vBoxBas = new VBox();
-        StringBuilder sbc = new StringBuilder();
-        for (String s : this.constructeurs) {
-            sbc.append(s+"\n");
-        }
-        Label lbConstructeurs = new Label(sbc.toString());
-        StringBuilder sbm = new StringBuilder();
-        for (String s : this.methodes) {
-            sbm.append(s+"\n");
-        }
-        Label lbMethodes = new Label(sbm.toString());
-        vBoxBas.getChildren().addAll(lbConstructeurs, lbMethodes);
-        vBoxBas.setBorder(new Border(new BorderStroke(thc.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0,2,2,2))));
-
-
-        vBoxRetour.getChildren().addAll(vBoxHaut,vBoxMilieu,vBoxBas);
-        vBoxRetour.setBackground(new Background(new BackgroundFill(thc.getFondClasse(), null, null)));
-        return vBoxRetour;
     }
 
     public String getNomClasse() {

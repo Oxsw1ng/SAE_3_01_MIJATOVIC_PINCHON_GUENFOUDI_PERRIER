@@ -9,21 +9,24 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.*;
 
-public class Modele implements Sujet {
+public class Modele implements Sujet, Serializable {
 
     //-----------Attributs-----------
     private String nomFichier;
 
-    private Theme theme;
-    private Fabrique fabrique;
+    private transient Theme theme;
     private Classe classeCourante;
     private TreeSet<Classe> classes;
-    private Pane grapheCourant;
-    private Format export;
+    private transient Pane grapheCourant;
+    private transient Format export;
     private String cheminCourant;
-    private ArrayList<Observateur> observateurs;
+    private transient ArrayList<Observateur> observateurs;
     private HashMap<String, Boolean> etatsNav;
 
     //-----------Constructeur-----------
@@ -52,6 +55,35 @@ public class Modele implements Sujet {
         this.export = new PNG();
         this.grapheCourant = new Pane();
         this.classes = new TreeSet<Classe>();
+    }
+
+    public Modele (String cheminObjetDMOV) {
+        try {
+            // Ouvrir un flux de lecture à partir du fichier
+            FileInputStream fis = new FileInputStream(cheminObjetDMOV);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+
+            // Lire l'objet à partir du fichier
+            Modele objDMOV = (Modele) ois.readObject();
+
+            // Fermer les flux
+            ois.close();
+            fis.close();
+
+            // Accéder et afficher les valeurs des attributs de l'objet
+            this.nomFichier = objDMOV.nomFichier;
+            this.classeCourante = objDMOV.classeCourante;
+            this.classes = objDMOV.classes;
+            this.cheminCourant = objDMOV.cheminCourant;
+            this.etatsNav = objDMOV.etatsNav;
+            this.observateurs = new ArrayList<Observateur>();
+            this.theme = new ThemeClair();
+            this.export = new PNG();
+            this.grapheCourant = new Pane();
+
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 
