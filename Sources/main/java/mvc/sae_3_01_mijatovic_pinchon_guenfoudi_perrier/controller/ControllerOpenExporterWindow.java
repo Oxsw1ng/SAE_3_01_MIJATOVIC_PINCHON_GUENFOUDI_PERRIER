@@ -11,6 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -51,6 +52,7 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         Scene scene = new Scene(vb, 300, 300);
 
         Stage newWindow = new Stage();
+        newWindow.initModality(Modality.APPLICATION_MODAL);
         newWindow.setScene(scene);
         newWindow.setTitle("Choisir le mode d'export");
         newWindow.show();
