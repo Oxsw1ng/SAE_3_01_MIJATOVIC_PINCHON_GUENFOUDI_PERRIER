@@ -9,7 +9,6 @@ import java.nio.file.Files;
 public class ByteArrayClassLoader extends ClassLoader {
 
     public Class<?> findClass(String name, String pathClass) {
-        System.out.println(pathClass);
         File file = new File(pathClass);
         byte[] ba = new byte[0];
         try {

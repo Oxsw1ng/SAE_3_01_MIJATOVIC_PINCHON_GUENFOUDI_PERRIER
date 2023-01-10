@@ -206,14 +206,7 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
     }
     public void peuplerListeConstructeurs(Class<?> classeCourante) throws NoClassDefFoundError{
-        URL url = classeCourante.getResource("Date.class");
-        if (url != null) {
-            System.out.println("MyClass.class found at " + url);
-        } else {
-            System.out.println("MyClass.class not found on classpath");
-        }
         Constructor<?>[] tabConstructeurs = classeCourante.getConstructors();
-        System.out.println("0");
         for (Constructor<?> c : tabConstructeurs) {
             StringBuilder sb = new StringBuilder();
             sb.append(this.faireModifiers(c.getModifiers()));

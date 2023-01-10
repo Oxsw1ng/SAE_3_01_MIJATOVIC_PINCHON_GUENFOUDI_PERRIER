@@ -20,9 +20,9 @@ public class ControllerFichierReleased implements EventHandler<MouseEvent> {
             Classe temp = modele.getClasseCourante();
             if (temp != null) {
                 modele.ajouterClasse(temp);
-                modele.changerClasseCourante(null);
             }
             ControllerDragFichier.isDragging = false;
         }
+        modele.changerClasseCourante(null);
     }
 }
