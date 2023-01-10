@@ -1,8 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.event.EventHandler;
+import javafx.scene.input.*;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
@@ -19,7 +18,28 @@ public class VueDiagramme extends Pane implements Observateur {
     private HashMap<Classe,VueClasse> table;
     private HashSet<Fleche> fleches;
 
+    //private double zoomFactor = 1;
+
     public VueDiagramme(Modele modele){
+        //this.setOnZoom(new EventHandler<ZoomEvent>() {
+        //    @Override
+        //    public void handle(ZoomEvent event) {
+        //        zoomFactor = event.getZoomFactor();
+         //       event.consume();
+         //       actualiser();
+         //   }
+        //});
+        //this.setOnScroll(new EventHandler<ScrollEvent>() {
+         //   @Override
+         //   public void handle(ScrollEvent event) {
+         //       if (event.getDeltaY() > 0) {
+          //          zoomFactor+=0.1;
+          //      } else {
+           //         zoomFactor-=0.1;
+           //     }
+           //     actualiser();
+           // }
+        //});
         this.modele = modele;
         table = new HashMap<Classe,VueClasse>();
         this.setOnDragOver(this::handleDragOverEvent);
@@ -40,6 +60,8 @@ public class VueDiagramme extends Pane implements Observateur {
         for (Classe c:modele.getClasses()) {
             c.setModele(this.modele);
             VueClasse vue = new VueClasse(c);
+            //vue.setScaleX(vue.getScaleX()*zoomFactor);
+            //vue.setScaleY(vue.getScaleY()*zoomFactor);
             table.put(c,vue);
             this.getChildren().add(vue);
             vue.toFront();

@@ -1,0 +1,5 @@
+Ajout d'un thème personnalisé
+Ajout de l'extension .DMOV et l'export sous ce format
+Importer un projet déjà existant avec un .DMOV
+Gérer la taille des classes avec la souris
+Export en PlantUML
