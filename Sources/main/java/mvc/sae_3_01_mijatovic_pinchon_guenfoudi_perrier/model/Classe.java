@@ -3,10 +3,9 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Sujet;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
+import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,7 +14,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Classe implements Comparable<Classe> {
+public class Classe implements Comparable<Classe>, Serializable {
 
     //-----------Attributs-----------
     /** Nom de la classe */
@@ -41,6 +40,11 @@ public class Classe implements Comparable<Classe> {
     private String superClass;
 
     //-----------Constructeur-----------
+
+    public void setModele(Modele modele) {
+        this.modele = modele;
+    }
+
     /**
      * Crée une nouvelle instance de la classe en lisant le fichier .class correspondant au chemin donné en paramètre.
      *

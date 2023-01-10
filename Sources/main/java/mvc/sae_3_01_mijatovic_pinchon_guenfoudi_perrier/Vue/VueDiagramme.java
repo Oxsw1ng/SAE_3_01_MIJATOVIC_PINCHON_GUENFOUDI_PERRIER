@@ -1,22 +1,15 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
-import javafx.animation.PauseTransition;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Line;
-import javafx.util.Duration;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDragExterieur;
-import javafx.scene.shape.Polygon;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
-
-
-import java.awt.*;
 import java.util.*;
 
 public class VueDiagramme extends Pane implements Observateur {
@@ -45,6 +38,7 @@ public class VueDiagramme extends Pane implements Observateur {
         fleches.clear();
         this.getChildren().clear();
         for (Classe c:modele.getClasses()) {
+            c.setModele(this.modele);
             VueClasse vue = new VueClasse(c);
             table.put(c,vue);
             this.getChildren().add(vue);
