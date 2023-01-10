@@ -7,7 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -215,6 +215,7 @@ public class VueRepCourant extends VBox implements Observateur {
         tv.setPrefHeight(1000);
         explorateur.setBackground(new Background(new BackgroundFill(modele.getTheme().getBordureEtBtnImportant(), null, null)));
         explorateur.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(0, 0, 1, 0))));
+        explorateur.setTextFill(modele.getTheme().getColorTextTitle());
 
         tf.setText(modele.getCheminCourant());
         String bigOpposant = modele.getCheminCourant();

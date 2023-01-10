@@ -1,15 +1,13 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
-import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.ChargementRes;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
@@ -132,10 +130,15 @@ public class TopBarre extends HBox implements Observateur {
         sp.setPadding(new Insets(10));
 
         // Création du bouton changement de thème
-        Button btnTheme = new Button("Thème : "+modele.getTheme().getNom());
+        ChoiceBox btnTheme = new ChoiceBox();
+        for (Theme theme : modele.getListThemes()) {
+            btnTheme.getItems().add(theme);
+        }
+        btnTheme.getItems().add("perssonnaliser");
+        if (btnTheme.getValue()==null)
+            btnTheme.setValue(modele.getTheme());
         btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,new CornerRadii(0),new BorderWidths(1))));
-        btnTheme.setAlignment(Pos.CENTER);
-
+        btnTheme.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),null,null)));
         // Ajout du contrôleur sur le bouton
         ControllerChangementTheme controlTheme = new ControllerChangementTheme(modele);
         btnTheme.setOnAction(controlTheme);
