@@ -37,6 +37,8 @@ public class Classe implements Comparable<Classe> {
 
     /** Indique si la classe est une interface ou non */
     private boolean isInterface;
+    private String[] interfaces;
+    private String superClass;
 
     //-----------Constructeur-----------
     /**
@@ -102,6 +104,15 @@ public class Classe implements Comparable<Classe> {
                 byteArrayClassLoader.findClass(nomClasseNonPrimitive, path+nomClasseNonPrimitive+".class");
             }
         }
+
+        this.interfaces = new String[100];
+        for (int i = 0; i<classeCourante.getInterfaces().length; i++) {
+            String[] nomComplet = classeCourante.getInterfaces()[i].getName().split("\\.");
+            String nom = nomComplet[nomComplet.length - 1];
+            this.interfaces[i] = nom;
+        }
+        String[] nomCompletSuperClasse = classeCourante.getSuperclass().getName().split("\\.");
+        this.superClass = nomCompletSuperClasse[nomCompletSuperClasse.length -1];
     }
 
     /**
@@ -314,6 +325,14 @@ public class Classe implements Comparable<Classe> {
 
     public Modele getModele() {
         return modele;
+    }
+
+    public String[] getInterfaces() {
+        return this.interfaces;
+    }
+
+    public String getSuperClass() {
+        return this.superClass;
     }
 
     @Override

@@ -65,10 +65,8 @@ public class VueDiagramme extends Pane implements Observateur {
                }
            }
            //ajout des dépendance selon les interfaces
-           for (Class inter:c.getInterfaces()){
-               String[] nomComplet = c.getSuperClass().getName().split("\\.");
-               String nom = nomComplet[nomComplet.length -1];
-               Classe retour = lienExistant(nom);
+           for (String inter : c.getInterfaces()){
+               Classe retour = lienExistant(inter);
                if (retour != null){
                    Fleche f = new Fleche(c,retour,Fleche.FLECHE_IMPLEMENTATION,modele,this);
                    fleches.add(f);
@@ -77,9 +75,7 @@ public class VueDiagramme extends Pane implements Observateur {
                }
            }
            //ajout des dépendance selon l'hérédité
-           String[] nomComplet = c.getSuperClass().getName().split("\\.");
-           String nom = nomComplet[nomComplet.length -1];
-           Classe retour = lienExistant(nom);
+           Classe retour = lienExistant(c.getSuperClass());
            if (retour != null){
                Fleche f = new Fleche(c,retour,Fleche.FLECHE_HEREDITE,modele,this);
                fleches.add(f);
