@@ -1,4 +1,4 @@
-package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
+package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils;
 
 import javafx.scene.image.Image;
 

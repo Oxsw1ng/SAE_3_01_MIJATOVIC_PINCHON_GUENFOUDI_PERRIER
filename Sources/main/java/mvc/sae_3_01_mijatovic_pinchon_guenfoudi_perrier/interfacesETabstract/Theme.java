@@ -2,7 +2,7 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract;
 
 import javafx.scene.paint.Color;
 
-public abstract class Theme {
+public class Theme {
 
     //-----------Attributs-----------
 
@@ -20,7 +20,7 @@ public abstract class Theme {
 
     //-----------Constructeurs-----------
 
-    protected Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle, Color colorFond2) {
+    public Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle, Color colorFond2) {
         this.nom = nom;
         this.bordureEtBtnImportant = bordureEtBtnImportant;
         this.boutonClassiques = boutonClassiques;
@@ -79,4 +79,9 @@ public abstract class Theme {
     }
 
     public Color getColorFond2(){return ColorFond2;}
+
+    @Override
+    public String toString() {
+        return this.nom;
+    }
 }

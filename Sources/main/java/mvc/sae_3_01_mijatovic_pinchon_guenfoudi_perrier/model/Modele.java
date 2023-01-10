@@ -6,6 +6,8 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.PNG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementTheme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 
@@ -13,6 +15,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class Modele implements Sujet, Serializable {
@@ -23,6 +26,9 @@ public class Modele implements Sujet, Serializable {
     private String nomFichier;
 
     private transient Theme theme;
+    private ArrayList<Theme> themes;
+
+    private Fabrique fabrique;
     private Classe classeCourante;
     private TreeSet<Classe> classes;
     private transient Pane grapheCourant;
@@ -51,9 +57,11 @@ public class Modele implements Sujet, Serializable {
         }
         this.cheminCourant = this.cheminCourant.replace("%20"," ");
 
+        this.themes = new ArrayList<>();
+        chargerThemes();
+        this.theme=themes.get(ChargementTheme.chargerNumeroDuTheme());
         this.observateurs = new ArrayList<Observateur>();
         this.etatsNav = new HashMap<String, Boolean>();
-        this.theme=new ThemeClair();
         this.export = new PNG();
         this.grapheCourant = new Pane();
         this.classes = new TreeSet<Classe>();
@@ -127,6 +135,12 @@ public class Modele implements Sujet, Serializable {
         return "#"+hex2;
     }
 
+    private void chargerThemes(){
+        this.themes.add(new ThemeClair());
+        this.themes.add(new ThemeSombre());
+        this.themes.addAll(ChargementTheme.chargerTheme());
+    }
+
     public void changerGrapheCourant(Pane graphe) {
         this.grapheCourant = graphe;
     }
@@ -166,6 +180,11 @@ public class Modele implements Sujet, Serializable {
         notifierObservateurs();
     }
 
+    public void ajouterTheme(Theme t){
+        this.themes.add(t);
+        changerTheme(t);
+    }
+
     /**
      * Ajoute un bouton situé dans la top barre dans la liste des boutons sur lequels leur état est vérifié (actif ou non)
      * @param name : nom du bouton
@@ -187,6 +206,7 @@ public class Modele implements Sujet, Serializable {
 
     public void changerTheme(Theme t){
         this.theme=t;
+        ChargementTheme.changerNumTheme(this,themes.indexOf(t));
         this.notifierObservateurs();
     }
 
@@ -263,6 +283,10 @@ public class Modele implements Sujet, Serializable {
     }
     public String getCheminDMOV() {
         return cheminDMOV;
+    }
+
+    public ArrayList<Theme> getListThemes(){
+        return this.themes;
     }
 
 
