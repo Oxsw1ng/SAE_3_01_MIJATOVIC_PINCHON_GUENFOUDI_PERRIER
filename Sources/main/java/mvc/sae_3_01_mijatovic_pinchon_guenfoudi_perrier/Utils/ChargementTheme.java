@@ -93,7 +93,7 @@ public class ChargementTheme {
         ArrayList<Theme> arTheme = chargerTheme();
         try {
             BufferedWriter bw = ecritureDuFichier();
-            bw.write(""+numeroDuTheme);
+            bw.write(numeroDuTheme+"");
             bw.newLine();
             for (Theme theme:arTheme) {
                 String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};

@@ -1,6 +1,5 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
@@ -17,7 +16,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Modele implements Sujet, Serializable {
@@ -30,7 +28,6 @@ public class Modele implements Sujet, Serializable {
     private transient Theme theme;
     private ArrayList<Theme> themes;
 
-    private Fabrique fabrique;
     private Classe classeCourante;
     private TreeSet<Classe> classes;
     private transient VueDiagramme grapheCourant;

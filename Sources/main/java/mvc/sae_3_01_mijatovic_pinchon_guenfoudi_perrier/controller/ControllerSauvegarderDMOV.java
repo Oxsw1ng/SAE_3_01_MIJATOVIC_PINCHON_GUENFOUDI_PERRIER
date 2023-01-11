@@ -15,7 +15,8 @@ public class ControllerSauvegarderDMOV implements EventHandler<ActionEvent> {
     @Override
     public void handle(ActionEvent actionEvent) {
         DMOV dmov = new DMOV();
-        System.out.println(this.modele.getCheminDMOV().split("\\.")[this.modele.getCheminDMOV().split("\\.").length-2]);
-        dmov.exporter(this.modele, this.modele.getCheminDMOV().split("\\.")[this.modele.getCheminDMOV().split("\\.").length-2]);
+        // le chemin est égal au chemin sans l'extension
+        String chemin = this.modele.getCheminDMOV().split("\\.")[this.modele.getCheminDMOV().split("\\.").length-2];
+        dmov.exporter(this.modele, chemin);
     }
 }

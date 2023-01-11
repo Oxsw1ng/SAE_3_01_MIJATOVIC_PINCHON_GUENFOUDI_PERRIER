@@ -1,25 +1,14 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.*;
-import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 public class main extends Application {
-    
-    public static double SIZEX = 0;
-    public static double SIZEY = 0;
-
     @Override
     public void start(Stage stage) {
         Modele modele = new Modele();
