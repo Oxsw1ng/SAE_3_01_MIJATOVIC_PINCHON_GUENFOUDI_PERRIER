@@ -6,6 +6,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
@@ -18,6 +19,7 @@ import javafx.scene.layout.VBox;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
+import java.awt.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -36,11 +38,26 @@ public class VueClasse extends VBox {
         this.modele = modele;
         ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele, this);
         setOnMousePressed(e -> {
-            this.setCursor(Cursor.CLOSED_HAND);
+            System.out.println(e.getX());
+            if (estSurBordure(e)) {
+                controller.RedimensionnementEstActif();
+                this.setCursor(Cursor.SE_RESIZE);
+            } else {
+                this.setCursor(Cursor.CLOSED_HAND);
+            }
+
             controller.setxDuClique(e.getX());
             controller.setyDuClique(e.getY());
         });
-        setOnMouseReleased(e -> this.setCursor(Cursor.OPEN_HAND));
+        setOnMouseReleased(e -> {
+           /* if(estSurStroke(e))
+                this.setCursor(Cursor.SE_RESIZE);
+            else {*/
+            controller.redimensionnementEstInnactif();
+            this.setCursor(Cursor.CLOSED_HAND);
+//            }
+
+        });
         setOnMouseDragged(controller);
         this.setCursor(Cursor.OPEN_HAND);
         this.creerVue();
@@ -243,6 +260,54 @@ public class VueClasse extends VBox {
 
     private void cacherConstructeurs() {
         this.getChildren().remove(constructeurs);
+    }
+    /**
+
+     Méthode pour vérifier si le clic de souris est sur toute la bordure de l'élément.
+
+     @param mouseEvent l'événement de clic de souris
+
+     @return vrai si le clic est sur toute la bordure, faux sinon
+     */
+    public boolean estSurBordure(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        double width = node.getBoundsInLocal().getWidth();
+        double height = node.getBoundsInLocal().getHeight();
+
+        return (x < 5 || x > width - 5 || y < 5 || y > height - 5);
+    }
+
+    /**
+
+     Méthode pour vérifier si le clic de souris est sur le bord inférieur et droit de l'élément.
+
+     @param mouseEvent l'événement de clic de souris
+
+     @return vrai si le clic est sur le bord inférieur et droit, faux sinon
+     */
+    public boolean estSurBordInferieurEtDroit(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        double width = node.getBoundsInLocal().getWidth();
+        double height = node.getBoundsInLocal().getHeight();
+
+        return (x > width - 5 || y > height - 5);
+    }
+
+    /**
+
+     Méthode pour vérifier si le clic de souris est sur le bord gauche et haut de l'élément.
+     @param mouseEvent l'événement de clic de souris
+     @return vrai si le clic est sur le bord gauche et haut, faux sinon
+     */
+    public boolean estSurBordGaucheEtHaut(MouseEvent mouseEvent) {
+        Node node = (Node) mouseEvent.getSource();
+        double x = mouseEvent.getX();
+        double y = mouseEvent.getY();
+        return (x < 5 || y < 5);
     }
 }
 

@@ -301,4 +301,28 @@ public class Classe implements Comparable<Classe>, Serializable {
     public void supprimerClasseDansModele(){
         modele.supprimerClasse(this);
     }
+
+    public String convertirPlantUml() {
+        StringBuilder sb = new StringBuilder();
+        if (isInterface) {
+            sb.append("interface ");
+        } else {
+            sb.append("class ");
+        }
+        sb.append(nomClasse);
+
+        sb.append(" {\n");
+        for (String attribut : attributs) {
+            sb.append("  ").append(attribut).append("\n");
+        }
+        for (String constructeur : constructeurs) {
+            sb.append("  ").append(constructeur).append("\n");
+        }
+        for (String methode : methodes) {
+            sb.append("  ").append(methode).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
+
+    }
 }

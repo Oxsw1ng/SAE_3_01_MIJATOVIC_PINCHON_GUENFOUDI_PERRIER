@@ -8,6 +8,8 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.PNG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementTheme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.Fleche;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueDiagramme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 
@@ -31,7 +33,7 @@ public class Modele implements Sujet, Serializable {
     private Fabrique fabrique;
     private Classe classeCourante;
     private TreeSet<Classe> classes;
-    private transient Pane grapheCourant;
+    private transient VueDiagramme grapheCourant;
     private transient Format export;
     private String cheminCourant;
     private transient ArrayList<Observateur> observateurs;
@@ -63,7 +65,7 @@ public class Modele implements Sujet, Serializable {
         this.observateurs = new ArrayList<Observateur>();
         this.etatsNav = new HashMap<String, Boolean>();
         this.export = new PNG();
-        this.grapheCourant = new Pane();
+        this.grapheCourant = new VueDiagramme(this);
         this.classes = new TreeSet<Classe>();
         this.cheminDMOV = null;
     }
@@ -90,7 +92,7 @@ public class Modele implements Sujet, Serializable {
             this.observateurs = new ArrayList<Observateur>();
             this.theme = new ThemeClair();
             this.export = new PNG();
-            this.grapheCourant = new Pane();
+            this.grapheCourant = new VueDiagramme(this);
             this.cheminDMOV = cheminObjetDMOV;
 
         } catch (IOException | ClassNotFoundException e) {
@@ -141,7 +143,7 @@ public class Modele implements Sujet, Serializable {
         this.themes.addAll(ChargementTheme.chargerTheme());
     }
 
-    public void changerGrapheCourant(Pane graphe) {
+    public void changerGrapheCourant(VueDiagramme graphe) {
         this.grapheCourant = graphe;
     }
     public void changerModeExport(String type) {
@@ -275,7 +277,7 @@ public class Modele implements Sujet, Serializable {
         return export;
     }
 
-    public Pane getGrapheCourant() {
+    public VueDiagramme getGrapheCourant() {
         return grapheCourant;
     }
     public boolean getEtatNav(String clef) {
@@ -304,6 +306,22 @@ public class Modele implements Sujet, Serializable {
     public void supprimerClasse(Classe classeASupprimer){
         classes.remove(classeASupprimer);
         notifierObservateurs();
+    }
+
+    public String convertirPlantUml() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("@startuml");
+        sb.append("\n");
+        for (Classe classe : classes) {
+            sb.append(classe.convertirPlantUml());
+        }
+        for (Fleche fleche : grapheCourant.getFleches()) {
+            sb.append(fleche.convertirPlantUml());
+        }
+        sb.append("\n");
+        sb.append("@enduml");
+        return sb.toString();
+
     }
 }
 
