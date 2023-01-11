@@ -43,8 +43,6 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
 
             // Appliquer les différences de position aux dimensions de la vue
             if(vue.estSurBordInferieurEtDroit(mouseEvent)) {
-
-                System.out.println(diffX+"::");
                 vue.setPrefWidth(vue.getWidth() + diffX);
                 vue.setPrefHeight(vue.getHeight() + diffY);
             }
