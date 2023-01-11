@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
@@ -72,8 +73,14 @@ public class TopBarre extends HBox implements Observateur {
         mb.getMenus().add(menuAPropos);
 
         // paramétrage de l'affichage de la menuBar
-        mb.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),null,null)));
+        mb.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(), null, null)));
         mb.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 2, 2, 0))));
+        for (Menu menu : mb.getMenus()) {
+            Label label = new Label(menu.getText());
+            label.setTextFill(modele.getTheme().getColorText());
+            menu.setGraphic(label);
+            menu.setText("");
+        }
 
         vBoxGauche.getChildren().add(mb);
 
@@ -98,7 +105,7 @@ public class TopBarre extends HBox implements Observateur {
         for (Button b : listeBoutons) {
             b.setOnAction(controlOptions);
             b.setTextFill(t.getColorText());
-            b.setBorder(new Border(new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID,co,new BorderWidths(1))));
+            b.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, co, new BorderWidths(1))));
             if (!etatsTemp.get(b.getText())) {
                 b.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(), co, new Insets(0))));
             } else {
@@ -120,28 +127,38 @@ public class TopBarre extends HBox implements Observateur {
 
         CornerRadii co2 = new CornerRadii(10);
         boutonExporter.setStyle("-fx-font-weight: 900; -fx-font-size: 20");
-        boutonExporter.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,co2,new BorderWidths(3))));
+        boutonExporter.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(), BorderStrokeStyle.SOLID, co2, new BorderWidths(3))));
         boutonExporter.setMinHeight(60.0);
         boutonExporter.setMinWidth(120.0);
-        boutonExporter.setBackground(new Background(new BackgroundFill(t.getBordureEtBtnImportant(),co2,null)));
+        boutonExporter.setBackground(new Background(new BackgroundFill(t.getBordureEtBtnImportant(), co2, null)));
         boutonExporter.setTextFill(t.getColorTextTitle());
 
         StackPane sp = new StackPane(boutonExporter);
         sp.setPadding(new Insets(10));
 
         // Création du bouton changement de thème
+        HBox them = new HBox();
+        Label lbThm = new Label("Thème : ");
+        lbThm.setTextFill(modele.getTheme().getColorText());
         ChoiceBox btnTheme = new ChoiceBox();
         for (Theme theme : modele.getListThemes()) {
             btnTheme.getItems().add(theme);
         }
-        btnTheme.getItems().add("perssonnaliser");
-        if (btnTheme.getValue()==null)
+        btnTheme.getItems().add("personnaliser");
+        if (btnTheme.getValue() == null)
             btnTheme.setValue(modele.getTheme());
-        btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(),BorderStrokeStyle.SOLID,new CornerRadii(0),new BorderWidths(1))));
+
+        //changement du thème
+        btnTheme.setBorder(new Border(new BorderStroke(t.getBoutonClassiques(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(1))));
         btnTheme.setBackground(new Background(new BackgroundFill(t.getBoutonClassiques(),null,null)));
+
         // Ajout du contrôleur sur le bouton
         ControllerChangementTheme controlTheme = new ControllerChangementTheme(modele);
         btnTheme.setOnAction(controlTheme);
+
+        them.getChildren().addAll(lbThm, btnTheme);
+        them.setAlignment(Pos.CENTER);
+
 
         // création d'un objet Region afin d'espacer le bouton Exporter du reste des objets
         Region spacer1 = new Region();
@@ -152,13 +169,14 @@ public class TopBarre extends HBox implements Observateur {
         Region spacer2 = new Region();
         HBox.setHgrow(spacer2, Priority.ALWAYS);
 
-        VBox vb = new VBox(sp, btnTheme);
+        VBox vb = new VBox(sp, them);
+        VBox.setMargin(them, new Insets(0, 10, 0, 0));
         vb.setAlignment(Pos.CENTER);
 
-        this.getChildren().addAll(spacer1,img,spacer2);
+        this.getChildren().addAll(spacer1, img, spacer2);
         this.getChildren().add(vb);
         this.setSpacing(10);
-        this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(),null,null)));
+        this.setBackground(new Background(new BackgroundFill(t.getFondNavEtArbo(), null, null)));
         this.setBorder(new Border(new BorderStroke(t.getBordureEtBtnImportant(), BorderStrokeStyle.SOLID, new CornerRadii(0), new BorderWidths(0, 0, 2, 0))));
     }
 }

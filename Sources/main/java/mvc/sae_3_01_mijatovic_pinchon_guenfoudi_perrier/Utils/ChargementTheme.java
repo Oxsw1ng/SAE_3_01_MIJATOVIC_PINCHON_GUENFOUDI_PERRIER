@@ -36,7 +36,7 @@ public class ChargementTheme {
     /*
      * methode qui rend l'indice du theme selectionne par l utilisateur comme theme courant
      */
-    public static int chargerNumeroDuTheme(){
+    public static int chargerNumeroDuTheme(Modele m){
         int i = 0;
         try {
             BufferedReader br = lectureDuFichier();
@@ -47,6 +47,8 @@ public class ChargementTheme {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (NumberFormatException e){
+            changerNumTheme(m,0);
         }
         return i;
     }
@@ -90,10 +92,12 @@ public class ChargementTheme {
      * methode de modification du theme courant voulu
      */
     public static void changerNumTheme(Modele modele, int numeroDuTheme) {
-        ArrayList<Theme> arTheme = chargerTheme();
+        ArrayList<Theme> arTheme = new ArrayList<>(modele.getListThemes());
+        arTheme.remove(0);
+        arTheme.remove(0);
         try {
             BufferedWriter bw = ecritureDuFichier();
-            bw.write(""+numeroDuTheme);
+            bw.write(numeroDuTheme+"");
             bw.newLine();
             for (Theme theme:arTheme) {
                 String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};

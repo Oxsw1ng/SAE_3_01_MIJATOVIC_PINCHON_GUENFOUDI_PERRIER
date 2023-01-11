@@ -9,7 +9,7 @@ public class ClasseTest {
         try {
             String chemin = new File("fichiers_test/Personne.class").toString();
             // Execute the javap command
-            Process process = Runtime.getRuntime().exec("javap -p "+chemin);
+            Process process = Runtime.getRuntime().exec("javap "+chemin);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

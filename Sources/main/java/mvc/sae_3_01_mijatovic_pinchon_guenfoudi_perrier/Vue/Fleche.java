@@ -2,7 +2,6 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.animation.PauseTransition;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.util.Duration;
@@ -94,6 +93,7 @@ public class Fleche extends Group {
 
         ArrayList<Point> pointsAppartenantAuxSegments = new ArrayList<>();
 
+        // On boucle sur chaque côté du rectangle formant la classe
         for (int i =0; i<4; i++) {
             Point extremite1, extremite2;
             if (i==3) {

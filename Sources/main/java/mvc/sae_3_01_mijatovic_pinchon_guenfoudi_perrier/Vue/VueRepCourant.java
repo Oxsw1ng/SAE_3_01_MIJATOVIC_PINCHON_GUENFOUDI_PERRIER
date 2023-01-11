@@ -70,7 +70,6 @@ public class VueRepCourant extends VBox implements Observateur {
             this.bigParent = "/"+bigParent;
         }
 
-        //this.bigParent = modele.getCheminCourant().split("\\\\")[0] + "\\";
         // creation d un item de substitution
         this.tv = new TreeView<File>(new TreeItem<>(new File("Chargement du répertoire ...")));
 
@@ -81,7 +80,6 @@ public class VueRepCourant extends VBox implements Observateur {
                     TreeItem<File> root = genererTreeItem(new File(bigParent));
                     root.setExpanded(true);
                     //appelle de la methode privé actuExpanded
-                    //actuExpanded(root, List.of(modele.getCheminCourant().split("\\\\")));
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
@@ -94,8 +92,6 @@ public class VueRepCourant extends VBox implements Observateur {
                     this.listArborescences.put(root.getValue().getAbsolutePath(),root);
 
                     //puis on continue le thread en créant préalablement les autres répertoires possibles
-
-
                 });
         thread1.start();
 
@@ -253,12 +249,10 @@ public class VueRepCourant extends VBox implements Observateur {
                     String system = System.getProperty("os.name").toLowerCase();
                     if (system.contains("win")) {
                         if (modele.getCheminCourant().split("\\\\").length <= file.getAbsolutePath().split("\\\\").length) {
-                            //modele.setCheminCourant(file.getAbsolutePath());
                             tf.setText(file.getAbsolutePath());
                         }
                     } else {
                         if (modele.getCheminCourant().split("/").length <= file.getAbsolutePath().split("/").length) {
-                            //modele.setCheminCourant(file.getAbsolutePath());
                             tf.setText(file.getAbsolutePath());
                         }
                     }
@@ -278,7 +272,6 @@ public class VueRepCourant extends VBox implements Observateur {
                     }
                     TreeItem treeItem = objectTreeModificationEvent.getTreeItem();
                     if (list.contains(((File) treeItem.getValue()).getName()) && !treeItem.isExpanded()) {
-                        //modele.setCheminCourant(((File) treeItem.getValue()).getParent());
                         tf.setText(((File) treeItem.getValue()).getParent());
                     }
                 }
@@ -297,11 +290,7 @@ public class VueRepCourant extends VBox implements Observateur {
             }
         }
 
-
-
         //on retourne l'item courant
         return treeIt;
     }
-
-
 }
