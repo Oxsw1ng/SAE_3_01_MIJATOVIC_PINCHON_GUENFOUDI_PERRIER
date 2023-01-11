@@ -1,16 +1,15 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,7 +37,7 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     /** Indique si la classe est une interface ou non */
     private boolean isInterface;
-    private String[] interfaces;
+    private String[] implemente;
     private String superClass;
 
     //-----------Constructeur-----------
@@ -54,185 +53,177 @@ public class Classe implements Comparable<Classe>, Serializable {
      * @param modele objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe
      */
     public Classe(String pathClass, Modele modele) {
-        this.modele=modele;
-        this.cheminClasse = pathClass;
+        this.attributs = new ArrayList<>();
+        this.methodes = new ArrayList<>();
+        this.constructeurs = new ArrayList<>();
+        this.implemente = new String[100];
+        try {
+            // Execute the javap command
+            Process process = Runtime.getRuntime().exec("javap -p " + pathClass);
 
-        // Change le split selon l'OS de l'utilisateur
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            this.nomClasse = pathClass;
-            this.nomClasse.replace("\\", "\\\\");
-            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
-        } else {
-            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
-        }
-        if (nomClasse.split("/").length == 2) {
-            nomClasse = nomClasse.split("/")[1];
-        }
+            // Read the output of the command
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line = reader.readLine();
 
-        // lecture du fichier .class créé à partir du chemin donné en paramètre
+            // recuperer le nom de la classe
+            String[] nom = line.split("\"");
+            nomClasse = nom[1].split("\\.")[0];
 
-
-
-        ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
-        for (Classe c : this.modele.getClasses()) {
-            byteArrayClassLoader.findClass(c.nomClasse, c.cheminClasse);
-        }
-        Class<?> classeCourante;
-        classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
-
-        boolean neFonctionnePas = true;
-        Class<?> superClass;
-        Class<?>[] interfaces;
-        while (neFonctionnePas) {
-            try {
-                this.isInterface = classeCourante.isInterface();
-                superClass = classeCourante.getSuperclass();
-                interfaces = classeCourante.getInterfaces();
-
-                this.methodes = new ArrayList<>();
-                this.attributs = new ArrayList<>();
-                this.constructeurs = new ArrayList<>();
-                this.peuplerListeMethodes(classeCourante);
-                this.peuplerListeConstructeurs(classeCourante);
-                this.peuplerListeAttributs(classeCourante);
-                neFonctionnePas = false;
-            } catch (NoClassDefFoundError e) {
-                String path;
-                if (os.contains("win")) {
-                    path = pathClass;
-                    path.replace("\\", "\\\\");
-                    path = String.join("\\", Arrays.copyOf(pathClass.split("\\\\"), pathClass.split("\\\\").length-1)) + "\\";
-                } else {
-                    path = String.join("/", Arrays.copyOf(pathClass.split("/"), pathClass.split("/").length-1)) + "/";
+            // test pour savoir si c'est une interface
+            line = reader.readLine();
+            String[] mots = line.split(" ");
+            for (int i = 0; i < mots.length; i++) {
+                switch (mots[i]) {
+                    case "interface" :
+                        this.isInterface = true;
+                        break;
+                    case "implements" :
+                        String[] classes = mots[i+1].split(",");
+                        for (int j = 0; j < classes.length; j++) {
+                            String c = classes[j];
+                            this.implemente[j] = recupType(c);
+                        }
+                        break;
+                    case "extends" :
+                        this.superClass = recupType(mots[i+1]);
+                        break;
                 }
-                String nomClasseNonPrimitive =  e.getMessage();
-                byteArrayClassLoader.findClass(nomClasseNonPrimitive, path+nomClasseNonPrimitive+".class");
+            }
+
+
+
+            // continuer pour le reste du contenu
+            while ((line = reader.readLine()) != null) {
+                if (estConstructeur(line)) {
+                    peuplerListeMethodes(line,false);
+                } else if (estMethode(line)) {
+                    peuplerListeMethodes(line,true);
+                } else if (estAttribut(line)) {
+                    peuplerListeAttributs(line);
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        this.modele = modele;
+        this.cheminClasse = pathClass;
+    }
+
+    private boolean estAttribut(String line) {
+        return line.startsWith("  ");
+    }
+
+    public boolean estConstructeur(String ligne) {
+        if (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")")) {
+            ligne = ligne.replaceAll("  public |  private |  protected ", "");
+            String[] mots = ligne.split("\\(");
+            for (String m : mots) {
+                if (recupType(m).equals(this.nomClasse)) {
+                    return true;
+                }
             }
         }
-
-        this.interfaces = new String[100];
-        for (int i = 0; i<classeCourante.getInterfaces().length; i++) {
-            String[] nomComplet = classeCourante.getInterfaces()[i].getName().split("\\.");
-            String nom = nomComplet[nomComplet.length - 1];
-            this.interfaces[i] = nom;
-        }
-        String[] nomCompletSuperClasse = classeCourante.getSuperclass().getName().split("\\.");
-        this.superClass = nomCompletSuperClasse[nomCompletSuperClasse.length -1];
+        return false;
     }
 
-    /**
-     * Gère les modificateurs d'un membre de la classe (attribut, méthode, etc.) et renvoie une chaîne de caractères
-     * représentant ces modificateurs sous forme de caractères spéciaux.
-     *
-     * @param acces entier représentant les modificateurs du membre de la classe
-     * @return chaîne de caractères représentant les modificateurs du membre de la classe
-     */
-    public String faireModifiers(int acces) {
-        StringBuilder sb = new StringBuilder();
-        if (Modifier.isPublic(acces)) {
-            sb.append("+ ");
-        } if (Modifier.isPrivate(acces)) {
-            sb.append("- ");
-        } if (Modifier.isProtected(acces)) {
-            sb.append("# ");
-        } if (Modifier.isStatic(acces)) {
-            sb.append("static ");
-        } if (Modifier.isFinal(acces)) {
-            sb.append("final ");
-        } if (Modifier.isAbstract(acces)) {
-            sb.append("abstract ");
-        } if (Modifier.isNative(acces)) {
-            sb.append("native ");
-        } if (Modifier.isSynchronized(acces)) {
-            sb.append("synchronized ");
-        } if (Modifier.isTransient(acces)) {
-            sb.append("transient ");
-        } if (Modifier.isVolatile(acces)) {
-            sb.append("volatile ");
-        }
-        return sb.toString();
+    public boolean estMethode(String ligne) {
+        return (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")"));
     }
-    /**
-     * Gère les paramètres d'une méthode ou d'un constructeur et renvoie une chaîne de caractères représentant ces
-     * paramètres.
-     *
-     * @param parametres tableau d'objets Class représentant les paramètres de la méthode ou du constructeur
-     * @return chaîne de caractères représentant les paramètres de la méthode ou du constructeur
-     */
-    private String gererParametre(Class[] parametres) {
+
+    public void peuplerListeAttributs(String ligne) {
+        ligne = ligne.substring(2);
+        String[] mots = ligne.split(" ");
         StringBuilder sb = new StringBuilder();
-        boolean aDesParametres = false;
-        for (Class classParam : parametres) {
-            aDesParametres = true;
-            if (classParam.isArray()) {
-                String[] type = classParam.getCanonicalName().split("\\.");
-                if (type[type.length - 1].contains("$"))
-                    type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
-                sb.append(type[type.length - 1] + ", ");
-            } else {
-                String[] type = classParam.getName().split("\\.");
-                sb.append(type[type.length - 1] + ", ");
+        int index = 0;
+
+        while ((index<mots.length) && (mots[index].equals("public")
+                                    ||  mots[index].equals("private")
+                                    ||  mots[index].equals("protected")
+                                    ||  mots[index].equals("final")
+                                    ||  mots[index].equals("static")
+                                    ||  mots[index].equals("abstract")
+                                    ||  mots[index].equals("native")
+                                    ||  mots[index].equals("synchronized")
+                                    ||  mots[index].equals("transient")
+                                    ||  mots[index].equals("volatile"))) {
+            switch(mots[index]) {
+                case "public" :
+                    sb.append("+ ");
+                    break;
+                case "private" :
+                    sb.append("- ");
+                    break;
+                case "protected" :
+                    sb.append("# ");
+                    break;
+                default :
+                    sb.append(mots[index]+" ");
+                    break;
+            }
+            index++;
+        }
+        sb.append(mots[mots.length -1].substring(0, mots[mots.length -1].length()-1)+" : ");
+        sb.append(recupType(mots[index]));
+        this.attributs.add(sb.toString());
+    }
+
+
+    public void peuplerListeMethodes(String line, boolean isMethod) throws NoClassDefFoundError {
+        String retour = "";
+
+        // preparatifs
+        line = line.substring(2);
+        String[] parties = line.split(" ");
+        switch (parties[0]){
+            case "public":
+                retour += "+ ";
+                break;
+            case "private":
+                retour += "- ";
+                break;
+            case "protected":
+                retour += "# ";
+                break;
+        }
+        // les elements avant le nom de la methode ou du constructeur
+        int i = 1;
+        String tmp = "";
+
+        while(!parties[i].contains("(")){
+            retour += tmp;
+            tmp = recupType(parties[i]);
+            i++;
+        }
+        String typeRetour = recupType(tmp);
+        if (!isMethod)
+            retour += tmp;
+
+        // on arrive au nom
+        String[] p = parties[i].split("\\(");
+        retour += recupType(p[0])+"(";
+        if(p[1].contains(")")){ // si la methode contient 1 ou 0 parametres
+            retour += recupType(p[1]);
+        }else { // sinon
+            i++;
+            while(!parties[i-1].contains(")")){
+                retour += recupType(parties[i]);
+                i++;
             }
         }
-        if (aDesParametres)
-            sb.setLength(sb.length() - 2); //permet de supprimer la dernière virgule et l'espace en trop si il y a des paramètres
-        return sb.toString();
-    }
-
-    private String gererRetour(Class retour) {
-        StringBuilder sb = new StringBuilder();
-        if (retour.isArray()) {
-            String[] type = retour.getCanonicalName().split("\\.");
-            if (type[type.length - 1].contains("$"))
-                type[type.length - 1] = type[type.length - 1].split("\\$")[type[type.length - 1].split("\\$").length - 1];
-            sb.append(type[type.length - 1]);
-        } else {
-            String[] type = retour.getName().split("\\.");
-            sb.append(type[type.length - 1]);
-        }
-        return sb.toString();
-    }
-
-    public void peuplerListeMethodes(Class<?> classeCourante) throws NoClassDefFoundError {
-        Method[] tabMethodes = classeCourante.getDeclaredMethods();
-        for (Method m : tabMethodes) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.faireModifiers(m.getModifiers()));
-            sb.append(m.getName());
-            sb.append("("+this.gererParametre(m.getParameterTypes()));
-            sb.append(") : "+this.gererRetour(m.getReturnType()));
-            this.methodes.add(sb.toString());
-        }
-    }
-    public void peuplerListeConstructeurs(Class<?> classeCourante) throws NoClassDefFoundError{
-        Constructor<?>[] tabConstructeurs = classeCourante.getConstructors();
-        for (Constructor<?> c : tabConstructeurs) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.faireModifiers(c.getModifiers()));
-            sb.append(c.getName());
-            sb.append("("+this.gererParametre(c.getParameterTypes()));
-            sb.append(")");
-            this.constructeurs.add(sb.toString());
-        }
-    }
-    public void peuplerListeAttributs(Class<?> classeCourante) throws NoClassDefFoundError {
-        Field[] tabConstructeurs = classeCourante.getDeclaredFields();
-        for (Field f : tabConstructeurs) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.faireModifiers(f.getModifiers()));
-            sb.append(f.getName());
-            sb.append(" : "+this.gererRetour(f.getType()));
-            this.attributs.add(sb.toString());
+        retour = retour.replace(";","");
+        // on ajoute
+        if (isMethod){
+            retour += " : "+typeRetour;
+            methodes.add(retour);
+        }else{
+            constructeurs.add(retour);
         }
     }
 
     public String getNomClasse() {
         return nomClasse;
-    }
-
-    public void setNomClasse(String nomClasse) {
-        this.nomClasse = nomClasse;
     }
 
     public double getCoordonnesX() {
@@ -287,7 +278,7 @@ public class Classe implements Comparable<Classe>, Serializable {
     }
 
     public String[] getInterfaces() {
-        return this.interfaces;
+        return this.implemente;
     }
 
     public String getSuperClass() {
@@ -324,5 +315,14 @@ public class Classe implements Comparable<Classe>, Serializable {
         sb.append("}");
         return sb.toString();
 
+    }
+
+    private String recupType(String s){
+        String[] l = s.split("\\.");
+        if (s.contains("<")){
+            String[] s1 = s.split("<")[0].split("\\.");
+            return s1[s1.length-1] + "<" + l[l.length-1];
+        }
+        return l[l.length-1];
     }
 }
