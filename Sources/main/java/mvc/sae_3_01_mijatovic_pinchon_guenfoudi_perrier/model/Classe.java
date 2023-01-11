@@ -59,15 +59,21 @@ public class Classe implements Comparable<Classe>, Serializable {
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            String line;
+            String line = reader.readLine();
+
+            // recuperer le nom de la classe
+            String[] nom = line.split("\"");
+            nomClasse = nom[1].split("\\.")[0];
+
+            // continuer pour le reste du contenu
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
                 if (estConstructeur(line)) {
                     System.out.println("             ceci est un constructeur");
                 } else if (estMethode(line)) {
-                    System.out.println("             ceci est une méthode");
+                    //peuplerListeMethodes(line);
                 } else if (estAttribut(line)) {
-                    System.out.println("             ceci est un attribut");
+                    //System.out.println("             ceci est un attribut");
                 }
 
             }
@@ -88,7 +94,7 @@ public class Classe implements Comparable<Classe>, Serializable {
             ligne = ligne.replaceAll("  public |  private |  protected ", "");
             String[] mots = ligne.split("\\(");
             for (String m : mots) {
-                if (m.equals("ArrayTest")) {
+                if (m.equals(this.nomClasse)) {
                     return true;
                 }
             }
@@ -235,16 +241,10 @@ public class Classe implements Comparable<Classe>, Serializable {
         return sb.toString();
     }
 
-    public void peuplerListeMethodes(Class<?> classeCourante) throws NoClassDefFoundError {
-        Method[] tabMethodes = classeCourante.getDeclaredMethods();
-        for (Method m : tabMethodes) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.faireModifiers(m.getModifiers()));
-            sb.append(m.getName());
-            sb.append("("+this.gererParametre(m.getParameterTypes()));
-            sb.append(") : "+this.gererRetour(m.getReturnType()));
-            this.methodes.add(sb.toString());
-        }
+    public void peuplerListeMethodes(String line) throws NoClassDefFoundError {
+        line = line.substring(2);
+        String[] parties = line.split(" ");
+        System.out.println(String.join("*",parties));
     }
     public void peuplerListeConstructeurs(Class<?> classeCourante) throws NoClassDefFoundError{
         Constructor<?>[] tabConstructeurs = classeCourante.getConstructors();
