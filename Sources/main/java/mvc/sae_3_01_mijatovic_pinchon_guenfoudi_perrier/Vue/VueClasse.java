@@ -30,29 +30,7 @@ public class VueClasse extends VBox {
     public VueClasse(Classe modele) {
         this.modele = modele;
         ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele, this);
-        setOnMousePressed(e -> {
-            System.out.println(e.getX());
-            if (estSurBordure(e)) {
-                controller.RedimensionnementEstActif();
-                this.setCursor(Cursor.SE_RESIZE);
-            } else {
-                this.setCursor(Cursor.CLOSED_HAND);
-            }
-
-            controller.setxDuClique(e.getX());
-            controller.setyDuClique(e.getY());
-        });
-        setOnMouseReleased(e -> {
-           /* if(estSurStroke(e))
-                this.setCursor(Cursor.SE_RESIZE);
-            else {*/
-            controller.redimensionnementEstInnactif();
-            this.setCursor(Cursor.CLOSED_HAND);
-//            }
-
-        });
-        setOnMouseDragged(controller);
-        this.setCursor(Cursor.OPEN_HAND);
+        setEventHandlers(controller);
         this.creerVue();
     }
 
@@ -135,7 +113,7 @@ public class VueClasse extends VBox {
     }
 
     public Label creerLabelConstructeur() {
-        Theme t=modele.getTheme();
+        Theme t = modele.getTheme();
         StringBuilder sbc = new StringBuilder();
         for (String s : modele.getConstructeurs()) {
             sbc.append(s + "\n");
@@ -146,7 +124,7 @@ public class VueClasse extends VBox {
     }
 
     public Label creerLabelMethode() {
-        Theme t=modele.getTheme();
+        Theme t = modele.getTheme();
         StringBuilder sbm = new StringBuilder();
         for (String s : modele.getMethodes()) {
             sbm.append(s + "\n");
@@ -242,11 +220,11 @@ public class VueClasse extends VBox {
     }
 
     private void voirConstructeur() {
-        int sizeVbox=this.getChildren().size();
-        if(sizeVbox>3)
+        int sizeVbox = this.getChildren().size();
+        if (sizeVbox > 3)
             this.getChildren().add(2, constructeurs);
         else
-            this.getChildren().add(1,constructeurs);
+            this.getChildren().add(1, constructeurs);
     }
 
     private void cacherAttribut() {
@@ -260,13 +238,12 @@ public class VueClasse extends VBox {
     private void cacherConstructeurs() {
         this.getChildren().remove(constructeurs);
     }
+
     /**
-
-     Méthode pour vérifier si le clic de souris est sur toute la bordure de l'élément.
-
-     @param mouseEvent l'événement de clic de souris
-
-     @return vrai si le clic est sur toute la bordure, faux sinon
+     * Méthode pour vérifier si le clic de souris est sur toute la bordure de l'élément.
+     *
+     * @param mouseEvent l'événement de clic de souris
+     * @return vrai si le clic est sur toute la bordure, faux sinon
      */
     public boolean estSurBordure(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();
@@ -279,12 +256,10 @@ public class VueClasse extends VBox {
     }
 
     /**
-
-     Méthode pour vérifier si le clic de souris est sur le bord inférieur et droit de l'élément.
-
-     @param mouseEvent l'événement de clic de souris
-
-     @return vrai si le clic est sur le bord inférieur et droit, faux sinon
+     * Méthode pour vérifier si le clic de souris est sur le bord inférieur et droit de l'élément.
+     *
+     * @param mouseEvent l'événement de clic de souris
+     * @return vrai si le clic est sur le bord inférieur et droit, faux sinon
      */
     public boolean estSurBordInferieurEtDroit(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();
@@ -297,10 +272,10 @@ public class VueClasse extends VBox {
     }
 
     /**
-
-     Méthode pour vérifier si le clic de souris est sur le bord gauche et haut de l'élément.
-     @param mouseEvent l'événement de clic de souris
-     @return vrai si le clic est sur le bord gauche et haut, faux sinon
+     * Méthode pour vérifier si le clic de souris est sur le bord gauche et haut de l'élément.
+     *
+     * @param mouseEvent l'événement de clic de souris
+     * @return vrai si le clic est sur le bord gauche et haut, faux sinon
      */
     public boolean estSurBordGaucheEtHaut(MouseEvent mouseEvent) {
         Node node = (Node) mouseEvent.getSource();
@@ -308,5 +283,42 @@ public class VueClasse extends VBox {
         double y = mouseEvent.getY();
         return (x < 5 || y < 5);
     }
+
+    private void setEventHandlers(ControllerDeplacerClasse controller) {
+        setOnMouseMoved(e -> handleMouseMoved(e, controller));
+        setOnMousePressed(e -> handleMousePressed(e, controller));
+        setOnMouseReleased(e -> handleMouseReleased(e, controller));
+        setOnMouseDragged(controller);
+    }
+
+    private void handleMouseMoved(MouseEvent e, ControllerDeplacerClasse controller) {
+        this.setCursor(Cursor.OPEN_HAND);
+        System.out.println("testMouseEntered");
+        if (estSurBordure(e)) {
+            System.out.println("test");
+            this.setCursor(Cursor.SE_RESIZE);
+        } else {
+            System.out.println("testPasOpen");
+        }
+    }
+
+    private void handleMousePressed(MouseEvent e, ControllerDeplacerClasse controller) {
+        if (estSurBordure(e)) {
+            controller.RedimensionnementEstActif();
+            this.setCursor(Cursor.SE_RESIZE);
+        } else {
+            this.setCursor(Cursor.CLOSED_HAND);
+        }
+
+        controller.setxDuClique(e.getX());
+        controller.setyDuClique(e.getY());
+    }
+
+    private void handleMouseReleased(MouseEvent e, ControllerDeplacerClasse controller) {
+        controller.redimensionnementEstInnactif();
+        this.setCursor(Cursor.OPEN_HAND);
+    }
+
+
 }
 
