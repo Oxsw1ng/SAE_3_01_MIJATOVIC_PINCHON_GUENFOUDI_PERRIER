@@ -26,4 +26,7 @@ public class ChargementRes {
     public static Image getLetterI(){
         return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/letter-i.png").toExternalForm());
     }
+    public static Image getIco(){
+        return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/dm.png").toExternalForm());
+    }
 }

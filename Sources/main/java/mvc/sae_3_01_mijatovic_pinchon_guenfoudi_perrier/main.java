@@ -5,6 +5,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
@@ -39,6 +41,7 @@ public class main extends Application {
 
         Scene scene = new Scene(borderPane, 1000, 800);
         stage.setScene(scene);
+        stage.getIcons().add(ChargementRes.getIco());
         stage.setTitle("DiagMov'");
         stage.setMinWidth(310);
         stage.setMinHeight(400);
