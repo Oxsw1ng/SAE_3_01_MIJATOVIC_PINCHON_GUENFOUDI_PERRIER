@@ -137,4 +137,8 @@ public class VueDiagramme extends Pane implements Observateur {
         return table.get(c);
     }
 
+    public HashSet<Fleche> getFleches() {
+        return fleches;
+
+    }
 }

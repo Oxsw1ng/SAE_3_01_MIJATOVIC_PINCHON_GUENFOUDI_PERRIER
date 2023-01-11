@@ -232,4 +232,21 @@ public class Fleche extends Group {
 
     }
 
+    public String convertirPlantUml() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(vueSource.getModele().getNomClasse());
+        if (type == FLECHE_HEREDITE) {
+            sb.append(" <|-- ");
+        } else if (type == FLECHE_IMPLEMENTATION) {
+            sb.append(" ..|> ");
+        } else if (type == FLECHE_AGREGATION) {
+            sb.append(" o-- ");
+        }
+        sb.append(vueTarget.getModele().getNomClasse());
+        if (textSurFleche != null) {
+            sb.append(" : ").append(textSurFleche);
+        }
+        return sb.toString();
+
+    }
 }

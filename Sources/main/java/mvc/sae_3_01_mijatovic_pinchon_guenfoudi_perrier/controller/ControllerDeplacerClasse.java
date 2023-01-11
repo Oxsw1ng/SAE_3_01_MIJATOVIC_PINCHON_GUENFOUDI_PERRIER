@@ -20,6 +20,7 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
 
     private double xDuClique;
     private double yDuClique;
+    private boolean redimensionnementActif = false;
 
     public ControllerDeplacerClasse(Classe model, VueClasse vue) {
         this.model = model;
@@ -30,24 +31,67 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
     @Override
     public void handle(MouseEvent mouseEvent) {
 
-        double x = mouseEvent.getX();
-        double y = mouseEvent.getY();
+        double mouseEventX = mouseEvent.getX();
+        double mouseEventY = mouseEvent.getY();
+        double cooClickDansVueX = mouseEventX + vue.getLayoutX() -xDuClique ;
+        double cooClickDansVueY = mouseEventY + vue.getLayoutY()  -yDuClique;
 
-        double x2 = x + vue.getLayoutX() -xDuClique ;
-        double y2 = y + vue.getLayoutY() -yDuClique;
+        if (redimensionnementActif) {
+            // Calculer les différences de position entre le clic de souris et le mouvement de souris
+            double diffX = mouseEventX - xDuClique;
+            double diffY = mouseEventY - yDuClique;
 
-        if (x2>0 && x2<(((VueDiagramme)vue.getParent()).getWidth()-vue.getWidth())){
-            model.setCoordonnesX(x2);
-            vue.setLayoutX(x2);
+            // Appliquer les différences de position aux dimensions de la vue
+            if(vue.estSurBordInferieurEtDroit(mouseEvent)) {
+
+                System.out.println(diffX+"::");
+                vue.setPrefWidth(vue.getWidth() + diffX);
+                vue.setPrefHeight(vue.getHeight() + diffY);
+            }
+            else if(vue.estSurBordGaucheEtHaut(mouseEvent)){
+
+                model.setCoordonnesX(cooClickDansVueX);
+                vue.setLayoutX(cooClickDansVueX);
+                vue.setPrefWidth(vue.getWidth()-diffX);
+                model.setCoordonnesY(cooClickDansVueY);
+                vue.setLayoutY(cooClickDansVueY);
+                vue.setPrefHeight( vue.getHeight()-diffY);
+
+            }
+            //todo: prendre en compte quand c sur un coin, pour faire ça tu met vue.setPrefWidth(vue.getWidth() + diffX);
+            //                vue.setPrefHeight(vue.Width() + diffY);
+
+            // Mettre à jour les positions x et y pour la prochaine itération
+            xDuClique = mouseEventX;
+            yDuClique = mouseEventY;
         }
-        if (y2>0 && y2<(((VueDiagramme)vue.getParent()).getHeight()-vue.getHeight())){
-            model.setCoordonnesY(y2);
-            vue.setLayoutY(y2);
+        if(!redimensionnementActif) {
+            if (cooClickDansVueX > 0 && cooClickDansVueX < (((VueDiagramme) vue.getParent()).getWidth() - vue.getWidth())) {
+
+
+                model.setCoordonnesX(cooClickDansVueX);
+                vue.setLayoutX(cooClickDansVueX);
+
+            }
+            if (cooClickDansVueY > 0 && cooClickDansVueY < (((VueDiagramme) vue.getParent()).getHeight() - vue.getHeight())) {
+
+                model.setCoordonnesY(cooClickDansVueY);
+                vue.setLayoutY(cooClickDansVueY);
+            }
         }
 
         ((VueDiagramme)vue.getParent()).deplacerFleche();
-
     }
+
+
+
+
+
+
+
+
+
+
 
     public void setxDuClique(double xDuClique) {
         this.xDuClique = xDuClique;
@@ -57,6 +101,13 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
         this.yDuClique = yDuClique;
     }
 
+    public void RedimensionnementEstActif() {
+        redimensionnementActif=true;
+    }
+
+    public void redimensionnementEstInnactif() {
+        redimensionnementActif=false;
+    }
 }
 
 
