@@ -1,2 +1,3 @@
-Application morte
+créer l'application avec des elements innactif.
 Introspection du répertoire courant
+pouvoir choisir le répertoire courant grâce à une zone de texte
