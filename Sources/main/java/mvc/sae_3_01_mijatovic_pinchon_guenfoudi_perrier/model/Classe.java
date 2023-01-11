@@ -55,7 +55,7 @@ public class Classe implements Comparable<Classe>, Serializable {
     public Classe(String pathClass, Modele modele) {
         try {
             // Execute the javap command
-            Process process = Runtime.getRuntime().exec("javap " + pathClass);
+            Process process = Runtime.getRuntime().exec("javap -p " + pathClass);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -67,13 +67,15 @@ public class Classe implements Comparable<Classe>, Serializable {
 
             // continuer pour le reste du contenu
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+//                System.out.println(line);
                 if (estConstructeur(line)) {
-                    System.out.println("             ceci est un constructeur");
+//                    System.out.println("             ceci est un constructeur");
                 } else if (estMethode(line)) {
                     //peuplerListeMethodes(line);
                 } else if (estAttribut(line)) {
-                    //System.out.println("             ceci est un attribut");
+                    System.out.println(line);
+//                    System.out.println("             ceci est un attribut");
+                    peuplerListeAttributs(line);
                 }
 
             }
@@ -257,15 +259,41 @@ public class Classe implements Comparable<Classe>, Serializable {
             this.constructeurs.add(sb.toString());
         }
     }
-    public void peuplerListeAttributs(Class<?> classeCourante) throws NoClassDefFoundError {
-        Field[] tabConstructeurs = classeCourante.getDeclaredFields();
-        for (Field f : tabConstructeurs) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(this.faireModifiers(f.getModifiers()));
-            sb.append(f.getName());
-            sb.append(" : "+this.gererRetour(f.getType()));
-            this.attributs.add(sb.toString());
+    public void peuplerListeAttributs(String ligne) {
+        ligne = ligne.substring(2);
+        String[] mots = ligne.split(" ");
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+
+        while ((index<mots.length) && (mots[index].equals("public")
+                                    ||  mots[index].equals("private")
+                                    ||  mots[index].equals("protected")
+                                    ||  mots[index].equals("final")
+                                    ||  mots[index].equals("static")
+                                    ||  mots[index].equals("abstract")
+                                    ||  mots[index].equals("native")
+                                    ||  mots[index].equals("synchronized")
+                                    ||  mots[index].equals("transient")
+                                    ||  mots[index].equals("volatile"))) {
+            switch(mots[index]) {
+                case "public" :
+                    sb.append("+ ");
+                    break;
+                case "private" :
+                    sb.append("- ");
+                    break;
+                case "protected" :
+                    sb.append("# ");
+                    break;
+                default :
+                    sb.append(mots[index]+" ");
+                    break;
+            }
+            index++;
         }
+        sb.append(mots[mots.length -1].substring(0, mots[mots.length -1].length()-1)+" : ");
+        sb.append(recupType(mots[index]));
+        this.attributs.add(sb.toString());
     }
 
     public String getNomClasse() {
