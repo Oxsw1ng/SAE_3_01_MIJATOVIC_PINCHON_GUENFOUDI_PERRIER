@@ -35,34 +35,32 @@ public class ControllerDeplacerClasse implements EventHandler<MouseEvent> {
         double mouseEventY = mouseEvent.getY();
         double cooClickDansVueX = mouseEventX + vue.getLayoutX() -xDuClique ;
         double cooClickDansVueY = mouseEventY + vue.getLayoutY()  -yDuClique;
+        double deltaX = mouseEventX - xDuClique;
+        double deltaY = mouseEventY - yDuClique;
 
         if (redimensionnementActif) {
-            // Calculer les différences de position entre le clic de souris et le mouvement de souris
-            double diffX = mouseEventX - xDuClique;
-            double diffY = mouseEventY - yDuClique;
+            double initialWidth = vue.getWidth();
 
-            // Appliquer les différences de position aux dimensions de la vue
-            if(vue.estSurBordInferieurEtDroit(mouseEvent)) {
-                vue.setPrefWidth(vue.getWidth() + diffX);
-                vue.setPrefHeight(vue.getHeight() + diffY);
+            double initialHeight = vue.getHeight();
+            double width = initialWidth, height = initialHeight;
+
+            if (vue.estSurBordInferieurEtDroit(mouseEvent)) {
+                width=vue.getWidth() + deltaX;
+                height=vue.getHeight() + deltaY;
+                xDuClique=mouseEventX;
+                yDuClique=mouseEventY;
+            } else if (vue.estSurBordGaucheEtHaut(mouseEvent)) {
+
+                width = Math.max(initialWidth - deltaX, 0);
+                height = Math.max(initialHeight - deltaY, 0);
+                vue.setLayoutX(vue.getLayoutX() + deltaX);
+                vue.setLayoutY(vue.getLayoutY() + deltaY);
             }
-            else if(vue.estSurBordGaucheEtHaut(mouseEvent)){
+            vue.setPrefWidth(width);
+            vue.setPrefHeight(height);
 
-                model.setCoordonnesX(cooClickDansVueX);
-                vue.setLayoutX(cooClickDansVueX);
-                vue.setPrefWidth(vue.getWidth()-diffX);
-                model.setCoordonnesY(cooClickDansVueY);
-                vue.setLayoutY(cooClickDansVueY);
-                vue.setPrefHeight( vue.getHeight()-diffY);
-
-            }
-            //todo: prendre en compte quand c sur un coin, pour faire ça tu met vue.setPrefWidth(vue.getWidth() + diffX);
-            //                vue.setPrefHeight(vue.Width() + diffY);
-
-            // Mettre à jour les positions x et y pour la prochaine itération
-            xDuClique = mouseEventX;
-            yDuClique = mouseEventY;
         }
+
         if(!redimensionnementActif) {
             if (cooClickDansVueX > 0 && cooClickDansVueX < (((VueDiagramme) vue.getParent()).getWidth() - vue.getWidth())) {
 
