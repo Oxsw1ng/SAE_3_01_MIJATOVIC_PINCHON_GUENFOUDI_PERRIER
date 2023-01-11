@@ -110,6 +110,7 @@ public class VueClasse extends VBox {
         iv.setFitHeight(15);
 
         Label lbNom = new Label(modele.getNomClasse());
+        lbNom.setTextFill(t.getColorTextTitle());
         lbNom.setGraphic(iv);
         vBoxHaut.getChildren().add(lbNom);
 
@@ -127,26 +128,31 @@ public class VueClasse extends VBox {
             sba.append(s + "\n");
         }
         Label lbAttributs = new Label(sba.toString());
+        lbAttributs.setTextFill(t.getColorText());
         vBoxMilieu.getChildren().add(lbAttributs);
 
         return vBoxMilieu;
     }
 
     public Label creerLabelConstructeur() {
+        Theme t=modele.getTheme();
         StringBuilder sbc = new StringBuilder();
         for (String s : modele.getConstructeurs()) {
             sbc.append(s + "\n");
         }
         Label lbConstructeurs = new Label(sbc.toString());
+        lbConstructeurs.setTextFill(t.getColorText());
         return lbConstructeurs;
     }
 
     public Label creerLabelMethode() {
+        Theme t=modele.getTheme();
         StringBuilder sbm = new StringBuilder();
         for (String s : modele.getMethodes()) {
             sbm.append(s + "\n");
         }
         Label lbMethodes = new Label(sbm.toString());
+        lbMethodes.setTextFill(t.getColorText());
         return lbMethodes;
     }
 
