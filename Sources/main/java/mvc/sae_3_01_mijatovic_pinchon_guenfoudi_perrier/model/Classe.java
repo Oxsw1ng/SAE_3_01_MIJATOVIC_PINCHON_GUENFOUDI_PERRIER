@@ -55,7 +55,7 @@ public class Classe implements Comparable<Classe>, Serializable {
     public Classe(String pathClass, Modele modele) {
         try {
             // Execute the javap command
-            Process process = Runtime.getRuntime().exec("javap -p " + pathClass);
+            Process process = Runtime.getRuntime().exec("javap " + pathClass);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -365,5 +365,10 @@ public class Classe implements Comparable<Classe>, Serializable {
         sb.append("}");
         return sb.toString();
 
+    }
+
+    private String recupType(String s){
+        String[] l = s.split("\\.");
+        return l[l.length-1];
     }
 }
