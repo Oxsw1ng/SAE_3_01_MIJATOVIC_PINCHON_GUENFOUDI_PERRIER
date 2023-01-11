@@ -94,7 +94,7 @@ public class Classe implements Comparable<Classe>, Serializable {
             ligne = ligne.replaceAll("  public |  private |  protected ", "");
             String[] mots = ligne.split("\\(");
             for (String m : mots) {
-                if (m.equals(this.nomClasse)) {
+                if (recupType(m).equals(this.nomClasse)) {
                     return true;
                 }
             }
