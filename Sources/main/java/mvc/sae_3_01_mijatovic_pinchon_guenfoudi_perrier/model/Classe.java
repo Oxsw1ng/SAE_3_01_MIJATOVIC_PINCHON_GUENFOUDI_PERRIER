@@ -67,11 +67,11 @@ public class Classe implements Comparable<Classe>, Serializable {
 
             // continuer pour le reste du contenu
             while ((line = reader.readLine()) != null) {
-//                System.out.println(line);
+                //System.out.println(line);
                 if (estConstructeur(line)) {
-//                    System.out.println("             ceci est un constructeur");
+                    //System.out.println("             ceci est un constructeur");
                 } else if (estMethode(line)) {
-                    //peuplerListeMethodes(line);
+                    peuplerListeMethodes(line);
                 } else if (estAttribut(line)) {
                     System.out.println(line);
 //                    System.out.println("             ceci est un attribut");
@@ -96,7 +96,7 @@ public class Classe implements Comparable<Classe>, Serializable {
             ligne = ligne.replaceAll("  public |  private |  protected ", "");
             String[] mots = ligne.split("\\(");
             for (String m : mots) {
-                if (m.equals(this.nomClasse)) {
+                if (recupType(m).equals(this.nomClasse)) {
                     return true;
                 }
             }
@@ -397,6 +397,8 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     private String recupType(String s){
         String[] l = s.split("\\.");
+        if (s.contains("ArrayList<"))
+            return l[l.length-1].replace(">","");
         return l[l.length-1];
     }
 }
