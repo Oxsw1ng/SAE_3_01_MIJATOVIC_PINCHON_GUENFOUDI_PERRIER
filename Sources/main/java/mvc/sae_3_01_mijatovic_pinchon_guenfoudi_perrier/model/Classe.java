@@ -1,16 +1,15 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.*;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeClair;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -54,73 +53,115 @@ public class Classe implements Comparable<Classe>, Serializable {
      * @param modele objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe
      */
     public Classe(String pathClass, Modele modele) {
-        this.modele=modele;
-        this.cheminClasse = pathClass;
+        try {
+            // Execute the javap command
+            Process process = Runtime.getRuntime().exec("javap -p " + pathClass);
 
-        // Change le split selon l'OS de l'utilisateur
-        String os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) {
-            this.nomClasse = pathClass;
-            this.nomClasse.replace("\\", "\\\\");
-            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
-        } else {
-            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
-        }
-        if (nomClasse.split("/").length == 2) {
-            nomClasse = nomClasse.split("/")[1];
-        }
-
-        // lecture du fichier .class créé à partir du chemin donné en paramètre
-
-
-
-        ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
-        for (Classe c : this.modele.getClasses()) {
-            byteArrayClassLoader.findClass(c.nomClasse, c.cheminClasse);
-        }
-        Class<?> classeCourante;
-        classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
-
-        boolean neFonctionnePas = true;
-        Class<?> superClass;
-        Class<?>[] interfaces;
-        while (neFonctionnePas) {
-            try {
-                this.isInterface = classeCourante.isInterface();
-                superClass = classeCourante.getSuperclass();
-                interfaces = classeCourante.getInterfaces();
-
-                this.methodes = new ArrayList<>();
-                this.attributs = new ArrayList<>();
-                this.constructeurs = new ArrayList<>();
-                this.peuplerListeMethodes(classeCourante);
-                this.peuplerListeConstructeurs(classeCourante);
-                this.peuplerListeAttributs(classeCourante);
-                neFonctionnePas = false;
-            } catch (NoClassDefFoundError e) {
-                String path;
-                if (os.contains("win")) {
-                    path = pathClass;
-                    path.replace("\\", "\\\\");
-                    path = String.join("\\", Arrays.copyOf(pathClass.split("\\\\"), pathClass.split("\\\\").length-1)) + "\\";
-                } else {
-                    path = String.join("/", Arrays.copyOf(pathClass.split("/"), pathClass.split("/").length-1)) + "/";
+            // Read the output of the command
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                if (estConstructeur(line)) {
+                    System.out.println("             ceci est un constructeur");
+                } else if (estMethode(line)) {
+                    System.out.println("             ceci est une méthode");
+                } else if (estAttribut(line)) {
+                    System.out.println("             ceci est un attribut");
                 }
-                String nomClasseNonPrimitive =  e.getMessage();
-                byteArrayClassLoader.findClass(nomClasseNonPrimitive, path+nomClasseNonPrimitive+".class");
+
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        this.interfaces = new String[100];
-        for (int i = 0; i<classeCourante.getInterfaces().length; i++) {
-            String[] nomComplet = classeCourante.getInterfaces()[i].getName().split("\\.");
-            String nom = nomComplet[nomComplet.length - 1];
-            this.interfaces[i] = nom;
-        }
-        String[] nomCompletSuperClasse = classeCourante.getSuperclass().getName().split("\\.");
-        this.superClass = nomCompletSuperClasse[nomCompletSuperClasse.length -1];
+        this.modele = modele;
+        this.cheminClasse = pathClass;
     }
 
+    private boolean estAttribut(String line) {
+        return line.startsWith("  ");
+    }
+
+    public boolean estConstructeur(String ligne) {
+        if (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")")) {
+            ligne = ligne.replaceAll("  public |  private |  protected ", "");
+            String[] mots = ligne.split("\\(");
+            for (String m : mots) {
+                if (m.equals("ArrayTest")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean estMethode(String ligne) {
+        return (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")"));
+    }
+
+//        // Change le split selon l'OS de l'utilisateur
+//        String os = System.getProperty("os.name").toLowerCase();
+//        if (os.contains("win")) {
+//            this.nomClasse = pathClass;
+//            this.nomClasse.replace("\\", "\\\\");
+//            this.nomClasse = pathClass.split("\\\\")[pathClass.split("\\\\").length - 1].split("\\.")[0];
+//        } else {
+//            this.nomClasse = pathClass.split("/")[pathClass.split("/").length - 1].split("\\.")[0];
+//        }
+//        if (nomClasse.split("/").length == 2) {
+//            nomClasse = nomClasse.split("/")[1];
+//        }
+//
+//        // lecture du fichier .class créé à partir du chemin donné en paramètre
+//
+//
+//
+//        ByteArrayClassLoader byteArrayClassLoader = new ByteArrayClassLoader();
+//        for (Classe c : this.modele.getClasses()) {
+//            byteArrayClassLoader.findClass(c.nomClasse, c.cheminClasse);
+//        }
+//        Class<?> classeCourante;
+//        classeCourante = byteArrayClassLoader.findClass(nomClasse, pathClass);
+//
+//        boolean neFonctionnePas = true;
+//        Class<?> superClass;
+//        Class<?>[] interfaces;
+//        while (neFonctionnePas) {
+//            try {
+//                this.isInterface = classeCourante.isInterface();
+//                superClass = classeCourante.getSuperclass();
+//                interfaces = classeCourante.getInterfaces();
+//
+//                this.methodes = new ArrayList<>();
+//                this.attributs = new ArrayList<>();
+//                this.constructeurs = new ArrayList<>();
+//                this.peuplerListeMethodes(classeCourante);
+//                this.peuplerListeConstructeurs(classeCourante);
+//                this.peuplerListeAttributs(classeCourante);
+//                neFonctionnePas = false;
+//            } catch (NoClassDefFoundError e) {
+//                String path;
+//                if (os.contains("win")) {
+//                    path = pathClass;
+//                    path.replace("\\", "\\\\");
+//                    path = String.join("\\", Arrays.copyOf(pathClass.split("\\\\"), pathClass.split("\\\\").length-1)) + "\\";
+//                } else {
+//                    path = String.join("/", Arrays.copyOf(pathClass.split("/"), pathClass.split("/").length-1)) + "/";
+//                }
+//                String nomClasseNonPrimitive =  e.getMessage();
+//                byteArrayClassLoader.findClass(nomClasseNonPrimitive, path+nomClasseNonPrimitive+".class");
+//            }
+//        }
+//
+//        this.interfaces = new String[100];
+//        for (int i = 0; i<classeCourante.getInterfaces().length; i++) {
+//            String[] nomComplet = classeCourante.getInterfaces()[i].getName().split("\\.");
+//            String nom = nomComplet[nomComplet.length - 1];
+//            this.interfaces[i] = nom;
+//        }
+//        String[] nomCompletSuperClasse = classeCourante.getSuperclass().getName().split("\\.");
+//        this.superClass = nomCompletSuperClasse[nomCompletSuperClasse.length -1];
     /**
      * Gère les modificateurs d'un membre de la classe (attribut, méthode, etc.) et renvoie une chaîne de caractères
      * représentant ces modificateurs sous forme de caractères spéciaux.
