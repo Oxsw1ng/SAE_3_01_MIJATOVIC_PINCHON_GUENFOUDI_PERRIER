@@ -1,9 +1,15 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier;
 
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
@@ -19,7 +25,7 @@ public class main extends Application {
         borderPane.actualiser();
 
         // menu en haut
-        TopBarre vueTopBarre = new TopBarre(modele);
+        VueTopBarre vueTopBarre = new VueTopBarre(modele);
         borderPane.setTop(vueTopBarre);
         modele.enregistrerObservateur(vueTopBarre);
 
@@ -32,7 +38,6 @@ public class main extends Application {
 
         // panneau central de l'application
         VueDiagramme paneCenter = new VueDiagramme(modele);
-        // TEST TEST TEST
         borderPane.setCenter(paneCenter);
         paneCenter.actualiser();
 

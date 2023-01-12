@@ -17,11 +17,11 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TopBarre extends HBox implements Observateur {
+public class VueTopBarre extends HBox implements Observateur {
 
     private Modele modele;
 
-    public TopBarre(Modele m) {
+    public VueTopBarre(Modele m) {
         this.modele = m;
         this.actualiser();
     }
