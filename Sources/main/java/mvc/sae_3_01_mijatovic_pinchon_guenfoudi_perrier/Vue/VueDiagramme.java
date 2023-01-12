@@ -53,8 +53,9 @@ public class VueDiagramme extends Pane implements Observateur {
                    String[] t = attr.split(" ");
                    Classe retour = lienExistant(t[t.length-1]);
                    if (retour != null) {
-
-                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, t[1]);
+                       String[] partie1 = attr.split(" :")[0].split(" ");
+                       String texte = partie1[partie1.length-1];
+                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, texte);
                        fleches.add(f);
                        this.getChildren().add(f);
                        f.toBack();
