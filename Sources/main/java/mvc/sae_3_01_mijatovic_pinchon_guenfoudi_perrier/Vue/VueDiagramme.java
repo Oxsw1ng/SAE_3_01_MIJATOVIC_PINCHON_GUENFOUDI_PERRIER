@@ -51,8 +51,9 @@ public class VueDiagramme extends Pane implements Observateur {
                //ajout des dépendance selon les attributs
                for (String attr : c.getAttributs()) {
                    String[] t = attr.split(" ");
-                   Classe retour = lienExistant(t[3]);
+                   Classe retour = lienExistant(t[t.length-1]);
                    if (retour != null) {
+
                        Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, t[1]);
                        fleches.add(f);
                        this.getChildren().add(f);
@@ -90,6 +91,10 @@ public class VueDiagramme extends Pane implements Observateur {
      */
     private Classe lienExistant(String nom){
         Classe retour = null;
+        if (nom==null)return null;
+        if (nom.contains("<")){
+            nom = nom.split("<")[1].split(">")[0];
+        }
         Iterator it = table.keySet().iterator();
         while (it.hasNext() && retour == null){
             Classe current = (Classe) it.next();

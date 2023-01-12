@@ -61,7 +61,6 @@ public class Classe implements Comparable<Classe>, Serializable {
             // Execute the javap command
 
             Process process = Runtime.getRuntime().exec("javap -p " +"\""+ pathClass+"\"");
-            System.out.println(pathClass);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -96,6 +95,7 @@ public class Classe implements Comparable<Classe>, Serializable {
 
             // continuer pour le reste du contenu
             while ((line = reader.readLine()) != null) {
+                line = gererMapEtc(line);
                 if (estConstructeur(line)) {
                     peuplerListeMethodes(line,false);
                 } else if (estMethode(line)) {
@@ -168,7 +168,9 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
         sb.append(mots[mots.length -1].substring(0, mots[mots.length -1].length()-1)+" : ");
         sb.append(recupType(mots[index]));
-        this.attributs.add(sb.toString());
+        String s = sb.toString();
+        s = s.replace(";","");
+        this.attributs.add(s);
     }
 
 
@@ -321,10 +323,43 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     private String recupType(String s){
         String[] l = s.split("\\.");
+        /*
         if (s.contains("<")){
             String[] s1 = s.split("<")[0].split("\\.");
             return s1[s1.length-1] + "<" + l[l.length-1];
         }
+
+         */
         return l[l.length-1];
+    }
+
+
+    private String gererMapEtc(String s){
+        String retour="";
+        if (s.matches(".*<.*,.*>.*")){ // cas pour tout ce qui est map etc ...
+            String[] partiesPossibles = s.split("\\(");
+            for (int i = 0; i < partiesPossibles.length; i++) {
+                if (partiesPossibles[i].matches(".*<.*,.*>.*")){
+                    String partie1 = "";
+                    String[] sp1 = partiesPossibles[i].split("<");
+                    partie1 += sp1[0] + "<";
+                    String[] sp2 = sp1[1].split(">");
+                    sp2[0] = sp2[0].replace(" ","") + ">";
+                    String[] sp3 = sp2[0].split(",");
+                    partie1 += recupType(sp3[0])+","+recupType(sp3[1]);
+                    if (sp2.length>1)
+                        partie1 += sp2[1];
+                    partiesPossibles[i] = partie1 ;
+                }
+                retour += partiesPossibles[i];
+                if (i==0) retour+="(";
+            }
+        }else if (s.matches(".*<.*>.*")){ // cas des lists etc...
+            String[] sp1 = s.split("<");
+            String[] sp2 = sp1[1].split(">");
+            retour += sp1[0] + "<" + recupType(sp2[0]) + ">";
+            if (sp2.length>1) retour += sp2[1];
+        }else retour=s;// autres cas
+        return retour;
     }
 }

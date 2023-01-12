@@ -88,7 +88,7 @@ public class VueClasse extends VBox {
         iv.setFitHeight(15);
 
         Label lbNom = new Label(modele.getNomClasse());
-        lbNom.setTextFill(t.getColorTextTitle());
+        lbNom.setTextFill(t.getColorText());
         lbNom.setGraphic(iv);
         vBoxHaut.getChildren().add(lbNom);
 

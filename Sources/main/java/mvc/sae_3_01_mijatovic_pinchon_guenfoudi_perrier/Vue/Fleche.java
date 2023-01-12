@@ -210,6 +210,7 @@ public class Fleche extends Group {
                     ligne3.setStrokeWidth(2);
 
                     javafx.scene.control.Label labelAgregation = new javafx.scene.control.Label(texteMilieuFleche);
+                    labelAgregation.setTextFill(modele.getTheme().getColorText());
                     double x = (ligne.getStartX() + ligne.getEndX()) / 2;
                     double y = (ligne.getStartY() + ligne.getEndY()) / 2;
                     labelAgregation.setLayoutX(x - labelAgregation.getWidth() / 2);
