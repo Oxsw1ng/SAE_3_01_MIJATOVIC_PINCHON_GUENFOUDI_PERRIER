@@ -18,28 +18,7 @@ public class VueDiagramme extends Pane implements Observateur {
     private HashMap<Classe,VueClasse> table;
     private HashSet<Fleche> fleches;
 
-    //private double zoomFactor = 1;
-
     public VueDiagramme(Modele modele){
-        //this.setOnZoom(new EventHandler<ZoomEvent>() {
-        //    @Override
-        //    public void handle(ZoomEvent event) {
-        //        zoomFactor = event.getZoomFactor();
-         //       event.consume();
-         //       actualiser();
-         //   }
-        //});
-        //this.setOnScroll(new EventHandler<ScrollEvent>() {
-         //   @Override
-         //   public void handle(ScrollEvent event) {
-         //       if (event.getDeltaY() > 0) {
-          //          zoomFactor+=0.1;
-          //      } else {
-           //         zoomFactor-=0.1;
-           //     }
-           //     actualiser();
-           // }
-        //});
         this.modele = modele;
         table = new HashMap<Classe,VueClasse>();
         this.setOnDragOver(this::handleDragOverEvent);
@@ -60,43 +39,44 @@ public class VueDiagramme extends Pane implements Observateur {
         for (Classe c:modele.getClasses()) {
             c.setModele(this.modele);
             VueClasse vue = new VueClasse(c);
-            //vue.setScaleX(vue.getScaleX()*zoomFactor);
-            //vue.setScaleY(vue.getScaleY()*zoomFactor);
             table.put(c,vue);
             this.getChildren().add(vue);
             vue.toFront();
         }
         modele.changerGrapheCourant(this);
 
-       for (Classe c:table.keySet()) {
-           //ajout des dépendance selon les attributs
-           for (String attr:c.getAttributs()){
-               String[] t = attr.split(" ");
-               Classe retour = lienExistant(t[3]);
-               if (retour != null){
-                   Fleche f = new Fleche(c,retour,Fleche.FLECHE_AGREGATION,modele,this,t[1]);
+
+       if (!modele.getEtatNav("H")) {
+           for (Classe c : table.keySet()) {
+               //ajout des dépendance selon les attributs
+               for (String attr : c.getAttributs()) {
+                   String[] t = attr.split(" ");
+                   Classe retour = lienExistant(t[3]);
+                   if (retour != null) {
+                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, t[1]);
+                       fleches.add(f);
+                       this.getChildren().add(f);
+                       f.toBack();
+                   }
+               }
+               //ajout des dépendance selon les interfaces
+               for (String inter : c.getInterfaces()) {
+                   Classe retour = lienExistant(inter);
+                   if (retour != null) {
+                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_IMPLEMENTATION, modele, this);
+                       fleches.add(f);
+                       this.getChildren().add(f);
+                       f.toBack();
+                   }
+               }
+               //ajout des dépendance selon l'hérédité
+               Classe retour = lienExistant(c.getSuperClass());
+               if (retour != null) {
+                   Fleche f = new Fleche(c, retour, Fleche.FLECHE_HEREDITE, modele, this);
                    fleches.add(f);
                    this.getChildren().add(f);
                    f.toBack();
                }
-           }
-           //ajout des dépendance selon les interfaces
-           for (String inter : c.getInterfaces()){
-               Classe retour = lienExistant(inter);
-               if (retour != null){
-                   Fleche f = new Fleche(c,retour,Fleche.FLECHE_IMPLEMENTATION,modele,this);
-                   fleches.add(f);
-                   this.getChildren().add(f);
-                   f.toBack();
-               }
-           }
-           //ajout des dépendance selon l'hérédité
-           Classe retour = lienExistant(c.getSuperClass());
-           if (retour != null){
-               Fleche f = new Fleche(c,retour,Fleche.FLECHE_HEREDITE,modele,this);
-               fleches.add(f);
-               this.getChildren().add(f);
-               f.toBack();
            }
        }
     }
