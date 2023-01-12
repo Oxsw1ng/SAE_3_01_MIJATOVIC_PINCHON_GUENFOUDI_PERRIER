@@ -59,7 +59,9 @@ public class Classe implements Comparable<Classe>, Serializable {
         this.implemente = new String[100];
         try {
             // Execute the javap command
-            Process process = Runtime.getRuntime().exec("javap -p " + pathClass);
+
+            Process process = Runtime.getRuntime().exec("javap -p " +"\""+ pathClass+"\"");
+            System.out.println(pathClass);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
