@@ -55,7 +55,7 @@ public class VueDiagramme extends Pane implements Observateur {
                    if (retour != null) {
                        String[] partie1 = attr.split(" :")[0].split(" ");
                        String texte = partie1[partie1.length-1];
-                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, texte);
+                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_AGREGATION, modele, this, texte, levelFLeche(c,retour));
                        fleches.add(f);
                        this.getChildren().add(f);
                        f.toBack();
@@ -65,7 +65,7 @@ public class VueDiagramme extends Pane implements Observateur {
                for (String inter : c.getInterfaces()) {
                    Classe retour = lienExistant(inter);
                    if (retour != null) {
-                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_IMPLEMENTATION, modele, this);
+                       Fleche f = new Fleche(c, retour, Fleche.FLECHE_IMPLEMENTATION, modele, this,levelFLeche(c,retour));
                        fleches.add(f);
                        this.getChildren().add(f);
                        f.toBack();
@@ -74,7 +74,7 @@ public class VueDiagramme extends Pane implements Observateur {
                //ajout des dépendance selon l'hérédité
                Classe retour = lienExistant(c.getSuperClass());
                if (retour != null) {
-                   Fleche f = new Fleche(c, retour, Fleche.FLECHE_HEREDITE, modele, this);
+                   Fleche f = new Fleche(c, retour, Fleche.FLECHE_HEREDITE, modele, this,levelFLeche(c,retour));
                    fleches.add(f);
                    this.getChildren().add(f);
                    f.toBack();
@@ -125,6 +125,14 @@ public class VueDiagramme extends Pane implements Observateur {
 
     public HashSet<Fleche> getFleches() {
         return fleches;
+    }
 
+    private int levelFLeche(Classe c1, Classe c2){
+        int i = 0;
+        for (Fleche f:fleches) {
+            if ((f.getClSource()==c1 && f.getClTarget()==c2)||(f.getClSource()==c2 && f.getClTarget()==c1))
+                i++;
+        }
+        return i;
     }
 }
