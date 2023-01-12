@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 public class ClasseTest {
     public static void main(String[] args) {
         try {
-            String chemin = new File("fichiers_test/Personne.class").toString();
+            String chemin = new File("D:\\git\\SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER\\fichiers_test\\Personne.class").toString();
             // Execute the javap command
-            Process process = Runtime.getRuntime().exec("javap "+chemin);
+            Process process = Runtime.getRuntime().exec("javap -p "+chemin);
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -17,9 +17,9 @@ public class ClasseTest {
             while ((line = reader.readLine()) != null) {
                 // Look for lines that start with "  public"
                 // to find the fields and methods
-                if (line.startsWith("  public")) {
+                //if (line.startsWith("  public")) {
                     System.out.println(line);
-                }
+                //}
             }
         } catch (Exception e) {
             e.printStackTrace();
