@@ -31,7 +31,7 @@ public class ControllerAuteurs implements EventHandler<ActionEvent> {
         vb.setAlignment(Pos.CENTER);
         vb.setSpacing(10);
 
-        Scene scene = new Scene(vb, 100, 100);
+        Scene scene = new Scene(vb, 150, 150);
 
         Stage stage = new Stage();
         stage.setScene(scene);

@@ -64,9 +64,14 @@ public class Classe implements Comparable<Classe>, Serializable {
         this.constructeurs = new ArrayList<>();
         this.implemente = new String[100];
         try {
-            // Execute the javap command
+            Process process;
+            String system = System.getProperty("os.name").toLowerCase();
+            if (system.contains("win")) {
+                process = Runtime.getRuntime().exec("javap -p " + "\"" + pathClass + "\"");
+            } else {
+                process = Runtime.getRuntime().exec("javap -p " + pathClass);
+            }
 
-            Process process = Runtime.getRuntime().exec("javap -p " +"\""+ pathClass+"\"");
 
             // Read the output of the command
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -202,7 +207,7 @@ public class Classe implements Comparable<Classe>, Serializable {
         String tmp = "";
 
         while(!parties[i].contains("(")){
-            retour += tmp;
+            retour += tmp+" ";
             tmp = recupType(parties[i]);
             i++;
         }
@@ -329,13 +334,6 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     private String recupType(String s){
         String[] l = s.split("\\.");
-        /*
-        if (s.contains("<")){
-            String[] s1 = s.split("<")[0].split("\\.");
-            return s1[s1.length-1] + "<" + l[l.length-1];
-        }
-
-         */
         return l[l.length-1];
     }
 
