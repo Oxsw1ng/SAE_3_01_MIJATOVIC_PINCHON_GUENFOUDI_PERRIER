@@ -196,7 +196,7 @@ public class Classe implements Comparable<Classe>, Serializable {
         String tmp = "";
 
         while(!parties[i].contains("(")){
-            retour += tmp;
+            retour += tmp+" ";
             tmp = recupType(parties[i]);
             i++;
         }
@@ -323,13 +323,6 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     private String recupType(String s){
         String[] l = s.split("\\.");
-        /*
-        if (s.contains("<")){
-            String[] s1 = s.split("<")[0].split("\\.");
-            return s1[s1.length-1] + "<" + l[l.length-1];
-        }
-
-         */
         return l[l.length-1];
     }
 
