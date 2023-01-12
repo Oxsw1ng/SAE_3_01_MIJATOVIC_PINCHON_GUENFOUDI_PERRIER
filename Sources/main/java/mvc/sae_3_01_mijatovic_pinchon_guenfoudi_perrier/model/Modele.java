@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.*;
 
 public class Modele implements Sujet, Serializable {
-    static final long serialVersionUID = 648175960228010030L;
+    public static final long serialVersionUID = 648175960228010030L;
     private String cheminDMOV;
 
     //-----------Attributs-----------

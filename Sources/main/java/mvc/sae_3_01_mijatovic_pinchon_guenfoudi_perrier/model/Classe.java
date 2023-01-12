@@ -196,7 +196,7 @@ public class Classe implements Comparable<Classe>, Serializable {
             tmp = recupType(parties[i]);
             i++;
         }
-        String typeRetour = recupType(tmp);
+        String typeRetour = tmp;
         if (!isMethod)
             retour += tmp;
 

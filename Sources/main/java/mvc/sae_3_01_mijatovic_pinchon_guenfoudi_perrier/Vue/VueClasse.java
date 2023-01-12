@@ -293,12 +293,8 @@ public class VueClasse extends VBox {
 
     private void handleMouseMoved(MouseEvent e, ControllerDeplacerClasse controller) {
         this.setCursor(Cursor.OPEN_HAND);
-        System.out.println("testMouseEntered");
         if (estSurBordure(e)) {
-            System.out.println("test");
             this.setCursor(Cursor.SE_RESIZE);
-        } else {
-            System.out.println("testPasOpen");
         }
     }
 
