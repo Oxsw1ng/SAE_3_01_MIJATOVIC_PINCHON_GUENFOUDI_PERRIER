@@ -8,10 +8,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDeplacerClasse;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDragClickPourClasse;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
@@ -29,7 +29,7 @@ public class VueClasse extends VBox {
 
     public VueClasse(Classe modele) {
         this.modele = modele;
-        ControllerDeplacerClasse controller = new ControllerDeplacerClasse(modele, this);
+        ControllerDragClickPourClasse controller = new ControllerDragClickPourClasse(modele, this);
         setEventHandlers(controller);
         this.creerVue();
     }
@@ -284,23 +284,23 @@ public class VueClasse extends VBox {
         return (x < 5 || y < 5);
     }
 
-    private void setEventHandlers(ControllerDeplacerClasse controller) {
+    private void setEventHandlers(ControllerDragClickPourClasse controller) {
         setOnMouseMoved(e -> handleMouseMoved(e, controller));
         setOnMousePressed(e -> handleMousePressed(e, controller));
         setOnMouseReleased(e -> handleMouseReleased(e, controller));
         setOnMouseDragged(controller);
     }
 
-    private void handleMouseMoved(MouseEvent e, ControllerDeplacerClasse controller) {
+    private void handleMouseMoved(MouseEvent e, ControllerDragClickPourClasse controller) {
         this.setCursor(Cursor.OPEN_HAND);
         if (estSurBordure(e)) {
             this.setCursor(Cursor.SE_RESIZE);
         }
     }
 
-    private void handleMousePressed(MouseEvent e, ControllerDeplacerClasse controller) {
+    private void handleMousePressed(MouseEvent e, ControllerDragClickPourClasse controller) {
         if (estSurBordure(e)) {
-            controller.RedimensionnementEstActif();
+            controller.setRedimensionnementActif(true);
             this.setCursor(Cursor.SE_RESIZE);
         } else {
             this.setCursor(Cursor.CLOSED_HAND);
@@ -310,8 +310,8 @@ public class VueClasse extends VBox {
         controller.setyDuClique(e.getY());
     }
 
-    private void handleMouseReleased(MouseEvent e, ControllerDeplacerClasse controller) {
-        controller.redimensionnementEstInnactif();
+    private void handleMouseReleased(MouseEvent e, ControllerDragClickPourClasse controller) {
+        controller.setRedimensionnementActif(false);
         this.setCursor(Cursor.OPEN_HAND);
     }
 
