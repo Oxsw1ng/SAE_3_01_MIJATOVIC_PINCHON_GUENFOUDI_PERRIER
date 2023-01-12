@@ -48,11 +48,11 @@ public class VueClasse extends VBox {
 
         ArrayList<Node> listNode = new ArrayList<>();
         listNode.add(vBoxHaut);
-        if (!modele.getModele().getEtatNav("A"))
+        if (!modele.getModele().getEtatNav("A") && modele.isAttributActive())
             listNode.add(attributs);
-        if (!modele.getModele().getEtatNav("C"))
+        if (!modele.getModele().getEtatNav("C") && modele.isConstructeurActive())
             listNode.add(constructeurs);
-        if (!modele.getModele().getEtatNav("M"))
+        if (!modele.getModele().getEtatNav("M") && modele.isMethodesActive())
             listNode.add(methodes);
         this.getChildren().addAll(listNode);
 
@@ -173,12 +173,14 @@ public class VueClasse extends VBox {
             contextMenu.getItems().remove(masquerAttribut);
             contextMenu.getItems().add(index, afficherAttribut);
         });
+
         masquerMethode.setOnAction(actionEvent -> {
             cacherMethodes();
             int index = contextMenu.getItems().indexOf(masquerMethode);
             contextMenu.getItems().remove(masquerMethode);
             contextMenu.getItems().add(index, afficherMethode);
         });
+
         masquerConstructeur.setOnAction(actionEvent -> {
             cacherConstructeurs();
             int index = contextMenu.getItems().indexOf(masquerConstructeur);
@@ -205,38 +207,60 @@ public class VueClasse extends VBox {
             contextMenu.getItems().add(index, masquerConstructeur);
         });
 
-        contextMenu.getItems().addAll(suppression, masquerAttribut, masquerMethode, masquerConstructeur);
+        contextMenu.getItems().add(suppression);
+        if (modele.isAttributActive()) {
+            contextMenu.getItems().add(masquerAttribut);
+        } else {
+            contextMenu.getItems().add(afficherAttribut);
+        }
+        if (modele.isMethodesActive()) {
+            contextMenu.getItems().add(masquerMethode);
+        } else {
+            contextMenu.getItems().add(afficherMethode);
+        }
+        if (modele.isConstructeurActive()) {
+            contextMenu.getItems().add(masquerConstructeur);
+        } else {
+            contextMenu.getItems().add(afficherConstructeur);
+        }
         return contextMenu;
     }
 
     private void voirAttribut() {
         this.getChildren().add(1, attributs);
+        this.modele.setAttributActive(!modele.isAttributActive());
     }
 
     private void voirMethode() {
         int sizeVbox = this.getChildren().size();
         this.getChildren().add(sizeVbox, methodes);
+        this.modele.setMethodesActive(!modele.isMethodesActive());
 
     }
 
     private void voirConstructeur() {
         int sizeVbox = this.getChildren().size();
-        if (sizeVbox > 3)
+        if (sizeVbox >= 3)
             this.getChildren().add(2, constructeurs);
         else
             this.getChildren().add(1, constructeurs);
+        this.modele.setConstructeurActive(!modele.isConstructeurActive());
     }
 
     private void cacherAttribut() {
         this.getChildren().remove(attributs);
+        this.modele.setAttributActive(!modele.isAttributActive());
+
     }
 
     private void cacherMethodes() {
         this.getChildren().remove(methodes);
+        this.modele.setMethodesActive(!modele.isMethodesActive());
     }
 
     private void cacherConstructeurs() {
         this.getChildren().remove(constructeurs);
+        this.modele.setConstructeurActive(!modele.isConstructeurActive());
     }
 
     /**

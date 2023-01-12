@@ -40,6 +40,12 @@ public class Classe implements Comparable<Classe>, Serializable {
     private String[] implemente;
     private String superClass;
 
+    /** Permet d'afficher ou non individuellement certains détails de la classe*/
+
+    private boolean isAttributActive = true;
+    private boolean isConstructeurActive = true;
+    private boolean isMethodesActive = true;
+
     //-----------Constructeur-----------
 
     public void setModele(Modele modele) {
@@ -361,5 +367,29 @@ public class Classe implements Comparable<Classe>, Serializable {
             if (sp2.length>1) retour += sp2[1];
         }else retour=s;// autres cas
         return retour;
+    }
+
+    public boolean isAttributActive() {
+        return isAttributActive;
+    }
+
+    public void setAttributActive(boolean attributActive) {
+        isAttributActive = attributActive;
+    }
+
+    public boolean isConstructeurActive() {
+        return isConstructeurActive;
+    }
+
+    public void setConstructeurActive(boolean constructeurActive) {
+        isConstructeurActive = constructeurActive;
+    }
+
+    public boolean isMethodesActive() {
+        return isMethodesActive;
+    }
+
+    public void setMethodesActive(boolean methodesActive) {
+        isMethodesActive = methodesActive;
     }
 }
