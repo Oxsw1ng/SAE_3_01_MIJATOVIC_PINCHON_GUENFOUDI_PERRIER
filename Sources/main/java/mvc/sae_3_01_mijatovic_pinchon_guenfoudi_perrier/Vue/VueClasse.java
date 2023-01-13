@@ -50,7 +50,7 @@ public class VueClasse extends VBox {
         listNode.add(vBoxHaut);
         if (!modele.getModele().getEtatNav("A") && modele.isAttributActive())
             listNode.add(attributs);
-        if (!modele.getModele().getEtatNav("C") && modele.isConstructeurActive())
+        if (!modele.getModele().getEtatNav("C") && modele.isConstructeurActive() && !constructeurs.getText().equals(""))
             listNode.add(constructeurs);
         if (!modele.getModele().getEtatNav("M") && modele.isMethodesActive())
             listNode.add(methodes);
