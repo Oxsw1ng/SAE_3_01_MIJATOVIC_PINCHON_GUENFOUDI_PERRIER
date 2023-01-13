@@ -395,9 +395,11 @@ public class VueClasse extends VBox {
      */
     private void handleMouseMoved(MouseEvent e, ControllerDragClickPourClasse controller) {
         this.setCursor(Cursor.OPEN_HAND);
+        /*
         if (estSurBordure(e)) {
             this.setCursor(Cursor.SE_RESIZE);
         }
+         */
     }
 
     /**
@@ -406,12 +408,15 @@ public class VueClasse extends VBox {
      * @param controller
      */
     private void handleMousePressed(MouseEvent e, ControllerDragClickPourClasse controller) {
+        /*
         if (estSurBordure(e)) {
             controller.setRedimensionnementActif(true);
             this.setCursor(Cursor.SE_RESIZE);
         } else {
             this.setCursor(Cursor.CLOSED_HAND);
         }
+        */
+        this.setCursor(Cursor.CLOSED_HAND);
 
         controller.setxDuClique(e.getX());
         controller.setyDuClique(e.getY());
