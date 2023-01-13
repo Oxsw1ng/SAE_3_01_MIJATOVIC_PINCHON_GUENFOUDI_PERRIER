@@ -317,9 +317,11 @@ public class Modele implements Sujet, Serializable {
         sb.append("\n");
         for (Classe classe : classes) {
             sb.append(classe.convertirPlantUml());
+            sb.append("\n");
         }
         for (Fleche fleche : grapheCourant.getFleches()) {
             sb.append(fleche.convertirPlantUml());
+            sb.append("\n");
         }
         sb.append("\n");
         sb.append("@enduml");

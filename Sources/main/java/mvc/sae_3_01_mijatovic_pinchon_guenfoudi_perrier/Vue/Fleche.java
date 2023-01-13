@@ -15,22 +15,78 @@ import java.util.ArrayList;
 
 public class Fleche extends Group {
 
+
+    /**
+     * Numéro de la flèche pour l'hérédité
+     */
     public static final int FLECHE_HEREDITE = 1;
+
+    /**
+     * Numéro de la flèche pour l'implémentation
+     */
     public static final int FLECHE_IMPLEMENTATION = 2;
+
+    /**
+     * Numéro de la flèche pour l'agrégation
+     */
     public static final int FLECHE_AGREGATION = 3;
+
+    /**
+     * Vue de la classe servant de base à la flèche
+     */
     private VueClasse vueSource;
+    /**
+     * Vue de la classe servant d'arrivée à la flèche
+     */
     private VueClasse vueTarget;
+
+    /**
+     * Sauvegarde le point précédent de la source au cas où le nouveau pose problème
+     */
     private Point ancienpointSource;
+
+    /**
+     * Sauvegarde le point précédent de la destination au cas où le nouveau pose problème
+     */
     private Point ancienpointTarget;
+
+    /**
+     * Type courant de la flèche
+     */
     private int type;
+    /**
+     * Modèle
+     */
     private Modele modele;
+    /**
+     * Texte de la flèche (si nécessaire)
+     */
     private String textSurFleche;
+    /**
+     * Ajoute un X et un Y pour pouvoir décaler la flèche en courbe
+     */
     private double xAjoute;
     private double yAjoute;
-    private int niveauFl; // le nombre de fleches deja relié entre ces deux classes
 
+    /**
+     * le nombre de fleches deja relié entre ces deux classes
+     */
+    private int niveauFl;
+
+    /**
+     * Vue du diagramme
+     */
     private VueDiagramme vueParent;
 
+    /**
+     * Crée une flèche sans texte
+     * @param src
+     * @param tgt
+     * @param tp
+     * @param model
+     * @param vueDiag
+     * @param level
+     */
     public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, int level) {
         this.niveauFl = level;
         this.type=tp;
@@ -44,6 +100,16 @@ public class Fleche extends Group {
         pauseTransition.setOnFinished(e -> fleche2(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche,niveauFl));
         pauseTransition.play();    }
 
+    /**
+     * Crée une flèche avec texte
+     * @param src : source
+     * @param tgt
+     * @param tp
+     * @param model
+     * @param vueDiag
+     * @param texte
+     * @param level
+     */
     public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, String texte, int level) {
         this.niveauFl = level;
         this.type=tp;
@@ -58,7 +124,13 @@ public class Fleche extends Group {
         pauseTransition.play();
     }
 
-
+    /**
+     * Permet de savoir si un point appartient à un segment
+     * @param C : point cherché
+     * @param A : premier point du segment
+     * @param B : deuxième point du segment
+     * @return
+     */
     public static boolean pointAppartientSegment(Point C, Point A, Point B) {
         int[] vecteurAB = new int[] {(int) (B.getX()-A.getX()), (int) (B.getY()-A.getY())};
         int[] vecteurAC = new int[] {(int) (C.getX()-A.getX()), (int) (C.getY()-A.getY())};
@@ -431,7 +503,7 @@ public class Fleche extends Group {
         } else if (type == FLECHE_IMPLEMENTATION) {
             sb.append(" ..|> ");
         } else if (type == FLECHE_AGREGATION) {
-            sb.append(" o-- ");
+            sb.append(" -> ");
         }
         sb.append(vueTarget.getModele().getNomClasse());
         if (textSurFleche != null) {
