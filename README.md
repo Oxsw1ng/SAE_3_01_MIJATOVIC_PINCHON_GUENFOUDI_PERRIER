@@ -1,12 +1,12 @@
 # SAE 3.01 MIJATOVIC_PINCHON_GUENFOUDI_PERRIER
 
 DiagMov' est une application permettant de générer des diagrammes de classes à partir de fichier .class
-*DiagMov' es fonctionnelle sous Windows ET Linux*
+*DiagMov' est fonctionnel sous Windows ET Linux*
 
 ### Prérequis
  - Dernière version Java ( 17 ou 18 )
  - IntelliJ IDEA
- - Maven, afin de gérer les librairies 
+ - Maven (afin de gérer les librairies)
  - Les librairies JavaFX suivantes : 
    - openjfx.javafx.base
    - openjfx.javafx.controls
