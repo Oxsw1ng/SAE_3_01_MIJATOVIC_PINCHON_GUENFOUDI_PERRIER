@@ -93,13 +93,19 @@ public class VueClasse extends VBox {
         ImageView iv;
         if (modele.isInterface()) {
             iv = new ImageView(ChargementRes.getLetterI());
-        } else {
+        } else if (modele.isAbstract()) {
+            iv = new ImageView(ChargementRes.getLetterA());
+        }else {
+
             iv = new ImageView(ChargementRes.getLetterC());
         }
         iv.setPreserveRatio(true);
         iv.setFitHeight(15);
 
         Label lbNom = new Label(modele.getNomClasse());
+        if ( modele.isAbstract()) {
+            lbNom.setText("<<abstract>> "+lbNom.getText());
+        }
         lbNom.setFont(Font.font(lbNom.getFont().getName(), FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
         lbNom.setTextFill(t.getCouleurTxtCls());
         lbNom.setGraphic(iv);

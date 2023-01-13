@@ -59,6 +59,10 @@ public class Classe implements Comparable<Classe>, Serializable {
      */
     private boolean isInterface;
     /**
+     * Indique si la classe est une interface ou non
+     */
+    private boolean isAbstract;
+    /**
      * tableau des nom de classe que celle-ci implemente
      */
     private String[] implemente;
@@ -118,6 +122,9 @@ public class Classe implements Comparable<Classe>, Serializable {
                 switch (mots[i]) {
                     case "interface" :
                         this.isInterface = true;
+                        break;
+                    case "abstract" :
+                        this.isAbstract = true;
                         break;
                     case "implements" :
                         String[] classes = mots[i+1].split(",");
@@ -464,6 +471,8 @@ public class Classe implements Comparable<Classe>, Serializable {
         if (isInterface) {
             sb.append("interface ");
         } else {
+            if (isAbstract)
+                sb.append("abstract ");
             sb.append("class ");
         }
         sb.append(nomClasse);
@@ -591,5 +600,13 @@ public class Classe implements Comparable<Classe>, Serializable {
      */
     public void setModele(Modele modele) {
         this.modele = modele;
+    }
+
+    /**
+     * getter pour savoir si une classe est abstraite
+     * @return booleen
+     */
+    public boolean isAbstract() {
+        return isAbstract;
     }
 }

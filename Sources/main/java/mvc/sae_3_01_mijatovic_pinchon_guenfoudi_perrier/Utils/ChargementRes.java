@@ -36,6 +36,13 @@ public class ChargementRes {
     }
 
     /**
+     * permet de charger l'icon des classes
+     */
+    public static Image getLetterA(){
+        return new Image(ChargementRes.class.getResource("/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/A.png").toExternalForm());
+    }
+
+    /**
      * permet de charger l'icon des interfaces
      */
     public static Image getLetterI(){

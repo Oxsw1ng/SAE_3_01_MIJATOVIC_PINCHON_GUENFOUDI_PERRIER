@@ -4,6 +4,7 @@ import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueClasse;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.VueDiagramme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.DragController;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
 
