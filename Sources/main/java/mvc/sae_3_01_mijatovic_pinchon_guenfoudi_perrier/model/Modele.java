@@ -26,7 +26,7 @@ public class Modele implements Sujet, Serializable {
     private String nomFichier;
 
     private transient Theme theme;
-    private ArrayList<Theme> themes;
+    private transient ArrayList<Theme> themes;
 
     private Classe classeCourante;
     private TreeSet<Classe> classes;
