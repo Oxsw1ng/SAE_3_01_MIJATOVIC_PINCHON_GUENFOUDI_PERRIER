@@ -1,26 +1,37 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.text.Text;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.File;
 
-/*
- * Contrôleur opérant sur le textField
+/**
+ * Controller opérant sur le textField
  */
 public class ControllerChoisirRepertoire implements EventHandler<KeyEvent> {
 
+    /**
+     * modele de l'application
+     */
     private Modele modele;
 
+    /**
+     * Instancie un nouveau Controller pour gérer le textField
+     *
+     * @param modele le modele de l'application
+     */
     public ControllerChoisirRepertoire(Modele modele) {
         this.modele = modele;
     }
 
+    /**
+     * Permet de gérer le textField du choix de repertoire
+     *
+     * @param keyEvent keyEvent du textField
+     */
     @Override
     public void handle(KeyEvent keyEvent) {
         if (keyEvent.getCode() == KeyCode.ENTER) {

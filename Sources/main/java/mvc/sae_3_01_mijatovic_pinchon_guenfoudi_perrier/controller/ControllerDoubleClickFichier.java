@@ -9,14 +9,30 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.File;
 
+/**
+ * Controller permettant de controller le double clique sur l'explorateur de fichier à gauche
+ */
 public class ControllerDoubleClickFichier implements EventHandler<MouseEvent> {
 
+    /**
+     * modele de l'application
+     */
     private Modele modele;
 
+    /**
+     * Instancie un nouveau Controller pour gérer le double clique
+     *
+     * @param modele le modele de l'application
+     */
     public ControllerDoubleClickFichier(Modele modele) {
         this.modele = modele;
     }
 
+    /**
+     * Permet de gérer double clique et importer le fichier .class
+     *
+     * @param mouseEvent mouseEvent
+     */
     @Override
     public void handle(MouseEvent mouseEvent) {
         // Si c'est un fichier java, ajout du controleur permettant de créer les classes
