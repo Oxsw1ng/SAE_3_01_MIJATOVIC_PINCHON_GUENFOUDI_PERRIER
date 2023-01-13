@@ -11,6 +11,9 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 import java.util.*;
 
+/**
+ * Vue permettant d'afficher le diagramme entièrement
+ */
 public class VueDiagramme extends Pane implements Observateur {
 
     private Modele modele;
@@ -27,6 +30,9 @@ public class VueDiagramme extends Pane implements Observateur {
 
     }
 
+    /**
+     * Actualisation à chaque changement du modèle principal ou des classes
+     */
     @Override
     public void actualiser() {
         // mise a jour du thème
@@ -38,7 +44,7 @@ public class VueDiagramme extends Pane implements Observateur {
         this.getChildren().clear();
         for (Classe c:modele.getClasses()) {
             c.setModele(this.modele);
-            VueClasse vue = new VueClasse(c);
+            VueClasse vue = new VueClasse(c, this);
             table.put(c,vue);
             this.getChildren().add(vue);
             vue.toFront();
@@ -86,7 +92,7 @@ public class VueDiagramme extends Pane implements Observateur {
 
 
     /**
-     * methode qui prend un nom en parametre et verifie si une classe existe au nom la
+     * methode qui prend un nom en parametre et verifie si une classe existe à ce nom
      * @param nom
      * @return
      */
@@ -104,6 +110,11 @@ public class VueDiagramme extends Pane implements Observateur {
         }
         return retour;
     }
+
+    /**
+     * Autorise le glisser-déposer depuis l'extérieur
+     * @param event
+     */
     private void handleDragOverEvent(DragEvent event) {
         Dragboard db = event.getDragboard();
         if (db.hasFiles()) {
@@ -113,16 +124,28 @@ public class VueDiagramme extends Pane implements Observateur {
         }
     }
 
+    /**
+     * Déplace la flèche selon la position des classes
+     */
     public void deplacerFleche(){
         for (Fleche f:fleches) {
             f.deplacer();
         }
     }
 
+    /**
+     * Retourne la vueClasse de la classe c entrée en paramètre
+     * @param c
+     * @return
+     */
     public VueClasse getVueClasse(Classe c){
         return table.get(c);
     }
 
+    /**
+     * Retourne les flèches
+     * @return
+     */
     public HashSet<Fleche> getFleches() {
         return fleches;
     }

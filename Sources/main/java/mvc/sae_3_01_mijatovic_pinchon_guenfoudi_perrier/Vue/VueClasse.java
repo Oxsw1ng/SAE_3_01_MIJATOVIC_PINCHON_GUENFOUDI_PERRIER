@@ -29,9 +29,11 @@ public class VueClasse extends VBox {
     private VBox attributs;
     private Label methodes;
     private Label constructeurs;
+    private VueDiagramme vueDiagramme;
 
-    public VueClasse(Classe modele) {
+    public VueClasse(Classe modele, VueDiagramme vd) {
         this.modele = modele;
+        this.vueDiagramme = vd;
         ControllerDragClickPourClasse controller = new ControllerDragClickPourClasse(modele, this);
         setEventHandlers(controller);
         this.creerVue();
@@ -67,6 +69,9 @@ public class VueClasse extends VBox {
 
     }
 
+    /**
+     * Rajoute les couleurs et la bordure
+     */
     public void mettreStrokeAndBackground() {
         Theme t = modele.getTheme();
 
@@ -75,6 +80,10 @@ public class VueClasse extends VBox {
 
     }
 
+    /**
+     * Crée la VBox contenant le nom de la clasee
+     * @return
+     */
     public VBox creerVBoxHaut() {
         Theme t = modele.getTheme();
 
@@ -99,6 +108,10 @@ public class VueClasse extends VBox {
         return vBoxHaut;
     }
 
+    /**
+     * Crée la VBox des attributs
+     * @return
+     */
     public VBox creerVBoxAttributs() {
         Theme t = modele.getTheme();
 
@@ -116,6 +129,10 @@ public class VueClasse extends VBox {
         return vBoxMilieu;
     }
 
+    /**
+     * Crée le label avec les constructeurs
+     * @return
+     */
     public Label creerLabelConstructeur() {
         Theme t = modele.getTheme();
         StringBuilder sbc = new StringBuilder();
@@ -127,6 +144,10 @@ public class VueClasse extends VBox {
         return lbConstructeurs;
     }
 
+    /**
+     * Crée le label des méthodes
+     * @return
+     */
     public Label creerLabelMethode() {
         Theme t = modele.getTheme();
         StringBuilder sbm = new StringBuilder();
@@ -138,24 +159,44 @@ public class VueClasse extends VBox {
         return lbMethodes;
     }
 
-
+    /**
+     * Place les classes à la position x,y
+     * @param x
+     * @param y
+     */
     public void placerClasse(double x, double y) {
         this.setLayoutX(x);
         this.setLayoutY(y);
     }
 
+    /**
+     * Retourne le modèle
+     * @return
+     */
     public Classe getModele() {
         return modele;
     }
 
+    /**
+     * Retourne la largeur de la classe
+     * @return
+     */
     public int getLargeurClasse() {
         return (int) this.getWidth();
     }
 
+    /**
+     * Retourne la hauteur de la classe
+     * @return
+     */
     public int getHauteurClasse() {
         return (int) this.getHeight();
     }
 
+    /**
+     * Créer le menu contextuel au clic droit sur une classe
+     * @return
+     */
     private ContextMenu creerMenuContextuel() {
         ContextMenu contextMenu = new ContextMenu();
 
@@ -176,6 +217,7 @@ public class VueClasse extends VBox {
             int index = contextMenu.getItems().indexOf(masquerAttribut);
             contextMenu.getItems().remove(masquerAttribut);
             contextMenu.getItems().add(index, afficherAttribut);
+            vueDiagramme.actualiser();
         });
 
         masquerMethode.setOnAction(actionEvent -> {
@@ -183,6 +225,7 @@ public class VueClasse extends VBox {
             int index = contextMenu.getItems().indexOf(masquerMethode);
             contextMenu.getItems().remove(masquerMethode);
             contextMenu.getItems().add(index, afficherMethode);
+            vueDiagramme.actualiser();
         });
 
         masquerConstructeur.setOnAction(actionEvent -> {
@@ -190,6 +233,7 @@ public class VueClasse extends VBox {
             int index = contextMenu.getItems().indexOf(masquerConstructeur);
             contextMenu.getItems().remove(masquerConstructeur);
             contextMenu.getItems().add(index, afficherConstructeur);
+            vueDiagramme.actualiser();
         });
 
         afficherAttribut.setOnAction(actionEvent -> {
@@ -197,18 +241,21 @@ public class VueClasse extends VBox {
             int index = contextMenu.getItems().indexOf(afficherAttribut);
             contextMenu.getItems().remove(afficherAttribut);
             contextMenu.getItems().add(index, masquerAttribut);
+            vueDiagramme.actualiser();
         });
         afficherMethode.setOnAction(actionEvent -> {
             voirMethode();
             int index = contextMenu.getItems().indexOf(afficherMethode);
             contextMenu.getItems().remove(afficherMethode);
             contextMenu.getItems().add(index, masquerMethode);
+            vueDiagramme.actualiser();
         });
         afficherConstructeur.setOnAction(actionEvent -> {
             voirConstructeur();
             int index = contextMenu.getItems().indexOf(afficherConstructeur);
             contextMenu.getItems().remove(afficherConstructeur);
             contextMenu.getItems().add(index, masquerConstructeur);
+            vueDiagramme.actualiser();
         });
 
         contextMenu.getItems().add(suppression);
@@ -230,11 +277,17 @@ public class VueClasse extends VBox {
         return contextMenu;
     }
 
+    /**
+     * Méthode servant à afficher les attributs avec le menu contextuel
+     */
     private void voirAttribut() {
         this.getChildren().add(1, attributs);
         this.modele.setAttributActive(!modele.isAttributActive());
     }
 
+    /**
+     * Méthode servant à afficher les méthodes avec le menu contextuel
+     */
     private void voirMethode() {
         int sizeVbox = this.getChildren().size();
         this.getChildren().add(sizeVbox, methodes);
@@ -242,6 +295,9 @@ public class VueClasse extends VBox {
 
     }
 
+    /**
+     * Méthode servant à afficher les constructeurs avec le menu contextuel
+     */
     private void voirConstructeur() {
         int sizeVbox = this.getChildren().size();
         if (sizeVbox >= 3)
@@ -251,17 +307,26 @@ public class VueClasse extends VBox {
         this.modele.setConstructeurActive(!modele.isConstructeurActive());
     }
 
+    /**
+     * Méthode servant à cacher les attributs avec le menu contextuel
+     */
     private void cacherAttribut() {
         this.getChildren().remove(attributs);
         this.modele.setAttributActive(!modele.isAttributActive());
 
     }
 
+    /**
+     * Méthode servant à cacher les méthodes avec le menu contextuel
+     */
     private void cacherMethodes() {
         this.getChildren().remove(methodes);
         this.modele.setMethodesActive(!modele.isMethodesActive());
     }
 
+    /**
+     * Méthode servant à cacher les constructeurs avec le menu contextuel
+     */
     private void cacherConstructeurs() {
         this.getChildren().remove(constructeurs);
         this.modele.setConstructeurActive(!modele.isConstructeurActive());
@@ -312,6 +377,10 @@ public class VueClasse extends VBox {
         return (x < 5 || y < 5);
     }
 
+    /**
+     * Crée les contrôleurs
+     * @param controller
+     */
     private void setEventHandlers(ControllerDragClickPourClasse controller) {
         setOnMouseMoved(e -> handleMouseMoved(e, controller));
         setOnMousePressed(e -> handleMousePressed(e, controller));
@@ -319,6 +388,11 @@ public class VueClasse extends VBox {
         setOnMouseDragged(controller);
     }
 
+    /**
+     * Change la forme de la souris selon l'endroit où elle se trouve
+     * @param e
+     * @param controller
+     */
     private void handleMouseMoved(MouseEvent e, ControllerDragClickPourClasse controller) {
         this.setCursor(Cursor.OPEN_HAND);
         if (estSurBordure(e)) {
@@ -326,6 +400,11 @@ public class VueClasse extends VBox {
         }
     }
 
+    /**
+     * Permet de lancer quel contrôleur de Drag va être actif selon l'endroit où on clique sur la classe
+     * @param e
+     * @param controller
+     */
     private void handleMousePressed(MouseEvent e, ControllerDragClickPourClasse controller) {
         if (estSurBordure(e)) {
             controller.setRedimensionnementActif(true);
@@ -338,6 +417,11 @@ public class VueClasse extends VBox {
         controller.setyDuClique(e.getY());
     }
 
+    /**
+     * Change la souris si le clic est relaché
+     * @param e
+     * @param controller
+     */
     private void handleMouseReleased(MouseEvent e, ControllerDragClickPourClasse controller) {
         controller.setRedimensionnementActif(false);
         this.setCursor(Cursor.OPEN_HAND);

@@ -30,6 +30,9 @@ public class VueTopBarre extends HBox implements Observateur {
         this.actualiser();
     }
 
+    /**
+     * Actualise l'affichage à chaque modification du modèle
+     */
     @Override
     public void actualiser() {
         this.getChildren().clear();
@@ -58,6 +61,8 @@ public class VueTopBarre extends HBox implements Observateur {
         Menu menuAide = new Menu("Aide");
         MenuItem m4 = new MenuItem("Prise en main");
         MenuItem m5 = new MenuItem("Export");
+
+        // Evenement pour les bulles d'aide
         m4.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {

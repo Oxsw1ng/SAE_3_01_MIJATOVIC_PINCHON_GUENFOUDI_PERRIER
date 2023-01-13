@@ -20,6 +20,9 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.util.ArrayList;
 
+/**
+ * Crée la fenêtre pour le choix du thème personnalisé
+ */
 public class VueChoixCouleurThemePerso {
 
     private static String nom;
@@ -39,6 +42,10 @@ public class VueChoixCouleurThemePerso {
     private static Modele model;
     private static ArrayList<ColorPicker> colorPickers;
 
+    /**
+     * Crée le visuel de la fenêtre
+     * @param modele
+     */
     public static void lancerPersoTheme(Modele modele){
         model = modele;
         colorPickers = new ArrayList<>();
@@ -307,6 +314,9 @@ public class VueChoixCouleurThemePerso {
         stage.show();
     }
 
+    /**
+     * Crée les couleurs de base pour le rendu attendu sur la fenêtre de personnalisation
+     */
     private static void initialisationAttrEtCouleurs(){
         nom="";
         bordureEtBtnImportant=Color.BLACK;
@@ -329,6 +339,9 @@ public class VueChoixCouleurThemePerso {
         colorPickers.get(colorPickers.size()-1).setValue(Color.BLACK);
     }
 
+    /**
+     * Permet de récupérer le thème personnalisé en relançant l'application
+     */
     private static void chargerCouleur() {
         BorderPane bp = (BorderPane) droite.getChildren().get(0);
         HBox top = (HBox) bp.getTop();
@@ -377,6 +390,10 @@ public class VueChoixCouleurThemePerso {
 
     }
 
+    /**
+     * Oblige l'utilisateur à donner un nom au thème
+     * @return
+     */
     private static boolean alerter(){
         if (tfNom.getText()=="") {
             tfNom.setStyle("-fx-prompt-text-fill: red;");
