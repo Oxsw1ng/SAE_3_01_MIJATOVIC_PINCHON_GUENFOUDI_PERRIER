@@ -1,7 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils;
 
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.*;
@@ -19,8 +19,13 @@ public class ChargementTheme {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] t = line.split("_");
-                if (t.length==11){
-                    Theme theme = new Theme(t[0],Color.web(t[1]),Color.web(t[2]),Color.web(t[3]),Color.web(t[4]),Color.web(t[5]),Color.web(t[6]),Color.web(t[7]),Color.web(t[8]),Color.web(t[9]),Color.web(t[10]));
+                boolean pasPresent = true;
+                for (Theme t1 :arThemes) {
+                    if (t1.getNom().trim().equalsIgnoreCase(t[0].trim()))
+                        pasPresent = false;
+                }
+                if (t.length==12 && pasPresent){
+                    Theme theme = new Theme(t[0],Color.web(t[1]),Color.web(t[2]),Color.web(t[3]),Color.web(t[4]),Color.web(t[5]),Color.web(t[6]),Color.web(t[7]),Color.web(t[8]),Color.web(t[9]),Color.web(t[10]),Color.web(t[11]));
                     arThemes.add(theme);
                 }
             }
@@ -77,7 +82,7 @@ public class ChargementTheme {
             bw.write(numeroDuTheme);
             bw.newLine();
             for (Theme theme:arTheme) {
-                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};
+                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2()), modele.couleurHexa(theme.getCouleurTxtCls())};
                 bw.write(String.join("_",s));
                 bw.newLine();
             }
@@ -100,7 +105,7 @@ public class ChargementTheme {
             bw.write(numeroDuTheme+"");
             bw.newLine();
             for (Theme theme:arTheme) {
-                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};
+                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2()), modele.couleurHexa(theme.getCouleurTxtCls())};
                 bw.write(String.join("_",s));
                 bw.newLine();
             }

@@ -1,17 +1,11 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model;
 
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Classe implements Comparable<Classe>, Serializable {
     static final long serialVersionUID = 648175960228010030L;

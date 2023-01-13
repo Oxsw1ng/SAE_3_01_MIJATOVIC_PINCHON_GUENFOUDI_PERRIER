@@ -5,6 +5,7 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.PNG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementTheme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.Fleche;

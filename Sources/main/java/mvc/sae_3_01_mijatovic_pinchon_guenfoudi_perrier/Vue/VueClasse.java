@@ -7,12 +7,15 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.ControllerDragClickPourClasse;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 
 import java.util.ArrayList;
@@ -88,7 +91,8 @@ public class VueClasse extends VBox {
         iv.setFitHeight(15);
 
         Label lbNom = new Label(modele.getNomClasse());
-        lbNom.setTextFill(t.getColorText());
+        lbNom.setFont(Font.font(lbNom.getFont().getName(), FontWeight.SEMI_BOLD, FontPosture.REGULAR, 14));
+        lbNom.setTextFill(t.getCouleurTxtCls());
         lbNom.setGraphic(iv);
         vBoxHaut.getChildren().add(lbNom);
 
@@ -106,7 +110,7 @@ public class VueClasse extends VBox {
             sba.append(s + "\n");
         }
         Label lbAttributs = new Label(sba.toString());
-        lbAttributs.setTextFill(t.getColorText());
+        lbAttributs.setTextFill(t.getCouleurTxtCls());
         vBoxMilieu.getChildren().add(lbAttributs);
 
         return vBoxMilieu;
@@ -119,7 +123,7 @@ public class VueClasse extends VBox {
             sbc.append(s + "\n");
         }
         Label lbConstructeurs = new Label(sbc.toString());
-        lbConstructeurs.setTextFill(t.getColorText());
+        lbConstructeurs.setTextFill(t.getCouleurTxtCls());
         return lbConstructeurs;
     }
 
@@ -130,7 +134,7 @@ public class VueClasse extends VBox {
             sbm.append(s + "\n");
         }
         Label lbMethodes = new Label(sbm.toString());
-        lbMethodes.setTextFill(t.getColorText());
+        lbMethodes.setTextFill(t.getCouleurTxtCls());
         return lbMethodes;
     }
 

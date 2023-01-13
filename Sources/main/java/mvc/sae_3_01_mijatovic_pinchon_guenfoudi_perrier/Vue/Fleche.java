@@ -380,7 +380,7 @@ public class Fleche extends Group {
                             x3, y3,
                             x4, y4
                     );
-                    fleche.setFill(Color.TRANSPARENT);
+                    fleche.setFill(modele.getTheme().getColorFond2());
                     fleche.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
                     fleche.setStrokeWidth(2);
                     this.getChildren().add(fleche);

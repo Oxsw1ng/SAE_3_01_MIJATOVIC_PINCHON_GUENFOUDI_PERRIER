@@ -1,4 +1,4 @@
-package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract;
+package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes;
 
 import javafx.scene.paint.Color;
 
@@ -17,10 +17,11 @@ public class Theme {
     private Color colorText; //5
     private Color colorTextTitle; //6
     private Color ColorFond2; //7
+    private Color couleurTxtCls;
 
     //-----------Constructeurs-----------
 
-    public Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle, Color colorFond2) {
+    public Theme(String nom, Color bordureEtBtnImportant, Color boutonClassiques, Color fondDiagEtTextField,Color fondQuandClicke, Color fondClasse, Color topClasse, Color fondNavEtArbo, Color colorText, Color colorTextTitle, Color colorFond2, Color couleurTxtCls) {
         this.nom = nom;
         this.bordureEtBtnImportant = bordureEtBtnImportant;
         this.boutonClassiques = boutonClassiques;
@@ -32,6 +33,7 @@ public class Theme {
         this.colorText = colorText;
         this.colorTextTitle = colorTextTitle;
         this.ColorFond2 = colorFond2;
+        this.couleurTxtCls = couleurTxtCls;
 
     }
 
@@ -79,6 +81,8 @@ public class Theme {
     }
 
     public Color getColorFond2(){return ColorFond2;}
+
+    public Color getCouleurTxtCls(){return couleurTxtCls;}
 
     @Override
     public String toString() {

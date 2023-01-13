@@ -15,4 +15,6 @@ module mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier {
     opens mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract to javafx.fxml;
     exports mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils;
     opens mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils to javafx.fxml;
+    exports mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes;
+    opens mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes to javafx.fxml;
 }
