@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ChargementTheme {
 
-    /*
+    /**
      * methode pour recuperer les themes creer par l'utilisateur
      */
     public static ArrayList<Theme> chargerTheme(){
@@ -38,8 +38,10 @@ public class ChargementTheme {
         return arThemes;
     }
 
-    /*
+    /**
      * methode qui rend l'indice du theme selectionne par l utilisateur comme theme courant
+     *
+     * @param m modele de l'application
      */
     public static int chargerNumeroDuTheme(Modele m){
         int i = 0;
@@ -58,21 +60,30 @@ public class ChargementTheme {
         return i;
     }
 
-    /*
+    /**
      * methode qui rend un bufferedReader afin de parcourir le fichier de themes
+     *
+     * @throws FileNotFoundException
      */
     private static BufferedReader lectureDuFichier() throws FileNotFoundException {
         return new BufferedReader(new FileReader("Sources/main/resources/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/style.Sdmov"));
     }
-    /*
+
+    /**
      * methode qui rend un bufferedReader afin de parcourir le fichier de themes
+     *
+     * @throws FileNotFoundException
      */
     private static BufferedWriter ecritureDuFichier() throws IOException {
         return new BufferedWriter(new FileWriter("Sources/main/resources/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/style.Sdmov"));
     }
 
-    /*
-     * methode d ajout d'un theme à ecrire dans le fichier
+    /**
+     * methode d'ajout d'un theme a ecrire dans le fichier
+     *
+     * @param t theme de l'application
+     * @param modele modele de l'application
+     * @param numeroDuTheme index du dernier theme utilise
      */
     public static void ecrireTheme(Theme t, Modele modele, int numeroDuTheme) {
         ArrayList<Theme> arTheme = chargerTheme();
@@ -93,8 +104,11 @@ public class ChargementTheme {
 
     }
 
-    /*
+    /**
      * methode de modification du theme courant voulu
+     *
+     * @param modele modele de l'application
+     * @param numeroDuTheme index du dernier theme utilise
      */
     public static void changerNumTheme(Modele modele, int numeroDuTheme) {
         ArrayList<Theme> arTheme = new ArrayList<>(modele.getListThemes());
