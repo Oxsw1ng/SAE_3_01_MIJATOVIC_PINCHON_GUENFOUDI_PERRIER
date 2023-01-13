@@ -1,6 +1,6 @@
 # SAE 3.01 MIJATOVIC_PINCHON_GUENFOUDI_PERRIER
 
-DiagMov' est une application permettant de générer des diagrammes de classes à partir de fichier .class
+DiagMov' est une application permettant de générer des diagrammes de classes à partir de fichier .class                                             
 *DiagMov' est fonctionnel sous Windows ET Linux*
 
 ### Prérequis
