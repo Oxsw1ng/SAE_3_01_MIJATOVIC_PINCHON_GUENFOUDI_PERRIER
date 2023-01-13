@@ -1,6 +1,7 @@
-# SAE_3_01_MIJATOVIC_PINCHON_GUENFOUDI_PERRIER
+# SAE 3.01 MIJATOVIC_PINCHON_GUENFOUDI_PERRIER
 
 DiagMov' est une application permettant de générer des diagrammes de classes à partir de fichier .class
+*DiagMov' es fonctionnelle sous Windows ET Linux*
 
 ### Prérequis
  - Dernière version Java ( 17 ou 18 )
