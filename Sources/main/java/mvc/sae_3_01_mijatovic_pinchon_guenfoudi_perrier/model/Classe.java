@@ -7,44 +7,80 @@ import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Classe représentant une classe afin de récupérer distinctement les attributs, méthodes et constructeurs
+ */
 public class Classe implements Comparable<Classe>, Serializable {
+
+
     static final long serialVersionUID = 648175960228010030L;
 
 
     //-----------Attributs-----------
     /** Nom de la classe */
+
+    /**
+     * nom de la classe
+     */
     private String nomClasse;
+
+    /**
+     * chemin absolut du fichier classe
+     */
     private String cheminClasse;
-    /** Liste des attributs de la classe */
+    /**
+     * Liste des attributs de la classe
+     */
     private ArrayList<String> attributs;
-    /** Liste des constructeurs de la classe */
+    /**
+     * Liste des constructeurs de la classe
+     */
     private ArrayList<String> constructeurs;
-    /** Liste des méthodes de la classe */
+    /**
+     * Liste des méthodes de la classe
+     */
     private ArrayList<String> methodes;
-    /** Coordonnées X de la classe dans l'interface graphique */
+    /**
+     * Coordonnées X de la classe dans l'interface graphique
+     */
     private double coordonnesX;
-    /** Coordonnées Y de la classe dans l'interface graphique */
+    /**
+     * Coordonnées Y de la classe dans l'interface graphique
+     */
     private double coordonnesY;
 
-    /** Objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe */
+    /**
+     * Objet Modele utilisé pour accéder à des données nécessaires au fonctionnement de cette classe
+     */
     private Modele modele;
 
-    /** Indique si la classe est une interface ou non */
+    /**
+     * Indique si la classe est une interface ou non
+     */
     private boolean isInterface;
+    /**
+     * tableau des nom de classe que celle-ci implemente
+     */
     private String[] implemente;
+    /**
+     * nom de la classe parente
+     */
     private String superClass;
 
-    /** Permet d'afficher ou non individuellement certains détails de la classe*/
-
+    /**
+     * Permet d'afficher ou non les attributs de la classe
+     */
     private boolean isAttributActive = true;
+    /**
+     * Permet d'afficher ou non les constructeurs de la classe
+     */
     private boolean isConstructeurActive = true;
+    /**
+     * Permet d'afficher ou non les méthodes de la classe
+     */
     private boolean isMethodesActive = true;
 
     //-----------Constructeur-----------
-
-    public void setModele(Modele modele) {
-        this.modele = modele;
-    }
 
     /**
      * Crée une nouvelle instance de la classe en lisant le fichier .class correspondant au chemin donné en paramètre.
@@ -118,10 +154,24 @@ public class Classe implements Comparable<Classe>, Serializable {
         this.cheminClasse = pathClass;
     }
 
+    //-----------Méthodes-----------
+
+    /**
+     * si la ligne en parametre correspond à un attribut
+     *
+     * @param line ligne du fichier en cours de lecture
+     * @return boolean
+     */
     private boolean estAttribut(String line) {
         return line.startsWith("  ");
     }
 
+    /**
+     * si la ligne en parametre correspond à un constructeur
+     *
+     * @param ligne ligne du fichier en cours de lecture
+     * @return boolean
+     */
     public boolean estConstructeur(String ligne) {
         if (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")")) {
             ligne = ligne.replaceAll("  public |  private |  protected ", "");
@@ -135,10 +185,22 @@ public class Classe implements Comparable<Classe>, Serializable {
         return false;
     }
 
+    /**
+     * si la ligne en parametre correspond à une méthode
+     *
+     * @param ligne ligne du fichier en cours de lecture
+     * @return boolean
+     */
     public boolean estMethode(String ligne) {
         return (ligne.startsWith("  ") && ligne.contains("(") && ligne.contains(")"));
     }
 
+    /**
+     * permet d'ajouter l'attribut représenté par la ligne en paramètre à la liste des attributs
+     *
+     * @param ligne ligne du fichier en cours de lecture
+     * @return
+     */
     public void peuplerListeAttributs(String ligne) {
         ligne = ligne.substring(2);
         String[] mots = ligne.split(" ");
@@ -178,7 +240,13 @@ public class Classe implements Comparable<Classe>, Serializable {
         this.attributs.add(s);
     }
 
-
+    /**
+     * permet d'ajouter la méthode représentée par la ligne en paramètre à la liste des méthodes ou des constructeurs selon le boolean en paramètre
+     *
+     * @param line ligne du fichier en cours de lecture
+     * @param isMethod différencie les méthodes des constructeurs
+     * @return
+     */
     public void peuplerListeMethodes(String line, boolean isMethod) throws NoClassDefFoundError {
         String retour = "";
 
@@ -231,14 +299,29 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
     }
 
+    /**
+     * getter du nom de la classe
+     *
+     * @return String
+     */
     public String getNomClasse() {
         return nomClasse;
     }
 
+    /**
+     * getter de la coordonnées X de la classe
+     *
+     * @return double
+     */
     public double getCoordonnesX() {
         return coordonnesX;
     }
 
+    /**
+     * setter de la coordonnées X de la classe
+     *
+     * @param coordonnesX
+     */
     public void setCoordonnesX(double coordonnesX) {
         if (coordonnesX >= 0) {
             this.coordonnesX = coordonnesX;
@@ -247,13 +330,31 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
     }
 
+    /**
+     * getter de la coordonnée Y de la classe
+     *
+     * @return double
+     */
     public double getCoordonnesY() {
         return coordonnesY;
     }
+
+    /**
+     * setter des coordonnées x y
+     *
+     * @param x coordonnée x
+     * @param y coordonnée y
+     */
     public void setCoordinates(double x,double y){
         this.setCoordonnesX(x);
         this.setCoordonnesY(y);
     }
+
+    /**
+     * setter de la coordonnée Y de la classe
+     *
+     * @param coordonnesY coordonnée Y
+     */
     public void setCoordonnesY(double coordonnesY) {
         if (coordonnesY >= 0) {
             this.coordonnesY = coordonnesY;
@@ -262,46 +363,102 @@ public class Classe implements Comparable<Classe>, Serializable {
         }
     }
 
+
+    /**
+     * getter des attributs de la classe
+     *
+     * @return liste de String
+     */
     public ArrayList<String> getAttributs() {
         return attributs;
     }
 
+    /**
+     * getter des constructeurs
+     *
+     * @return liste de String
+     */
     public ArrayList<String> getConstructeurs() {
         return constructeurs;
     }
 
+    /**
+     * getter des méthodes
+     *
+     * @return lsite de String
+     */
     public ArrayList<String> getMethodes() {
         return methodes;
     }
 
+    /**
+     * getter du thème courant
+     *
+     * @return Thème
+     */
     public Theme getTheme(){
         return this.modele.getTheme();
     }
 
+    /**
+     * si la classe est une interface
+     *
+     * @return boolean
+     */
     public boolean isInterface() {
         return isInterface;
     }
 
+    /**
+     * getter du modèle
+     *
+     * @return Modele
+     */
     public Modele getModele() {
         return modele;
     }
 
+    /**
+     * getter des interfaces
+     *
+     * @return tableau de String
+     */
     public String[] getInterfaces() {
         return this.implemente;
     }
 
+    /**
+     * getter de la classe parente
+     *
+     * @return String
+     */
     public String getSuperClass() {
         return this.superClass;
     }
 
+    /**
+     * compare la classe a l'objet en paramètre
+     *
+     * @param o l'objet à comparer
+     * @return
+     */
     @Override
     public int compareTo(Classe o) {
         return this.getNomClasse().compareTo(o.getNomClasse());
     }
+
+    /**
+     * méthode pour supprimer une classe de la liste de classes du modèle
+     */
     public void supprimerClasseDansModele(){
         modele.supprimerClasse(this);
     }
 
+    /**
+     * methode pour convertir la classe en plantUml
+     *
+     * @return String
+     */
     public String convertirPlantUml() {
         StringBuilder sb = new StringBuilder();
         if (isInterface) {
@@ -326,12 +483,24 @@ public class Classe implements Comparable<Classe>, Serializable {
 
     }
 
+    /**
+     * méthode pour récupérer le Type selon une chaine donnée
+     *
+     * @param s String
+     * @return String
+     */
     private String recupType(String s){
         String[] l = s.split("\\.");
         return l[l.length-1];
     }
 
 
+    /**
+     * méthode qui va enlever les espaces entre les différents types
+     *
+     * @param s String
+     * @return String
+     */
     private String gererMapEtc(String s){
         String retour="";
         if (s.matches(".*<.*,.*>.*")){ // cas pour tout ce qui est map etc ...
@@ -361,27 +530,66 @@ public class Classe implements Comparable<Classe>, Serializable {
         return retour;
     }
 
+    /**
+     * si les attributs sont activés et visibles
+     *
+     * @return boolean
+     */
     public boolean isAttributActive() {
         return isAttributActive;
     }
 
+    /**
+     * setter du boolean représentant les attributs actifs
+     *
+     * @param attributActive boolean
+     */
     public void setAttributActive(boolean attributActive) {
         isAttributActive = attributActive;
     }
 
+    /**
+     * si les Constructeurs sont activés et visibles
+     *
+     * @return boolean
+     */
     public boolean isConstructeurActive() {
         return isConstructeurActive;
     }
 
+    /**
+     * setter du boolean représentant les constructeurs actifs
+     *
+     * @param constructeurActive boolean
+     */
     public void setConstructeurActive(boolean constructeurActive) {
         isConstructeurActive = constructeurActive;
     }
 
+    /**
+     * si les méthodes sont activées et visibles
+     *
+     * @return boolean
+     */
     public boolean isMethodesActive() {
         return isMethodesActive;
     }
 
+    /**
+     * setter du boolean représentant les méthodes actives
+     *
+     * @param methodesActive boolean
+     */
     public void setMethodesActive(boolean methodesActive) {
         isMethodesActive = methodesActive;
+    }
+
+    /**
+     * setter du modele
+     *
+     * @param modele Modele
+     */
+    public void setModele(Modele modele) {
+        this.modele = modele;
     }
 }
