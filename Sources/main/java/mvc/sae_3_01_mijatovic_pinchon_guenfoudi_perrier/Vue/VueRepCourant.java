@@ -17,6 +17,9 @@ import java.io.FileFilter;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Génère l'arborescence (visuel) du répertoire courant
+ */
 public class VueRepCourant extends VBox implements Observateur {
 
     //--------Attributs--------
@@ -38,6 +41,10 @@ public class VueRepCourant extends VBox implements Observateur {
 
     //--------Constructeur--------
 
+    /**
+     * Permet de créer l'arborescence par défaut depuis la racine du projet
+     * @param modele
+     */
     public VueRepCourant(Modele modele) {
         this.modele = modele;
         this.tf = new TextField();
@@ -157,14 +164,14 @@ public class VueRepCourant extends VBox implements Observateur {
 
     //--------Méthodes--------
 
-    /*
+    /**
      * méthode qui est appelée une fois la page crée afin de mettre à jour la taille du bouton
      */
     public void majBoutonParent(){
         this.bParent.setMinWidth(this.getWidth() - 30);
     }
 
-    /*
+    /**
      * méthode d'actualisation nécessaire au patron mvc
      */
     @Override
@@ -233,7 +240,7 @@ public class VueRepCourant extends VBox implements Observateur {
     }
 
 
-    /*
+    /**
      * méthode récursive qui génère une arborescence selon un fichier parent donné
      */
     private TreeItem<File> genererTreeItem(File f) {

@@ -5,6 +5,7 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.DMOV;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.JPG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.PNG;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Format.UML;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.ThemeSombre;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementTheme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.Fleche;
@@ -26,7 +27,7 @@ public class Modele implements Sujet, Serializable {
     private String nomFichier;
 
     private transient Theme theme;
-    private ArrayList<Theme> themes;
+    private transient ArrayList<Theme> themes;
 
     private Classe classeCourante;
     private TreeSet<Classe> classes;
@@ -316,9 +317,11 @@ public class Modele implements Sujet, Serializable {
         sb.append("\n");
         for (Classe classe : classes) {
             sb.append(classe.convertirPlantUml());
+            sb.append("\n");
         }
         for (Fleche fleche : grapheCourant.getFleches()) {
             sb.append(fleche.convertirPlantUml());
+            sb.append("\n");
         }
         sb.append("\n");
         sb.append("@enduml");

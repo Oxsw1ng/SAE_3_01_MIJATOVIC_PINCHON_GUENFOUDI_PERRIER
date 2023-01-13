@@ -24,11 +24,14 @@ public class ControllerDragClickPourClasse implements EventHandler<MouseEvent> {
 
     public void handle(MouseEvent mouseEvent) {
 
+        /*
         if (redimensionnementActif) {
             typeController = new ResizeController();
         } else {
             typeController = new MoveController();
         }
+        */
+        typeController = new MoveController();
         typeController.handleDrag(mouseEvent);
         ((VueDiagramme) vue.getParent()).deplacerFleche();
     }

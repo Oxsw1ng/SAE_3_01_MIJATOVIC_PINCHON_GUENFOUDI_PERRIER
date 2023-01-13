@@ -15,11 +15,14 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementTheme;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.util.ArrayList;
 
+/**
+ * Crée la fenêtre pour le choix du thème personnalisé
+ */
 public class VueChoixCouleurThemePerso {
 
     private static String nom;
@@ -33,11 +36,16 @@ public class VueChoixCouleurThemePerso {
     private static Color colorText ; //texte
     private static Color colorTextTitle; // texte important
     private static Color ColorFond2 ; //fond diag
+    private static Color colorTxtCls;
     private static TextField tfNom;
     private static VBox droite;
     private static Modele model;
     private static ArrayList<ColorPicker> colorPickers;
 
+    /**
+     * Crée le visuel de la fenêtre
+     * @param modele
+     */
     public static void lancerPersoTheme(Modele modele){
         model = modele;
         colorPickers = new ArrayList<>();
@@ -192,8 +200,19 @@ public class VueChoixCouleurThemePerso {
                 HfondClasse.getChildren().addAll(new Label("Corps : "), cp);
             }
             HfondClasse.setAlignment(Pos.CENTER_RIGHT);
+            HBox HTxtClasse = new HBox();
+            {
+                ColorPicker cp = new ColorPicker();
+                colorPickers.add(cp);
+                cp.setOnAction(e -> {
+                    colorTxtCls = cp.getValue();
+                    chargerCouleur();
+                });
+                HTxtClasse.getChildren().addAll(new Label("Texte : "), cp);
+            }
+            HTxtClasse.setAlignment(Pos.CENTER_RIGHT);
             // on les ajoute
-            app.getChildren().addAll(titreClass, HtopClasse, HfondClasse);
+            app.getChildren().addAll(titreClass, HtopClasse, HfondClasse, HTxtClasse);
         }
         app.setAlignment(Pos.CENTER_RIGHT);
         VBox.setMargin(titreClass, new Insets(0, 180, 0, 0));
@@ -238,12 +257,18 @@ public class VueChoixCouleurThemePerso {
 
         VBox tf = new VBox(3, new TextField("zone de texte"), new TextField("texte normal"), new TextField("texte important"));
 
-        Pane p1 = new Pane();
+        StackPane p1 = new StackPane();
         p1.setPrefSize(100, 25);
+        Label lb = new Label("exemple");
+        lb.setTextFill(colorTxtCls);
+        lb.setFont(Font.font(lb.getFont().getName(),FontWeight.SEMI_BOLD,FontPosture.REGULAR,14));
+        p1.getChildren().add(lb);
 
-        Pane p2 = new Pane();
+        StackPane p2 = new StackPane();
         p2.setPrefSize(100, 100);
-
+        Label lb2 = new Label("exemple");
+        lb2.setTextFill(colorTxtCls);
+        p2.getChildren().add(lb2);
 
         VBox classe = new VBox(p1, p2);
 
@@ -264,7 +289,7 @@ public class VueChoixCouleurThemePerso {
         btnValidate.setFont(Font.font(btnValidate.getFont().getName(),FontWeight.BOLD, FontPosture.REGULAR,20));
         btnValidate.setOnAction(e -> {
             if (!alerter()) {
-                Theme t = new Theme(nom, bordureEtBtnImportant, boutonClassiques, fondDiagEtTextField, fondQuandClicke, fondClasse, topClasse, fondNavEtArbo, colorText, colorTextTitle, ColorFond2);
+                Theme t = new Theme(nom, bordureEtBtnImportant, boutonClassiques, fondDiagEtTextField, fondQuandClicke, fondClasse, topClasse, fondNavEtArbo, colorText, colorTextTitle, ColorFond2, colorTxtCls);
                 model.ajouterTheme(t);
                 ChargementTheme.ecrireTheme(t,model,model.getListThemes().size()-1);
                 stage.close();
@@ -289,6 +314,9 @@ public class VueChoixCouleurThemePerso {
         stage.show();
     }
 
+    /**
+     * Crée les couleurs de base pour le rendu attendu sur la fenêtre de personnalisation
+     */
     private static void initialisationAttrEtCouleurs(){
         nom="";
         bordureEtBtnImportant=Color.BLACK;
@@ -301,15 +329,19 @@ public class VueChoixCouleurThemePerso {
         colorText=Color.BLACK;
         colorTextTitle=Color.WHITE;
         ColorFond2=Color.WHITE;
+        colorTxtCls = Color.BLACK;
         chargerCouleur();
         for (ColorPicker cp : colorPickers) {
             cp.setValue(Color.WHITE);
         }
         colorPickers.get(0).setValue(Color.BLACK);
         colorPickers.get(5).setValue(Color.BLACK);
-
+        colorPickers.get(colorPickers.size()-1).setValue(Color.BLACK);
     }
 
+    /**
+     * Permet de récupérer le thème personnalisé en relançant l'application
+     */
     private static void chargerCouleur() {
         BorderPane bp = (BorderPane) droite.getChildren().get(0);
         HBox top = (HBox) bp.getTop();
@@ -344,16 +376,24 @@ public class VueChoixCouleurThemePerso {
         tf2.setBackground(new Background(new BackgroundFill(bordureEtBtnImportant, null, null)));
 
         VBox classe = (VBox) droite.getChildren().get(2);
-        Pane PtopClasse = (Pane) classe.getChildren().get(0);
+        StackPane PtopClasse = (StackPane) classe.getChildren().get(0);
         PtopClasse.setBorder(new Border(new BorderStroke(bordureEtBtnImportant, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
         classe.setBackground(new Background(new BackgroundFill(topClasse, null, null)));
+        Label lb1 = (Label) PtopClasse.getChildren().get(0);
+        lb1.setTextFill(colorTxtCls);
 
-        Pane corpsClasse = (Pane) classe.getChildren().get(1);
+        StackPane corpsClasse = (StackPane) classe.getChildren().get(1);
         corpsClasse.setBorder(new Border(new BorderStroke(bordureEtBtnImportant, BorderStrokeStyle.SOLID, null, new BorderWidths(1))));
         corpsClasse.setBackground(new Background(new BackgroundFill(fondClasse, null, null)));
+        Label lb2 = (Label) corpsClasse.getChildren().get(0);
+        lb2.setTextFill(colorTxtCls);
 
     }
 
+    /**
+     * Oblige l'utilisateur à donner un nom au thème
+     * @return
+     */
     private static boolean alerter(){
         if (tfNom.getText()=="") {
             tfNom.setStyle("-fx-prompt-text-fill: red;");

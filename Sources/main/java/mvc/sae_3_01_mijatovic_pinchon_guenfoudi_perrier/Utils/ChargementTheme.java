@@ -1,7 +1,7 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils;
 
 import javafx.scene.paint.Color;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class ChargementTheme {
 
-    /*
+    /**
      * methode pour recuperer les themes creer par l'utilisateur
      */
     public static ArrayList<Theme> chargerTheme(){
@@ -19,8 +19,13 @@ public class ChargementTheme {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] t = line.split("_");
-                if (t.length==11){
-                    Theme theme = new Theme(t[0],Color.web(t[1]),Color.web(t[2]),Color.web(t[3]),Color.web(t[4]),Color.web(t[5]),Color.web(t[6]),Color.web(t[7]),Color.web(t[8]),Color.web(t[9]),Color.web(t[10]));
+                boolean pasPresent = true;
+                for (Theme t1 :arThemes) {
+                    if (t1.getNom().trim().equalsIgnoreCase(t[0].trim()))
+                        pasPresent = false;
+                }
+                if (t.length==12 && pasPresent){
+                    Theme theme = new Theme(t[0],Color.web(t[1]),Color.web(t[2]),Color.web(t[3]),Color.web(t[4]),Color.web(t[5]),Color.web(t[6]),Color.web(t[7]),Color.web(t[8]),Color.web(t[9]),Color.web(t[10]),Color.web(t[11]));
                     arThemes.add(theme);
                 }
             }
@@ -33,8 +38,10 @@ public class ChargementTheme {
         return arThemes;
     }
 
-    /*
+    /**
      * methode qui rend l'indice du theme selectionne par l utilisateur comme theme courant
+     *
+     * @param m modele de l'application
      */
     public static int chargerNumeroDuTheme(Modele m){
         int i = 0;
@@ -53,21 +60,30 @@ public class ChargementTheme {
         return i;
     }
 
-    /*
+    /**
      * methode qui rend un bufferedReader afin de parcourir le fichier de themes
+     *
+     * @throws FileNotFoundException
      */
     private static BufferedReader lectureDuFichier() throws FileNotFoundException {
         return new BufferedReader(new FileReader("Sources/main/resources/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/style.Sdmov"));
     }
-    /*
+
+    /**
      * methode qui rend un bufferedReader afin de parcourir le fichier de themes
+     *
+     * @throws FileNotFoundException
      */
     private static BufferedWriter ecritureDuFichier() throws IOException {
         return new BufferedWriter(new FileWriter("Sources/main/resources/mvc/sae_3_01_mijatovic_pinchon_guenfoudi_perrier/style.Sdmov"));
     }
 
-    /*
-     * methode d ajout d'un theme à ecrire dans le fichier
+    /**
+     * methode d'ajout d'un theme a ecrire dans le fichier
+     *
+     * @param t theme de l'application
+     * @param modele modele de l'application
+     * @param numeroDuTheme index du dernier theme utilise
      */
     public static void ecrireTheme(Theme t, Modele modele, int numeroDuTheme) {
         ArrayList<Theme> arTheme = chargerTheme();
@@ -77,7 +93,7 @@ public class ChargementTheme {
             bw.write(numeroDuTheme);
             bw.newLine();
             for (Theme theme:arTheme) {
-                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};
+                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2()), modele.couleurHexa(theme.getCouleurTxtCls())};
                 bw.write(String.join("_",s));
                 bw.newLine();
             }
@@ -88,8 +104,11 @@ public class ChargementTheme {
 
     }
 
-    /*
+    /**
      * methode de modification du theme courant voulu
+     *
+     * @param modele modele de l'application
+     * @param numeroDuTheme index du dernier theme utilise
      */
     public static void changerNumTheme(Modele modele, int numeroDuTheme) {
         ArrayList<Theme> arTheme = new ArrayList<>(modele.getListThemes());
@@ -100,7 +119,7 @@ public class ChargementTheme {
             bw.write(numeroDuTheme+"");
             bw.newLine();
             for (Theme theme:arTheme) {
-                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2())};
+                String[] s = {theme.getNom(), modele.couleurHexa(theme.getBordureEtBtnImportant()),modele.couleurHexa(theme.getBoutonClassiques()),modele.couleurHexa(theme.getFondDiagEtTextField()),modele.couleurHexa(theme.getFondQuandClicke()),modele.couleurHexa(theme.getFondClasse()),modele.couleurHexa(theme.getTopClasse()),modele.couleurHexa(theme.getFondNavEtArbo()), modele.couleurHexa(theme.getColorText()), modele.couleurHexa(theme.getColorTextTitle()),modele.couleurHexa(theme.getColorFond2()), modele.couleurHexa(theme.getCouleurTxtCls())};
                 bw.write(String.join("_",s));
                 bw.newLine();
             }

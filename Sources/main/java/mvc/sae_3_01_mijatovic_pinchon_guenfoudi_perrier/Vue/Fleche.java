@@ -2,8 +2,10 @@ package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
 import javafx.animation.PauseTransition;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.QuadCurve;
 import javafx.util.Duration;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Classe;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -13,20 +15,80 @@ import java.util.ArrayList;
 
 public class Fleche extends Group {
 
-    public static final int FLECHE_HEREDITE = 1;
-    public static final int FLECHE_IMPLEMENTATION = 2;
-    public static final int FLECHE_AGREGATION = 3;
-    private VueClasse vueSource;
-    private VueClasse vueTarget;
-    private Point ancienpointSource;
-    private Point ancienpointTarget;
-    private int type;
-    private Modele modele;
-    private String textSurFleche;
 
+    /**
+     * Numéro de la flèche pour l'hérédité
+     */
+    public static final int FLECHE_HEREDITE = 1;
+
+    /**
+     * Numéro de la flèche pour l'implémentation
+     */
+    public static final int FLECHE_IMPLEMENTATION = 2;
+
+    /**
+     * Numéro de la flèche pour l'agrégation
+     */
+    public static final int FLECHE_AGREGATION = 3;
+
+    /**
+     * Vue de la classe servant de base à la flèche
+     */
+    private VueClasse vueSource;
+    /**
+     * Vue de la classe servant d'arrivée à la flèche
+     */
+    private VueClasse vueTarget;
+
+    /**
+     * Sauvegarde le point précédent de la source au cas où le nouveau pose problème
+     */
+    private Point ancienpointSource;
+
+    /**
+     * Sauvegarde le point précédent de la destination au cas où le nouveau pose problème
+     */
+    private Point ancienpointTarget;
+
+    /**
+     * Type courant de la flèche
+     */
+    private int type;
+    /**
+     * Modèle
+     */
+    private Modele modele;
+    /**
+     * Texte de la flèche (si nécessaire)
+     */
+    private String textSurFleche;
+    /**
+     * Ajoute un X et un Y pour pouvoir décaler la flèche en courbe
+     */
+    private double xAjoute;
+    private double yAjoute;
+
+    /**
+     * le nombre de fleches deja relié entre ces deux classes
+     */
+    private int niveauFl;
+
+    /**
+     * Vue du diagramme
+     */
     private VueDiagramme vueParent;
 
-    public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag) {
+    /**
+     * Crée une flèche sans texte
+     * @param src
+     * @param tgt
+     * @param tp
+     * @param model
+     * @param vueDiag
+     * @param level
+     */
+    public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, int level) {
+        this.niveauFl = level;
         this.type=tp;
         this.modele = model;
         this.vueParent = vueDiag;
@@ -35,10 +97,21 @@ public class Fleche extends Group {
         this.textSurFleche=null;
 
         PauseTransition pauseTransition = new PauseTransition(new Duration(10));
-        pauseTransition.setOnFinished(e -> fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche));
+        pauseTransition.setOnFinished(e -> fleche2(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche,niveauFl));
         pauseTransition.play();    }
 
-    public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, String texte) {
+    /**
+     * Crée une flèche avec texte
+     * @param src : source
+     * @param tgt
+     * @param tp
+     * @param model
+     * @param vueDiag
+     * @param texte
+     * @param level
+     */
+    public Fleche(Classe src, Classe tgt, int tp, Modele model, VueDiagramme vueDiag, String texte, int level) {
+        this.niveauFl = level;
         this.type=tp;
         this.modele = model;
         this.vueParent = vueDiag;
@@ -47,11 +120,17 @@ public class Fleche extends Group {
         this.textSurFleche=texte;
 
         PauseTransition pauseTransition = new PauseTransition(new Duration(10));
-        pauseTransition.setOnFinished(e -> fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche));
+        pauseTransition.setOnFinished(e -> fleche2(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche,niveauFl));
         pauseTransition.play();
     }
 
-
+    /**
+     * Permet de savoir si un point appartient à un segment
+     * @param C : point cherché
+     * @param A : premier point du segment
+     * @param B : deuxième point du segment
+     * @return
+     */
     public static boolean pointAppartientSegment(Point C, Point A, Point B) {
         int[] vecteurAB = new int[] {(int) (B.getX()-A.getX()), (int) (B.getY()-A.getY())};
         int[] vecteurAC = new int[] {(int) (C.getX()-A.getX()), (int) (C.getY()-A.getY())};
@@ -194,7 +273,7 @@ public class Fleche extends Group {
                             x3, y3,
                             x4, y4
                     );
-                    fleche.setFill(this.modele.getTheme().getFondNavEtArbo());
+                    fleche.setFill(this.modele.getTheme().getColorFond2());
                     fleche.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
                     fleche.setStrokeWidth(2);
                     this.getChildren().add(fleche);
@@ -210,6 +289,7 @@ public class Fleche extends Group {
                     ligne3.setStrokeWidth(2);
 
                     javafx.scene.control.Label labelAgregation = new javafx.scene.control.Label(texteMilieuFleche);
+                    labelAgregation.setTextFill(modele.getTheme().getColorText());
                     double x = (ligne.getStartX() + ligne.getEndX()) / 2;
                     double y = (ligne.getStartY() + ligne.getEndY()) / 2;
                     labelAgregation.setLayoutX(x - labelAgregation.getWidth() / 2);
@@ -224,11 +304,194 @@ public class Fleche extends Group {
             this.ancienpointTarget = targetPoint;
         }
     }
+    public void fleche2(Point sourcePoint, Point targetPoint, int type, String texteMilieuFleche, int level){
+        if (sourcePoint == null && this.ancienpointSource != null) {
+            sourcePoint = this.ancienpointSource;
+        }
+
+        if (targetPoint == null && this.ancienpointTarget != null) {
+            targetPoint = this.ancienpointTarget;
+        }
+
+        if (targetPoint != null && sourcePoint != null) {
+
+
+            QuadCurve ligne = new QuadCurve();
+
+            ligne.setStartX(sourcePoint.getX());
+            ligne.setStartY(sourcePoint.getY());
+            ligne.setEndX(targetPoint.getX());
+            ligne.setEndY(targetPoint.getY());
+
+
+            //point control
+            double X;
+            if (vueTarget.getLayoutX()>vueSource.getLayoutX()){
+                X=(vueTarget.getLayoutX()-vueSource.getLayoutX())/2;
+                X=vueSource.getLayoutX()+(vueSource.getLargeurClasse()/2) + X;
+            }
+            else{
+                X=(vueSource.getLayoutX()-vueTarget.getLayoutX())/2;
+                X=vueTarget.getLayoutX()+(vueTarget.getLargeurClasse()/2) + X;
+
+            }
+
+            double Y;
+            if (vueTarget.getLayoutY()>vueSource.getLayoutY()){
+                Y=(vueTarget.getLayoutY()-vueSource.getLayoutY())/2;
+                Y=vueSource.getLayoutY()+(vueSource.getLargeurClasse()/2) + Y;
+
+            }
+            else{
+                Y=(vueSource.getLayoutY()-vueTarget.getLayoutY())/2;
+                Y=vueTarget.getLayoutY()+(vueTarget.getLargeurClasse()/2) + Y;
+            }
+
+
+            if (level>0) {
+                // ajuster la courbure
+                if (vueSource.getLayoutY() > (vueTarget.getLayoutY() + vueTarget.getHauteurClasse())) {
+                    if (vueSource.getLayoutX() > (vueTarget.getLayoutX() + vueTarget.getLargeurClasse())) {
+                        X = X - (level * 100);
+                        Y = Y + (level * 50);
+                        yAjoute = -level * 50;
+                        xAjoute = level * 100;
+                    } else if ((vueSource.getLayoutX() + vueSource.getLargeurClasse()) < vueTarget.getLayoutX()) {
+                        X = X + (level * 100);
+                        Y = Y + (level * 50);
+                        xAjoute = level * 100;
+                        yAjoute = level * 50;
+                    } else {
+                        if (level % 2 == 0){
+                            X = X + (level * 100);
+                            xAjoute = level * 100;
+                        }
+                        else{
+                            X = X - (level * 100);
+                            xAjoute = -level * 100;
+                        }
+                    }
+                } else if ((vueSource.getLayoutY() + vueSource.getHauteurClasse()) < vueTarget.getLayoutY()) {
+                    if (vueSource.getLayoutX() > (vueTarget.getLayoutX() + vueTarget.getLargeurClasse())) {
+                        X=X-(level*100);
+                        Y=Y-(level*50);
+                        xAjoute = -level*100;
+                        yAjoute = -level*50;
+                    } else if ((vueSource.getLayoutX() + vueSource.getLargeurClasse()) < vueTarget.getLayoutX()) {
+                        X=X+(level*100);
+                        Y=Y-(level*50);
+                        xAjoute = level*100;
+                        yAjoute = -level*50;
+                    } else {
+                        if (level % 2 == 0){
+                            X = X + (level * 100);
+                            xAjoute = level*100;
+                        }
+                        else{
+                            X = X - (level * 100);
+                            xAjoute = level*100;
+                        }
+                    }
+                } else {
+                    if (vueSource.getLayoutX() > (vueTarget.getLayoutX() + vueTarget.getLargeurClasse())) {
+                        if (level % 2 == 0){
+                            Y = Y + (level * 100);
+                            yAjoute = level*100;
+                        }
+                        else{
+                            Y = Y - (level * 100);
+                            yAjoute = -level*100;
+                        }
+                    } else if ((vueSource.getLayoutX() + vueSource.getLargeurClasse()) < vueTarget.getLayoutX()) {
+                        if (level % 2 == 0){
+                            Y = Y + (level * 100);
+                            yAjoute = level*100;
+                        }
+                        else{
+                            Y = Y - (level * 100);
+                            yAjoute = -level*100;
+                        }
+                    }
+                }
+            }
+
+            ligne.setControlX(X);
+            ligne.setControlY(Y);
+
+
+            // Définir la couleur et l'épaisseur de la ligne
+            ligne.setStroke(modele.getTheme().getBordureEtBtnImportant());
+            ligne.setStrokeWidth(2);
+            ligne.setFill(Color.TRANSPARENT);
+
+
+            this.getChildren().add(ligne);
+
+
+            // Calcul de l'angle de la ligne
+            double angle = Math.atan2(targetPoint.getY() - ligne.getControlY(), targetPoint.getX() - ligne.getControlX());
+
+            // Calcul des coordonnées des points de la flèche
+            double x3 = targetPoint.getX() - 25 * Math.cos(angle - Math.PI / 6);
+            double y3 = targetPoint.getY() - 25 * Math.sin(angle - Math.PI / 6);
+            double x4 = targetPoint.getX() - 25 * Math.cos(angle + Math.PI / 6);
+            double y4 = targetPoint.getY() - 25 * Math.sin(angle + Math.PI / 6);
+
+
+            switch (type) {
+                case FLECHE_IMPLEMENTATION:
+                    ArrayList dash = new ArrayList<>();
+                    dash.add(20.0);
+                    dash.add(20.0);
+                    ligne.getStrokeDashArray().addAll(dash);
+                case FLECHE_HEREDITE:
+                    // Création de la flèche
+                    javafx.scene.shape.Polygon fleche = new Polygon();
+                    fleche.getPoints().addAll(
+                            targetPoint.getX(), targetPoint.getY(),
+                            x3, y3,
+                            x4, y4
+                    );
+                    fleche.setFill(modele.getTheme().getColorFond2());
+                    fleche.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    fleche.setStrokeWidth(2);
+                    this.getChildren().add(fleche);
+                    break;
+                case FLECHE_AGREGATION:
+
+                    Line ligne2 = new Line(x3, y3, targetPoint.getX(), targetPoint.getY());
+                    ligne2.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    ligne2.setStrokeWidth(2);
+
+                    Line ligne3 = new Line(x4, y4, targetPoint.getX(), targetPoint.getY());
+                    ligne3.setStroke(this.modele.getTheme().getBordureEtBtnImportant());
+                    ligne3.setStrokeWidth(2);
+
+                    javafx.scene.control.Label labelAgregation = new javafx.scene.control.Label(texteMilieuFleche);
+                    labelAgregation.setTextFill(modele.getTheme().getColorText());
+                    //ou placer le texte
+                    double x = ligne.getControlX() - (xAjoute/2);
+                    double y = ligne.getControlY() - (yAjoute/2);
+                    labelAgregation.setLayoutX(x - labelAgregation.getWidth() / 2);
+                    labelAgregation.setLayoutY(y - labelAgregation.getHeight() / 2);
+
+
+                    this.getChildren().addAll(ligne2, ligne3, labelAgregation);
+                    break;
+            }
+
+
+            this.ancienpointSource = sourcePoint;
+            this.ancienpointTarget = targetPoint;
+        }
+    }
+
+
 
 
     public void deplacer() {
         this.getChildren().clear();
-        fleche(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche);
+        fleche2(pointBordClasse(vueSource,vueTarget),pointBordClasse(vueTarget,vueSource),type,textSurFleche,niveauFl);
 
     }
 
@@ -240,13 +503,19 @@ public class Fleche extends Group {
         } else if (type == FLECHE_IMPLEMENTATION) {
             sb.append(" ..|> ");
         } else if (type == FLECHE_AGREGATION) {
-            sb.append(" o-- ");
+            sb.append(" -> ");
         }
         sb.append(vueTarget.getModele().getNomClasse());
         if (textSurFleche != null) {
             sb.append(" : ").append(textSurFleche);
         }
         return sb.toString();
+    }
 
+    public Classe getClSource(){
+        return this.vueSource.getModele();
+    }
+    public Classe getClTarget(){
+        return this.vueTarget.getModele();
     }
 }

@@ -13,7 +13,7 @@ public class UML implements Format {
 
     public void exporter(Modele modele, String chemin) {
         // Création du fichier à l'emplacement spécifié par `chemin`
-        File file = new File(chemin);
+        File file = new File(chemin + ".puml");
         try {
             // Création d'un BufferedWriter pour écrire dans le fichier
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));

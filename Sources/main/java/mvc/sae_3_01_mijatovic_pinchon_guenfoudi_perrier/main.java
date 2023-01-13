@@ -5,7 +5,6 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue.*;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
@@ -19,7 +18,7 @@ public class main extends Application {
         borderPane.actualiser();
 
         // menu en haut
-        TopBarre vueTopBarre = new TopBarre(modele);
+        VueTopBarre vueTopBarre = new VueTopBarre(modele);
         borderPane.setTop(vueTopBarre);
         modele.enregistrerObservateur(vueTopBarre);
 

@@ -8,13 +8,29 @@ import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.io.File;
 
+/**
+ * Controller permettant de gérer le glisser deposer de fichier .class depuis l'exterieur de l'application
+ */
 public class ControllerDragExterieur implements EventHandler<DragEvent> {
+    /**
+     * modele de l'application
+     */
     private  Modele modele;
 
+    /**
+     * Instancie un nouveau Controller pour gérer le drag and drop depuis l'exterieur de l'application
+     *
+     * @param modele le modele de l'application
+     */
     public ControllerDragExterieur(Modele modele) {
         this.modele=modele;
     }
 
+    /**
+     * Permet de gérer le drag and drop depuis l'exterieur de l'application
+     *
+     * @param dragEvent dragEvent
+     */
     @Override
     public void handle(DragEvent dragEvent) {
         File fichierClasse=recupererFichierDepose(dragEvent);

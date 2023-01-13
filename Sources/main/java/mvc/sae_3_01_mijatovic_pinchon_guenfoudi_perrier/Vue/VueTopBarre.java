@@ -1,31 +1,38 @@
 package mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Vue;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Utils.ChargementRes;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.controller.*;
-import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Theme;
+import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.Themes.Theme;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.interfacesETabstract.Observateur;
 import mvc.sae_3_01_mijatovic_pinchon_guenfoudi_perrier.model.Modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class TopBarre extends HBox implements Observateur {
+public class VueTopBarre extends HBox implements Observateur {
 
     private Modele modele;
 
-    public TopBarre(Modele m) {
+    public VueTopBarre(Modele m) {
         this.modele = m;
         this.actualiser();
     }
 
+    /**
+     * Actualise l'affichage à chaque modification du modèle
+     */
     @Override
     public void actualiser() {
         this.getChildren().clear();
@@ -35,10 +42,10 @@ public class TopBarre extends HBox implements Observateur {
 
         // menu fichier
         Menu menuFichier = new Menu("Fichier");
-        MenuItem m1 = new MenuItem("ouvrir un fichier .dmov");
+        MenuItem m1 = new MenuItem("Ouvrir un fichier .dmov");
         ControllerImporterDMOV controllerImporterDMOV = new ControllerImporterDMOV(this.modele);
         m1.setOnAction(controllerImporterDMOV);
-        MenuItem m2 = new MenuItem("sauvegarder");
+        MenuItem m2 = new MenuItem("Sauvegarder");
         if (this.modele.getCheminDMOV() == null) {
             m2.setDisable(true);
         } else {
@@ -46,20 +53,69 @@ public class TopBarre extends HBox implements Observateur {
         }
         ControllerSauvegarderDMOV controllerSauvegarderDMOV = new ControllerSauvegarderDMOV(this.modele);
         m2.setOnAction(controllerSauvegarderDMOV);
-        MenuItem m3 = new MenuItem("menu item 3");
         menuFichier.getItems().add(m1);
         menuFichier.getItems().add(m2);
-        menuFichier.getItems().add(m3);
         mb.getMenus().add(menuFichier);
 
         // menu aide
         Menu menuAide = new Menu("Aide");
-        MenuItem m4 = new MenuItem("menu item 1");
-        MenuItem m5 = new MenuItem("menu item 2");
-        MenuItem m6 = new MenuItem("menu item 3");
+        MenuItem m4 = new MenuItem("Prise en main");
+        MenuItem m5 = new MenuItem("Export");
+
+        // Evenement pour les bulles d'aide
+        m4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Label l1 = new Label("Quelques petites informations sur le fonctionnement de l'application");
+                Label l2 = new Label("- Cliquez sur les répertoires contenus dans votre répertoire courant pour les déplier\n\n" +
+                        "- Cliquez sur le dossier \"..\" pour revenir au répertoire précédent \n\n" +
+                        "- Vous pouvez changer de répertoire courant soit en cliquant sur l'explorateur, soit en tapant le chemin du dossier à la main\n\n" +
+                        "- Pour ajouter des classes au diagramme, il faut soit faire un double-clic dessus, soit les glisser depuis l'arborescence de l'application " +
+                        "ou soit en les glissant depuis de fichiers hors application\n\n" +
+                        "- Vous pouvez bouger les classes en restant appuyé dessus et en bougeant tout simplement\n\n" +
+                        "- Vous pouvez désactiver avec les 4 boutons ronds du haut l'affichage respectifs dans l'ordre des constructeurs, des attributs, des méthodes et des dépendances\n\n" +
+                        "- Mais vous pouvez aussi le faire individuellement en faisant un clic droit sur les classes");
+
+                VBox vb = new VBox(l1,l2);
+                vb.setSpacing(30);
+                vb.setAlignment(Pos.CENTER);
+
+                Scene scene = new Scene(vb,1000, 400);
+
+                Stage newWindow = new Stage();
+                newWindow.initModality(Modality.APPLICATION_MODAL);
+                newWindow.setScene(scene);
+                newWindow.setTitle("Prise en main");
+                newWindow.show();
+            }
+        });
+        m5.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Label l1 = new Label("Guide pour l'export");
+                Label l2 = new Label("Pour pouvoir enregistrer votre diagramme fraîchement réalisé, il faudra bien évidemment cliquer sur le boton exporter en haut à droite\n\n" +
+                        "Ensuite,il faudra rentrer le nom sous lequel vous voulez enregistrer votre diagramme\n\n" +
+                        "Puis il vous faut choisir un répertoire dans lequel enregistrer le diagramme en cliquant sur \"Choisir la destination de sauvegarde\" \n\n" +
+                        "En dernier lieu, il faudra choisir le format sous lequel enregistrer votre diagramme, puis cliquer sur valider et le tour est joué!");
+
+                VBox vb = new VBox(l1,l2);
+                vb.setSpacing(30);
+                vb.setAlignment(Pos.CENTER);
+
+
+                Scene scene = new Scene(vb,1000, 400);
+
+                Stage newWindow = new Stage();
+                newWindow.initModality(Modality.APPLICATION_MODAL);
+                newWindow.setScene(scene);
+                newWindow.setTitle("Export");
+                newWindow.show();
+            }
+        });
         menuAide.getItems().add(m4);
         menuAide.getItems().add(m5);
-        menuAide.getItems().add(m6);
         mb.getMenus().add(menuAide);
 
         // menu a propos
@@ -67,9 +123,7 @@ public class TopBarre extends HBox implements Observateur {
         MenuItem m7 = new MenuItem("Auteurs");
         ControllerAuteurs controlAuteurs = new ControllerAuteurs(modele);
         m7.setOnAction(controlAuteurs);
-        MenuItem m8 = new MenuItem("Technologies");
         menuAPropos.getItems().add(m7);
-        menuAPropos.getItems().add(m8);
         mb.getMenus().add(menuAPropos);
 
         // paramétrage de l'affichage de la menuBar
