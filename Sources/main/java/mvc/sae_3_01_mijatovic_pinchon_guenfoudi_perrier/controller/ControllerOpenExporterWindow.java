@@ -19,14 +19,29 @@ import java.io.File;
 
 public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
 
+    /**
+     * Modèle de l'application
+     */
     private Modele modele;
+
+    /**
+     * Répertoire où le fichier sera enregistré
+     */
     private String repertoireSauvegarde;
 
+    /**
+     * Constructeur du contrôleur
+     * @param modele
+     */
     public ControllerOpenExporterWindow(Modele modele) {
         this.modele = modele;
         this.repertoireSauvegarde = null;
     }
 
+    /**
+     * Crée la fenêtre pour l'export du diagramme
+     * @param actionEvent
+     */
     @Override
     public void handle(ActionEvent actionEvent) {
         ChoiceBox<String> cb = new ChoiceBox<String>();
@@ -57,6 +72,9 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
         newWindow.setTitle("Choisir le mode d'export");
         newWindow.show();
 
+        /**
+         * Gère l'explorateur de dossier pour choisir le répertoire de sauvegarde
+         */
         directoryChoose.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -75,6 +93,9 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
             }
         });
 
+        /**
+         * Contrôleur pour valider l'export
+         */
         valider.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -87,6 +108,10 @@ public class ControllerOpenExporterWindow implements EventHandler<ActionEvent> {
                 }
             }
         });
+
+        /**
+         * Contrôleur pour le bouton quitter (ferme la fenêtre)
+         */
         quitter.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
